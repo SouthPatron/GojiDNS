@@ -3,6 +3,42 @@
 	<title>Home is working!</title>
 </head>
 <body>
-	<h1>If you can see this, you win!</h1>
+
+<div style='width: 940px; margin: auto'>
+
+	<table class='entryTable'>
+		<thead>
+			<tr>
+				<th>Domain Zone</th>
+				<th>Type</th>
+				<th>Last Modified</th>
+				<th>Status</th>
+				<th>Options</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for domain in list.all %}
+			<tr>
+				<td><a href='{% url dna-domain domain.name %}'>{{ domain.name }}</a></td>
+				<td>Master</td>
+				<td>Today</td>
+				<td>ACTIVE</td>
+				<td>
+					<a href='{% url dna-domain domain.name %}'>Edit</a>
+					|
+					<a href='{% url dna-domain-delete domain.name %}'>Remove</a>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<div>
+		<a href='{% url dna-domain-clone %}'>Clone an existing zone</a> | <a href='{% url dna-domain-add %}'>Add a domain zone</a>
+	</div>
+
+</div>
+
 </body>
 </html>
+

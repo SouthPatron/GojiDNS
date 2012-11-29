@@ -1,0 +1,48 @@
+<html>
+<head>
+	<title>Home is working!</title>
+</head>
+<body>
+
+<div style='width: 940px; margin: auto'>
+
+	<form method='POST'>
+	{% csrf_token %}
+
+		<table class='entryTable'>
+			<thead>
+				<tr class='heading'>
+					<th colspan='7'>Add a Master Zone</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Clone this zone</td>
+					<td>
+						<select name='source'>
+							{% for domain in list %}
+							<option value='{{ domain.name }}'>{{ domain.name }}</option>
+							{% endfor %}
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>Into this zone</td>
+					<td>
+						<input name='target' type='text'>
+					</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td><button type='submit'>Clone Zone &raquo;</button></td>
+				</tr>
+			</tbody>
+		</table>
+
+	</form>
+
+</div>
+
+</body>
+</html>
+

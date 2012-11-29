@@ -1,0 +1,42 @@
+<html>
+<head>
+	<title>Home is working!</title>
+</head>
+<body>
+
+<div style='width: 940px; margin: auto'>
+
+	<h1>{{ domain }}</h1>
+
+	<form method='POST'>
+	{% csrf_token %}
+
+		<table class='entryTable'>
+			<thead>
+				<tr class='heading'>
+					<th colspan='7'>Add a Master Zone</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Domain</td>
+					<td><input name='domain' type='text'></td>
+				</tr>
+				<tr>
+					<td>SOA Email</td>
+					<td><input name='email' type='text'></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td><button type='submit'>Add a Master Zone &raquo;</button></td>
+				</tr>
+			</tbody>
+		</table>
+
+	</form>
+
+</div>
+
+</body>
+</html>
+

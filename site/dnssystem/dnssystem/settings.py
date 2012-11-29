@@ -80,6 +80,8 @@ INSTALLED_APPS = (
 
 	'dna',
 
+	'ravensuite',
+
 )
 
 LOGGING = {

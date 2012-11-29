@@ -1,0 +1,264 @@
+<html>
+<head>
+	<title>Home is working!</title>
+</head>
+<body>
+
+<style>
+.entryTable {
+	width: 100%;
+	font-family: Arial;
+	border-collapse: collapse;
+	border-spacing: 5px;
+}
+.entryTable td, .entryTable th {
+	text-align: left;
+	margin: 0px;
+	padding: 2px;
+}
+
+.entryTable tfoot td {
+	text-align: right;
+}
+
+.entryTable .heading {
+	background-color: #cecece;
+	padding: 0.4em 0.3em 0.4em 0.4em;
+	font-size: 14px;
+}
+
+.entryTable .subheading {
+	background-color: #eeeeee;
+}
+
+.entryTable .rowon {
+	border-bottom: 1px solid #e8e8e8;
+}
+
+.entryTable .rowoff {
+	border-bottom: 1px solid #e8e8e8;
+	background-color: #f4f4ff;
+}
+
+</style>
+
+<div style='width: 940px; margin: auto'>
+
+	<h1>{{ domain.name }}</h1>
+
+	<table class='entryTable'>
+		<thead>
+			<tr class='heading'>
+				<th colspan='7'>SOA Record</th>
+			</tr>
+			<tr class='subheading'>
+				<th>Primary DNS</th>
+				<th>Email</th>
+				<th>Default TTL</th>
+				<th>Refresh Rate</th>
+				<th>Retry Rate</th>
+				<th>Expire Time</th>
+				<th>Options</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>{{ domain.primary }}</td>
+				<td>{{ domain.email }}</td>
+				<td>{{ domain.ttl }}</td>
+				<td>{{ domain.refresh }}</td>
+				<td>{{ domain.retry }}</td>
+				<td>{{ domain.expire }}</td>
+				<td><a href=''>settings</a></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table class='entryTable'>
+		<thead>
+			<tr class='heading'>
+				<th colspan='4'>NS Records</th>
+			</tr>
+			<tr class='subheading'>
+				<th>Name Server</th>
+				<th>Subdomain</th>
+				<th>TTL</th>
+				<th>Options</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for rsc in domain.get_resource_ns %}
+				<tr>
+					<td>{{ rsc.name }}</td>
+					<td>{{ rsc.value }}</td>
+					<td>{{ rsc.ttl }}</td>
+					<td>Edit | Remove</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan='4'><a href=''>Add a new NS record</a></td>
+			</tr>
+		</tfoot>
+	</table>
+
+	<table class='entryTable'>
+		<thead>
+			<tr class='heading'>
+				<th colspan='5'>MX Records</th>
+			</tr>
+			<tr class='subheading'>
+				<th>Mail Server</th>
+				<th>Preference</th>
+				<th>Subdomain</th>
+				<th>TTL</th>
+				<th>Options</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for rsc in domain.get_resource_mx %}
+				<tr>
+					<td>{{ rsc.name }}</td>
+					<td>{{ rsc.preference }}</td>
+					<td>{{ rsc.value }}</td>
+					<td>{{ rsc.ttl }}</td>
+					<td>Edit | Remove</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan='5'><a href=''>Add a new MX record</a></td>
+			</tr>
+		</tfoot>
+	</table>
+
+	<table class='entryTable'>
+		<thead>
+			<tr class='heading'>
+				<th colspan='4'>A/AAAA Records</th>
+			</tr>
+			<tr class='subheading'>
+				<th>Hostname</th>
+				<th>IP Address</th>
+				<th>TTL</th>
+				<th>Options</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for rsc in domain.get_resource_a %}
+				<tr>
+					<td>{{ rsc.name }}</td>
+					<td>{{ rsc.value }}</td>
+					<td>{{ rsc.ttl }}</td>
+					<td>Edit | Remove</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan='4'><a href=''>Add a new A/AAAA record</a></td>
+			</tr>
+		</tfoot>
+	</table>
+
+	<table class='entryTable'>
+		<thead>
+			<tr class='heading'>
+				<th colspan='4'>CNAME Records</th>
+			</tr>
+			<tr class='subheading'>
+				<th>Hostname</th>
+				<th>Aliases to</th>
+				<th>TTL</th>
+				<th>Options</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for rsc in domain.get_resource_cname %}
+				<tr>
+					<td>{{ rsc.name }}</td>
+					<td>{{ rsc.value }}</td>
+					<td>{{ rsc.ttl }}</td>
+					<td>Edit | Remove</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan='4'><a href=''>Add a new CNAME record</a></td>
+			</tr>
+		</tfoot>
+	</table>
+
+	<table class='entryTable'>
+		<thead>
+			<tr class='heading'>
+				<th colspan='4'>TXT Records</th>
+			</tr>
+			<tr class='subheading'>
+				<th>Name</th>
+				<th>Value</th>
+				<th>TTL</th>
+				<th>Options</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for rsc in domain.get_resource_txt %}
+				<tr>
+					<td>{{ rsc.name }}</td>
+					<td>{{ rsc.value }}</td>
+					<td>{{ rsc.ttl }}</td>
+					<td>Edit | Remove</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan='4'><a href=''>Add a new TXT record</a></td>
+			</tr>
+		</tfoot>
+	</table>
+
+	<table class='entryTable'>
+		<thead>
+			<tr class='heading'>
+				<th colspan='8'>SRV Records</th>
+			</tr>
+			<tr class='subheading'>
+				<th>Service</th>
+				<th>Domain</th>
+				<th>Priority</th>
+				<th>Weight</th>
+				<th>Port</th>
+				<th>Target</th>
+				<th>TTL</th>
+				<th>Options</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>Edit | Remove</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan='8'><a href=''>Add a new SRV record</a></td>
+			</tr>
+		</tfoot>
+	</table>
+
+
+</div>
+
+</body>
+</html>
+
