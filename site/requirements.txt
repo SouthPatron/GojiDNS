@@ -1,0 +1,5 @@
+django
+pycrypto==2.6
+docutils==0.8.1
+psycopg2==2.4.5
+Twisted
