@@ -29,7 +29,6 @@ def domain( request, domain ):
 def domain_add( request ):
 
 	if request.method == 'POST' and request.POST is not None:
-		print '%r' % request.POST
 		domain = request.POST.get( 'domain' )
 		email = request.POST.get( 'email' )
 
@@ -91,4 +90,87 @@ def domain_delete( request, domain ):
 				{},
 				context_instance=RequestContext(request)
 			)
+
+
+def domain_add_ns( request, domain ):
+
+	dom = get_object_or_404( dnaModels.Domain, name = domain )
+
+	if request.method == 'POST' and request.POST is not None:
+		nameserver = request.POST.get( 'nameserver' )
+		subdomain = request.POST.get( 'subdomain' )
+		ttl = request.POST.get( 'ttl' )
+
+		try:
+			# This will catch ttl == 'none'
+			ttl = int(ttl)
+		except ValueError:
+			ttl = None
+
+		rsc = dnaModels.Resource.objects.create(
+				resource_type = dnaModels.ResourceType.NS,
+				domain = dom,
+				name = nameserver,
+				value = subdomain,
+				ttl = ttl
+			)
+
+		return redirect( reverse( 'dna-domain', kwargs = { 'domain' : domain } ) )
+
+	return render_to_response(
+				'pages/domain_add_ns.html',
+				{
+					'domain' : dom,
+				},
+				context_instance=RequestContext(request)
+			)
+
+
+def domain_edit_ns( request, domain, rid ):
+
+	rsc = get_object_or_404( dnaModels.Resource, pk = rid, domain__name = domain )
+
+	if request.method == 'POST' and request.POST is not None:
+		nameserver = request.POST.get( 'nameserver' )
+		subdomain = request.POST.get( 'subdomain' )
+		ttl = request.POST.get( 'ttl' )
+
+		try:
+			# This will catch ttl == 'none'
+			ttl = int(ttl)
+		except ValueError:
+			ttl = None
+
+		rsc.name = nameserver
+		rsc.value = subdomain
+		rsc.ttl = ttl
+		rsc.save()
+
+		return redirect( reverse( 'dna-domain', kwargs = { 'domain' : domain } ) )
+
+	return render_to_response(
+				'pages/domain_edit_ns.html',
+				{
+					'resource' : rsc,
+				},
+				context_instance=RequestContext(request)
+			)
+
+
+def domain_delete_ns( request, domain, rid ):
+
+	rsc = get_object_or_404( dnaModels.Resource, pk = rid, domain__name = domain )
+
+	if request.method == 'POST' and request.POST is not None:
+		rsc.delete()
+		return redirect( reverse( 'dna-domain', kwargs = { 'domain' : domain } ) )
+
+	return render_to_response(
+				'pages/domain_delete_ns.html',
+				{
+					'resource' : rsc,
+				},
+				context_instance=RequestContext(request)
+			)
+
 
