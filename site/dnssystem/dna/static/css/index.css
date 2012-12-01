@@ -1,0 +1,158 @@
+/* -------- Body ---------------------------- */
+
+
+html, body {
+	height: 100%;
+}
+
+/* So that top menu doesn't hide anything. */
+body {
+	position: relative;
+}
+
+/* So that top menu doesn't form a gap on small screens */
+@media (max-width: 979px) {
+	body {
+		padding-top: 0px;
+	}
+}
+
+
+#wrap {
+	min-height: 100%;
+	position: relative;
+}
+
+#main_buffer {
+	visible: hidden;
+	overflow: hidden;
+	height: 0px;
+}
+
+#main {
+	margin-top: 68px;
+	padding-bottom:200px; /* this needs to be bigger than footer height*/
+}
+
+.footer {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	height: 150px;
+	clear:both;
+	padding-top:20px;
+
+	border-top: 1px solid #cecece;
+	background-color: #f4f4f4;
+} 
+
+.footer .centered-div {
+	min-width: 900px;
+	width: 900px;
+	margin: 0 auto;
+}
+
+
+.footer ul {
+	list-style: none;
+	border-left: 1px solid #dedede;
+	padding-left: 5px;
+}
+
+.footer ul li:nth-child(1) {
+	font-weight: bold;
+}
+
+
+/* --------------- APP VIEW ---------------- */
+
+
+.centered-text {
+	text-align: center;
+}
+
+
+.pricing thead td:nth-child(1) {
+	vertical-align: bottom;
+	padding-top: 10px;
+}
+
+
+
+.pricing thead td:nth-child(2) {
+	width: 200px;
+	font-size: 1.6em;
+	text-align: center;
+	padding-bottom: 20px;
+	padding-top: 10px;
+	color: #666;
+}
+
+.pricing thead td:nth-child(3) {
+	width: 200px;
+	font-size: 1.6em;
+	text-align: center;
+	padding-bottom: 20px;
+	padding-top: 10px;
+	color: #3A87AD;
+}
+
+.pricing tbody td:nth-child(2) {
+	text-align: center;
+	font-size: 1.2em;
+}
+
+
+
+.pricing tbody td:nth-child(3) {
+	text-align: center;
+	font-size: 1.2em;
+}
+
+.pricing tr.price_row td {
+	padding: 20px 0px;
+}
+
+.pricing tr.price_row {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+.pricing tr.price_row .period {
+	font-size: 0.5em;
+	color: #999;
+}
+
+.pricing tr.price_row .denomination {
+	font-size: 0.8em;
+}
+
+.pricing thead td:nth-child(2) {
+	background-color: #f4f4f4;
+	border-radius: 5px 5px 0px 0px;
+}
+
+.pricing tbody td:nth-child(2) {
+	background-color: #f4f4f4;
+}
+
+.pricing tbody tr:last-child td:nth-child(2) {
+	border-radius: 0px 0px 5px 5px;
+}
+
+
+
+.gas_top_spaced { margin-top: 15px; }
+.gas_top_dbl_spaced { margin-top: 30px; }
+.gas_bottom_spaced { margin-bottom: 15px; }
+.gas_bottom_dbl_spaced { margin-bottom: 30px; }
+
+.gas_left_text { text-align: left; }
+.gas_center_text { text-align: center; }
+.gas_right_text { text-align: right; }
+
+
+
+
+

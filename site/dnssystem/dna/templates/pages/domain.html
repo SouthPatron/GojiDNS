@@ -1,9 +1,6 @@
-<html>
-<head>
-	<title>Home is working!</title>
-</head>
-<body>
+{% extends 'pages/base.html' %}
 
+{% block content %}
 <style>
 .entryTable {
 	width: 100%;
@@ -42,11 +39,9 @@
 
 </style>
 
-<div style='width: 940px; margin: auto'>
-
 	<h1>{{ domain.name }}</h1>
 
-	<table class='entryTable'>
+	<table class='table entryTable'>
 		<thead>
 			<tr class='heading'>
 				<th colspan='7'>SOA Record</th>
@@ -74,7 +69,7 @@
 		</tbody>
 	</table>
 
-	<table class='entryTable'>
+	<table class='table entryTable'>
 		<thead>
 			<tr class='heading'>
 				<th colspan='4'>NS Records</th>
@@ -107,7 +102,7 @@
 		</tfoot>
 	</table>
 
-	<table class='entryTable'>
+	<table class='table entryTable'>
 		<thead>
 			<tr class='heading'>
 				<th colspan='5'>MX Records</th>
@@ -138,7 +133,7 @@
 		</tfoot>
 	</table>
 
-	<table class='entryTable'>
+	<table class='table entryTable'>
 		<thead>
 			<tr class='heading'>
 				<th colspan='4'>A/AAAA Records</th>
@@ -167,7 +162,7 @@
 		</tfoot>
 	</table>
 
-	<table class='entryTable'>
+	<table class='table entryTable'>
 		<thead>
 			<tr class='heading'>
 				<th colspan='4'>CNAME Records</th>
@@ -196,7 +191,7 @@
 		</tfoot>
 	</table>
 
-	<table class='entryTable'>
+	<table class='table entryTable'>
 		<thead>
 			<tr class='heading'>
 				<th colspan='4'>TXT Records</th>
@@ -225,7 +220,7 @@
 		</tfoot>
 	</table>
 
-	<table class='entryTable'>
+	<table class='table entryTable'>
 		<thead>
 			<tr class='heading'>
 				<th colspan='8'>SRV Records</th>
@@ -261,8 +256,5 @@
 	</table>
 
 
-</div>
-
-</body>
-</html>
+{% endblock %}
 

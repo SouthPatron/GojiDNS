@@ -1,10 +1,7 @@
-<html>
-<head>
-	<title>Home is working!</title>
-</head>
-<body>
+{% extends 'pages/base.html' %}
 
-<div style='width: 940px; margin: auto'>
+
+{% block content %}
 
 	<h1>Remove {{ domain }}?</h1>
 
@@ -14,8 +11,5 @@
 		<button type='submit'>Yes, delete the domain!</button>
 	</form>
 
-</div>
-
-</body>
-</html>
+{% endblock %}
 
