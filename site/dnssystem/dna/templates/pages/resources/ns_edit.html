@@ -20,25 +20,21 @@
 			<tbody>
 				<tr>
 					<td>Nameserver</td>
-					<td><input name='nameserver' type='text' value='{{ resource.name }}'></td>
+					<td><input name='name' type='text' value='{{ resource.name }}'></td>
 				</tr>
 				<tr>
 					<td>Subdomain</td>
-					<td><input name='subdomain' type='text' value='{{ resource.value }}'></td>
+					<td><input name='value' type='text' value='{{ resource.value }}'></td>
 				</tr>
 				<tr>
 					<td>TTL</td>
 					<td>
-						<select name='ttl'>
-							<option value='none'>Default</option>
-							<option value='7200'>7200</option>
-							<option value='86400'>86400</option>
-						</select>
+						{% include 'pages/support/ttl_select.html' with name='ttl' val=resource.ttl %}
 					</td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
-					<td><button type='submit'>Add a Nameserver &raquo;</button></td>
+					<td><button type='submit'>Save Nameserver &raquo;</button></td>
 				</tr>
 			</tbody>
 		</table>

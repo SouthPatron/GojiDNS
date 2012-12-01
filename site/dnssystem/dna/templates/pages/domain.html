@@ -93,16 +93,16 @@
 					<td>{{ rsc.value }}</td>
 					<td>{{ rsc.ttl }}</td>
 					<td>
-						<a href='{% url dna-domain-edit-ns domain.name rsc.pk %}'>Edit</a>
+						<a href='{% url dna-domain-resource-edit domain.name rsc.pk %}'>Edit</a>
 						|
-						<a href='{% url dna-domain-delete-ns domain.name rsc.pk %}'>Remove</a>
+						<a href='{% url dna-domain-resource-delete domain.name rsc.pk %}'>Remove</a>
 					</td>
 				</tr>
 			{% endfor %}
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan='4'><a href='{% url dna-domain-add-ns domain.name %}'>Add a new NS record</a></td>
+				<td colspan='4'><a href='{% url dna-domain-resource-add domain.name %}?type=ns'>Add a new NS record</a></td>
 			</tr>
 		</tfoot>
 	</table>
@@ -133,7 +133,7 @@
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan='5'><a href='{% url dna-domain-add-ns domain.name %}'>Add a new MX record</a></td>
+				<td colspan='5'><a href='{% url dna-domain-resource-add domain.name %}?type=mx'>Add a new MX record</a></td>
 			</tr>
 		</tfoot>
 	</table>
@@ -162,7 +162,7 @@
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan='4'><a href=''>Add a new A/AAAA record</a></td>
+				<td colspan='4'><a href='{% url dna-domain-resource-add domain.name %}?type=a'>Add a new A/AAAA record</a></td>
 			</tr>
 		</tfoot>
 	</table>
@@ -191,7 +191,7 @@
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan='4'><a href=''>Add a new CNAME record</a></td>
+				<td colspan='4'><a href='{% url dna-domain-resource-add domain.name %}?type=cname'>Add a new CNAME record</a></td>
 			</tr>
 		</tfoot>
 	</table>
@@ -220,7 +220,7 @@
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan='4'><a href=''>Add a new TXT record</a></td>
+				<td colspan='4'><a href='{% url dna-domain-resource-add domain.name %}?type=txt'>Add a new TXT record</a></td>
 			</tr>
 		</tfoot>
 	</table>
@@ -255,7 +255,7 @@
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan='8'><a href=''>Add a new SRV record</a></td>
+				<td colspan='8'><a href='{% url dna-domain-resource-add domain.name %}?type=srv'>Add a new SRV record</a></td>
 			</tr>
 		</tfoot>
 	</table>

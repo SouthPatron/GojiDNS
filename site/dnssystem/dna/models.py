@@ -9,6 +9,7 @@ ResourceType = ChoicesEnum(
 		A = ( 3, 'A' ),
 		TXT = ( 4, 'TXT' ),
 		CNAME = ( 5, 'CNAME' ),
+		SRV = ( 6, 'SRV' ),
 	)
 
 
