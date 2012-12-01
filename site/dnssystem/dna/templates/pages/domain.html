@@ -64,7 +64,7 @@
 				<td>{{ domain.refresh }}</td>
 				<td>{{ domain.retry }}</td>
 				<td>{{ domain.expire }}</td>
-				<td><a href=''>settings</a></td>
+				<td><a href='{% url dna-domain-edit domain.name %}'>settings</a></td>
 			</tr>
 		</tbody>
 	</table>

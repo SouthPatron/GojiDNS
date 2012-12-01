@@ -1,0 +1,82 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+
+	<h1>{{ domain.name }}</h1>
+
+	<form method='POST'>
+	{% csrf_token %}
+
+		<table class='table entryTable'>
+			<thead>
+				<tr class='heading'>
+					<th colspan='3'>Domain Settings and Defaults</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Domain</td>
+					<td><input name='domain' type='text' value='{{ domain.name }}'></td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>SOA email</td>
+					<td><input name='email' type='text' value='{{ domain.email }}'></td>
+					<td>&nbsp;</td>
+				</tr>
+
+				<tr>
+					<td>Domain Status</td>
+					<td>
+						<select name='status'>
+							<option value='active'>Active - Turn ON serving of this domain</option>
+							<option value='disabled'>Disabled - Turn OFF serving of this domain</option>
+						</select>
+					</td>
+					<td>&nbsp;</td>
+				</tr>
+
+				<tr>
+					<td>Default TTL</td>
+					<td>
+						{% include 'pages/support/ttl_select.html' with name='ttl' val=domain.ttl %}
+					</td>
+					<td>&nbsp;</td>
+				</tr>
+
+				<tr>
+					<td>Refresh Rate</td>
+					<td>
+						{% include 'pages/support/ttl_select.html' with name='refresh' val=domain.refresh %}
+					</td>
+					<td>&nbsp;</td>
+				</tr>
+
+				<tr>
+					<td>Retry Rate</td>
+					<td>
+						{% include 'pages/support/ttl_select.html' with name='retry' val=domain.retry %}
+					</td>
+					<td>&nbsp;</td>
+				</tr>
+
+				<tr>
+					<td>Expire Rate</td>
+					<td>
+						{% include 'pages/support/ttl_select.html' with name='expire' val=domain.expire %}
+					</td>
+					<td>&nbsp;</td>
+				</tr>
+
+				<tr>
+					<td>&nbsp;</td>
+					<td><button type='submit'>Save Changes</button></td>
+					<td>&nbsp;</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</form>
+
+{% endblock %}
+

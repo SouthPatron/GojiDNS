@@ -43,6 +43,28 @@ def domain( request, domain ):
 				context_instance=RequestContext(request)
 			)
 
+
+def domain_edit( request, domain ):
+
+	dom = get_object_or_404( dnaModels.Domain, name = domain )
+
+	if request.method == 'POST' and request.POST is not None:
+
+		
+
+		return redirect( reverse( 'dna-domain', kwargs = { 'domain' : domain } ) )
+
+	return render_to_response(
+				'pages/domain_edit.html',
+				{
+					'domain' : dom,
+					'ttl_options' : ttl_select_options,
+				},
+				context_instance=RequestContext(request)
+			)
+
+
+
 def domain_add( request ):
 
 	if request.method == 'POST' and request.POST is not None:

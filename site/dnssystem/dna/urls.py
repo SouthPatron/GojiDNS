@@ -14,6 +14,7 @@ urlpatterns = patterns('',
 	url( r'^domain/(?P<domain>\S+)/resource/(?P<rid>\d+)$', 'dna.views.domain_resource_edit', name = 'dna-domain-resource-edit' ),
 	url( r'^domain/(?P<domain>\S+)/resource/add$', 'dna.views.domain_resource_add', name = 'dna-domain-resource-add' ),
 
+	url( r'^domain/(?P<domain>\S+)/edit$', 'dna.views.domain_edit', name = 'dna-domain-edit' ),
 	url( r'^domain/(?P<domain>\S+)$', 'dna.views.domain', name = 'dna-domain' ),
 
 
