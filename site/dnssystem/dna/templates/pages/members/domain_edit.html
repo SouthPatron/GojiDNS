@@ -1,4 +1,4 @@
-{% extends 'pages/base.html' %}
+{% extends 'pages/members/base.html' %}
 
 {% block content %}
 
@@ -39,7 +39,7 @@
 				<tr>
 					<td>Default TTL</td>
 					<td>
-						{% include 'pages/support/ttl_select.html' with name='ttl' val=domain.ttl %}
+						{% include 'pages/members/support/ttl_select.html' with name='ttl' val=domain.ttl %}
 					</td>
 					<td>&nbsp;</td>
 				</tr>
@@ -47,7 +47,7 @@
 				<tr>
 					<td>Refresh Rate</td>
 					<td>
-						{% include 'pages/support/ttl_select.html' with name='refresh' val=domain.refresh %}
+						{% include 'pages/members/support/ttl_select.html' with name='refresh' val=domain.refresh %}
 					</td>
 					<td>&nbsp;</td>
 				</tr>
@@ -55,7 +55,7 @@
 				<tr>
 					<td>Retry Rate</td>
 					<td>
-						{% include 'pages/support/ttl_select.html' with name='retry' val=domain.retry %}
+						{% include 'pages/members/support/ttl_select.html' with name='retry' val=domain.retry %}
 					</td>
 					<td>&nbsp;</td>
 				</tr>
@@ -63,7 +63,7 @@
 				<tr>
 					<td>Expire Rate</td>
 					<td>
-						{% include 'pages/support/ttl_select.html' with name='expire' val=domain.expire %}
+						{% include 'pages/members/support/ttl_select.html' with name='expire' val=domain.expire %}
 					</td>
 					<td>&nbsp;</td>
 				</tr>

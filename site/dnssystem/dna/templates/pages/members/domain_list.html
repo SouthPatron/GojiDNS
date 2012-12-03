@@ -1,8 +1,8 @@
-{% extends 'pages/base.html' %}
+{% extends 'pages/members/base.html' %}
 
 {% block content %}
 
-<table class='table entryTable'>
+<table class='table table-striped'>
 	<thead>
 		<tr>
 			<th>Domain Zone</th>
@@ -16,9 +16,19 @@
 		{% for domain in list.all %}
 		<tr>
 			<td><a href='{% url dna-domain domain.name %}'>{{ domain.name }}</a></td>
-			<td>Master</td>
-			<td>Today</td>
-			<td>ACTIVE</td>
+			<td>{% if domain.is_master %}Master{% else %}Slave{% endif %}</td>
+			<td>{{ domain.last_modified|date:"d M Y, H:i" }}</td>
+			<td>
+				{% ifequal domain.status 1 %}
+				ACTIVE
+				{% else %}
+					{% ifequal domain.status 2 %}
+					DISABLED
+					{% else %}
+					EDIT
+					{% endifequal %}
+				{% endifequal %}
+			</td>
 			<td>
 				<a href='{% url dna-domain domain.name %}'>Edit</a>
 				|
@@ -29,7 +39,7 @@
 	</tbody>
 	<tfoot>
 		<tr>
-			<td colspan='5'>
+			<td colspan='5' class='gas_right_text'>
 				<a href='{% url dna-domain-clone %}'>Clone an existing zone</a> | <a href='{% url dna-domain-add %}'>Add a domain zone</a>
 			</td>
 		</tr>

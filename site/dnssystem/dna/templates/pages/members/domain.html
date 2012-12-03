@@ -1,4 +1,4 @@
-{% extends 'pages/base.html' %}
+{% extends 'pages/members/base.html' %}
 
 {% block content %}
 <style>
@@ -122,7 +122,12 @@
 					<td>{{ rsc.preference }}</td>
 					<td>{{ rsc.value }}</td>
 					<td>{{ rsc.ttl }}</td>
-					<td>Edit | Remove</td>
+					<td>
+						<a href='{% url dna-domain-resource-edit domain.name rsc.pk %}'>Edit</a>
+						|
+						<a href='{% url dna-domain-resource-delete domain.name rsc.pk %}'>Remove</a>
+					</td>
+
 				</tr>
 			{% endfor %}
 		</tbody>
@@ -151,7 +156,12 @@
 					<td>{{ rsc.name }}</td>
 					<td>{{ rsc.value }}</td>
 					<td>{{ rsc.ttl }}</td>
-					<td>Edit | Remove</td>
+					<td>
+						<a href='{% url dna-domain-resource-edit domain.name rsc.pk %}'>Edit</a>
+						|
+						<a href='{% url dna-domain-resource-delete domain.name rsc.pk %}'>Remove</a>
+					</td>
+
 				</tr>
 			{% endfor %}
 		</tbody>
@@ -180,7 +190,11 @@
 					<td>{{ rsc.name }}</td>
 					<td>{{ rsc.value }}</td>
 					<td>{{ rsc.ttl }}</td>
-					<td>Edit | Remove</td>
+					<td>
+						<a href='{% url dna-domain-resource-edit domain.name rsc.pk %}'>Edit</a>
+						|
+						<a href='{% url dna-domain-resource-delete domain.name rsc.pk %}'>Remove</a>
+					</td>
 				</tr>
 			{% endfor %}
 		</tbody>
@@ -209,7 +223,11 @@
 					<td>{{ rsc.name }}</td>
 					<td>{{ rsc.value }}</td>
 					<td>{{ rsc.ttl }}</td>
-					<td>Edit | Remove</td>
+					<td>
+						<a href='{% url dna-domain-resource-edit domain.name rsc.pk %}'>Edit</a>
+						|
+						<a href='{% url dna-domain-resource-delete domain.name rsc.pk %}'>Remove</a>
+					</td>
 				</tr>
 			{% endfor %}
 		</tbody>
@@ -237,16 +255,23 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td>Edit | Remove</td>
-			</tr>
+			{% for rsc in domain.get_resource_srv %}
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+
+					<td>
+						<a href='{% url dna-domain-resource-edit domain.name rsc.pk %}'>Edit</a>
+						|
+						<a href='{% url dna-domain-resource-delete domain.name rsc.pk %}'>Remove</a>
+					</td>
+				</tr>
+			{% endfor %}
 		</tbody>
 		<tfoot>
 			<tr>

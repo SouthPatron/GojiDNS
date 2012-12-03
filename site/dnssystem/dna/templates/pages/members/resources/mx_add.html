@@ -1,4 +1,4 @@
-{% extends 'pages/base.html' %}
+{% extends 'pages/members/base.html' %}
 
 {% block content %}
 
@@ -10,13 +10,17 @@
 		<table class='entryTable'>
 			<thead>
 				<tr class='heading'>
-					<th colspan='2'>Add a Nameserver</th>
+					<th colspan='2'>Add an MX Record</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td>Nameserver</td>
+					<td>Mail Server</td>
 					<td><input name='name' type='text'></td>
+				</tr>
+				<tr>
+					<td>Preference</td>
+					<td><input name='preference' type='text'></td>
 				</tr>
 				<tr>
 					<td>Subdomain</td>
@@ -25,16 +29,12 @@
 				<tr>
 					<td>TTL</td>
 					<td>
-						<select name='ttl'>
-							<option value='none'>Default</option>
-							<option value='7200'>7200</option>
-							<option value='86400'>86400</option>
-						</select>
+						{% include 'pages/members/support/ttl_select.html' with name='ttl' %}
 					</td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
-					<td><button type='submit'>Add a Nameserver &raquo;</button></td>
+					<td><button type='submit'>Add the Record &raquo;</button></td>
 				</tr>
 			</tbody>
 		</table>

@@ -1,4 +1,4 @@
-{% extends 'pages/base.html' %}
+{% extends 'pages/members/base.html' %}
 
 {% block content %}
 
@@ -10,27 +10,31 @@
 		<table class='entryTable'>
 			<thead>
 				<tr class='heading'>
-					<th colspan='2'>Add a Nameserver</th>
+					<th colspan='2'>Edit the MX Record</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td>Nameserver</td>
+					<td>Mail Server</td>
 					<td><input name='name' type='text' value='{{ resource.name }}'></td>
 				</tr>
 				<tr>
+					<td>Preference</td>
+					<td><input name='preference' type='text' value='{{ resource.preference }}'></td>
+				</tr>
+					<tr>
 					<td>Subdomain</td>
 					<td><input name='value' type='text' value='{{ resource.value }}'></td>
 				</tr>
 				<tr>
 					<td>TTL</td>
 					<td>
-						{% include 'pages/support/ttl_select.html' with name='ttl' val=resource.ttl %}
+						{% include 'pages/members/support/ttl_select.html' with name='ttl' val=resource.ttl %}
 					</td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
-					<td><button type='submit'>Save Nameserver &raquo;</button></td>
+					<td><button type='submit'>Save MX Record &raquo;</button></td>
 				</tr>
 			</tbody>
 		</table>

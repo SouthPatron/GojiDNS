@@ -1,0 +1,52 @@
+/* -------- Body ---------------------------- */
+
+
+html, body {
+	height: 100%;
+}
+
+/* So that top menu doesn't hide anything. */
+body {
+	position: relative;
+}
+
+/* So that top menu doesn't form a gap on small screens */
+@media (max-width: 979px) {
+	body {
+		padding-top: 0px;
+	}
+}
+
+
+#wrap {
+	min-height: 100%;
+	position: relative;
+}
+
+#main_buffer {
+	visible: hidden;
+	overflow: hidden;
+	height: 0px;
+}
+
+#main {
+	margin-top: 68px;
+}
+
+
+/* --------------- APP VIEW ---------------- */
+
+
+.gas_top_spaced { margin-top: 15px; }
+.gas_top_dbl_spaced { margin-top: 30px; }
+.gas_bottom_spaced { margin-bottom: 15px; }
+.gas_bottom_dbl_spaced { margin-bottom: 30px; }
+
+.gas_left_text { text-align: left; }
+.gas_center_text { text-align: center; }
+.gas_right_text { text-align: right; }
+
+
+
+
+

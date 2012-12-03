@@ -1,0 +1,47 @@
+{% extends 'pages/members/base.html' %}
+
+{% block content %}
+
+	<h1>{{ domain.name }}</h1>
+
+	<form method='POST'>
+	{% csrf_token %}
+
+		<div>Are you sure you want to delete this?</a>
+
+		<table class='entryTable'>
+			<thead>
+				<tr class='heading'>
+					<th colspan='2'>Add a Nameserver</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Nameserver</td>
+					<td><input name='nameserver' type='text' value='{{ resource.name }}'></td>
+				</tr>
+				<tr>
+					<td>Subdomain</td>
+					<td><input name='subdomain' type='text' value='{{ resource.value }}'></td>
+				</tr>
+				<tr>
+					<td>TTL</td>
+					<td>
+						<select name='ttl'>
+							<option value='none'>Default</option>
+							<option value='7200'>7200</option>
+							<option value='86400'>86400</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td><button type='submit'>Yes, I am. I really am &raquo;</button></td>
+				</tr>
+			</tbody>
+		</table>
+
+	</form>
+
+{% endblock %}
+

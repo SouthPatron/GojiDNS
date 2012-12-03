@@ -23,10 +23,10 @@ ttl_select_options = [
 ]
 
 
-def home( request ):
+def domain_list( request ):
 	obj_list = dnaModels.Domain.objects.all()
 	return render_to_response(
-				'pages/home.html',
+				'pages/members/domain_list.html',
 				{
 					'list' : obj_list
 				},
@@ -36,7 +36,7 @@ def home( request ):
 def domain( request, domain ):
 	obj = get_object_or_404( dnaModels.Domain, name = domain )
 	return render_to_response(
-				'pages/domain.html',
+				'pages/members/domain.html',
 				{
 					'domain' : obj,
 				},
@@ -55,7 +55,7 @@ def domain_edit( request, domain ):
 		return redirect( reverse( 'dna-domain', kwargs = { 'domain' : domain } ) )
 
 	return render_to_response(
-				'pages/domain_edit.html',
+				'pages/members/domain_edit.html',
 				{
 					'domain' : dom,
 					'ttl_options' : ttl_select_options,
@@ -80,7 +80,7 @@ def domain_add( request ):
 		return redirect( reverse( 'dna-domain', kwargs = { 'domain' : domain } ) )
 
 	return render_to_response(
-				'pages/domain_add.html',
+				'pages/members/domain_add.html',
 				{
 				},
 				context_instance=RequestContext(request)
@@ -110,7 +110,7 @@ def domain_clone( request ):
 
 	obj_list = dnaModels.Domain.objects.all()
 	return render_to_response(
-				'pages/domain_clone.html',
+				'pages/members/domain_clone.html',
 				{
 					'list' : obj_list,
 				},
@@ -122,10 +122,10 @@ def domain_delete( request, domain ):
 	if request.method == 'POST' and request.POST is not None:
 		dom = get_object_or_404( dnaModels.Domain, name = domain )
 		dom.delete()
-		return redirect( reverse( 'dna-home' ) )
+		return redirect( reverse( 'dna-members' ) )
 
 	return render_to_response(
-				'pages/domain_delete.html',
+				'pages/members/domain_delete.html',
 				{},
 				context_instance=RequestContext(request)
 			)
@@ -164,7 +164,7 @@ def _get_resource_template( action, rtype ):
 	else:
 		raise RuntimeError( 'No such resource type: {}'.format( rtype ) )
 
-	return 'pages/resources/{}_{}.html'.format( rname, action )
+	return 'pages/members/resources/{}_{}.html'.format( rname, action )
 
 
 def _update_resource( request, rsc, save = True ):
@@ -205,7 +205,7 @@ def domain_resource_add( request, domain ):
 
 	if request.method == 'POST' and request.POST is not None:
 		rsc = dnaModels.Resource(
-				resource_type = dnaModels.ResourceType.NS,
+				resource_type = rtype,
 				domain = dom,
 			)
 
