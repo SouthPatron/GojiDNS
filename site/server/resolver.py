@@ -37,6 +37,10 @@ class MapResolver( client.Resolver ):
 		if name in self.mapping:
 			result = self.mapping[ name ]
 
+			# answer
+			# authority
+			# additional section
+
 
 			arg1 = dns.RRHeader(name, dns.A, dns.IN, self.ttl, dns.Record_A(result, self.ttl))
 			arg2 = dns.RRHeader(name, dns.A, dns.IN, self.ttl, dns.Record_A(result, self.ttl))
