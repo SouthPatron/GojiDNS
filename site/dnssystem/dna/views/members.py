@@ -79,6 +79,10 @@ def _update_resource( request, rsc, save = True ):
 	rsc.preference = parse_int( request.POST.get( 'preference', None ) )
 	rsc.ttl = parse_int( request.POST.get( 'ttl', None ) )
 
+	rsc.protocol = parse_int( request.POST.get( 'protocol', None ) )
+	rsc.port = parse_int( request.POST.get( 'port', None ) )
+	rsc.weight = parse_int( request.POST.get( 'weight', None ) )
+
 	if save is True:
 		rsc.save()
 	
@@ -157,7 +161,6 @@ def domain_add( request ):
 				resource_type = dnaModels.ResourceType.NS,
 				name = 'ns{}.{}'.format( xnum, DOMAIN ) ,
 				value = domain,
-				ttl = None,
 				static = True,
 			)
 
@@ -175,6 +178,7 @@ def domain_clone( request ):
 
 		source = request.POST.get( 'source' )
 		target = request.POST.get( 'target' )
+		replace = request.POST.get( 'replace', None )
 
 		sdom = get_object_or_404( dnaModels.Domain, name = source )
 
@@ -187,6 +191,14 @@ def domain_clone( request ):
 		for rsc in dnaModels.Resource.objects.filter( domain = oldid ):
 			rsc.pk = None
 			rsc.domain = sdom
+
+			if replace is not None:
+
+				if rsc.value == source:
+					rsc.value = target
+				else:
+					rsc.value = rsc.value.replace( source, target, 1 )
+
 			rsc.save()
 
 		return redirect( reverse( 'dna-domain', kwargs = { 'domain' : target } ) )
@@ -203,14 +215,17 @@ def domain_clone( request ):
 
 
 def domain_delete( request, domain ):
+	dom = get_object_or_404( dnaModels.Domain, name = domain )
+
 	if request.method == 'POST' and request.POST is not None:
-		dom = get_object_or_404( dnaModels.Domain, name = domain )
 		dom.delete()
-		return redirect( reverse( 'dna-members' ) )
+		return redirect( reverse( 'dna-domain-list' ) )
 
 	return render_to_response(
 				'pages/members/domain_delete.html',
-				{},
+				{
+					'domain' : dom,
+				},
 				context_instance=RequestContext(request)
 			)
 

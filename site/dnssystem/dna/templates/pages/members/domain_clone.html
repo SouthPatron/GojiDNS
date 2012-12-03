@@ -1,42 +1,66 @@
 {% extends 'pages/members/base.html' %}
 
-
 {% block content %}
 
-	<form method='POST'>
-	{% csrf_token %}
+<div class='row'>
+<div class='span12'>
+	<div class='gas_heading'>
+		<span class='l1'><a href='{% url dna-domain-list %}'>Your Zones</a></span>
+		<span class='l2'> &gt; <a href='{% url dna-domain-add %}'>Clone Zone</a></span>
+	</div>
+</div> <!-- .span12 -->
+</div> <!-- .row -->
 
-		<table class='entryTable'>
-			<thead>
-				<tr class='heading'>
-					<th colspan='7'>Add a Master Zone</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>Clone this zone</td>
-					<td>
-						<select name='source'>
-							{% for domain in list %}
-							<option value='{{ domain.name }}'>{{ domain.name }}</option>
-							{% endfor %}
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>Into this zone</td>
-					<td>
-						<input name='target' type='text'>
-					</td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td>
-					<td><button type='submit'>Clone Zone &raquo;</button></td>
-				</tr>
-			</tbody>
-		</table>
+
+<div class='row'>
+<div class='span12'>
+
+	<form class='form-horizontal' method='POST'>
+		{% csrf_token %}
+
+		<fieldset>
+			<legend>Clone Zone</legend>
+
+			<div class='control-group'>
+				<label class='control-label'>Clone this zone</label>
+				<div class='controls'>
+					<select name='source' class='input-xlarge'>
+						{% for domain in list %}
+						<option value='{{ domain.name }}'>{{ domain.name }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label'>Into this zone</label>
+				<div class='controls'>
+					<input type='text' class='input-xlarge' name='target'>
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<div class='controls'>
+					<input type='checkbox' name='replace' checked='checked'> Search for the old zone name in the records and replace occurrences with the new zone name?
+				</div>
+			</div>
+
+
+			<div class='control-group'>
+				<div class='controls'>
+					<button type='submit' class='btn btn-primary' >Clone Zone &raquo;</button>
+					<a href='{% url dna-domain-list %}' class='btn btn-link' >Cancel</a>
+				</div>
+			</div>
+		</fieldset>
+
+
 
 	</form>
 
+</div> <!-- .span12 -->
+</div> <!-- .row -->
+
 {% endblock %}
+
 

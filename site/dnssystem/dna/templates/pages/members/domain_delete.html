@@ -1,15 +1,54 @@
 {% extends 'pages/members/base.html' %}
 
-
 {% block content %}
 
-	<h1>Remove {{ domain }}?</h1>
+<div class='row'>
+<div class='span12'>
+	<div class='gas_heading'>
+		<span class='l1'><a href='{% url dna-domain-list %}'>Your Zones</a></span>
+		<span class='l2'> &gt; <a href='{% url dna-domain-delete domain.name %}'>Delete Zone?</a></span>
+	</div>
+</div> <!-- .span12 -->
+</div> <!-- .row -->
 
-	<form method='POST'>
-	{% csrf_token %}
-		<div>Are you sure you want to delete the entire zone {{ domain }}?</div>
-		<button type='submit'>Yes, delete the domain!</button>
+
+<div class='row'>
+<div class='span12'>
+
+	<form class='form-horizontal' method='POST'>
+		{% csrf_token %}
+
+		<fieldset>
+			<legend>Delete Zone</legend>
+
+			<div class='control-group'>
+				<div class='controls'>
+					<div>Are you sure you'd like to delete this zone?</div>
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label'>Domain</label>
+				<div class='controls'>
+					<input type='text' class='input-xlarge uneditable-input' name='value' value='{{ domain.name }}' disabled='disabled'>
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<div class='controls'>
+					<button type='submit' class='btn btn-danger' >Yes, I am sure &raquo;</button>
+					<a href='{% url dna-domain-list %}' class='btn btn-link' >Cancel</a>
+				</div>
+			</div>
+
+
+		</fieldset>
+
 	</form>
 
+</div> <!-- .span12 -->
+</div> <!-- .row -->
+
 {% endblock %}
+
 

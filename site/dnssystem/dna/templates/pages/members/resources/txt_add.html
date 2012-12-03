@@ -1,26 +1,26 @@
 {% extends 'pages/members/resources/base.html' %}
 
-{% block add_description %}Add an NS record{% endblock %}
+{% block add_description %}Add a TXT record{% endblock %}
 
 {% block form_content %}
 
 		<fieldset>
-			<legend>Add an NS record</legend>
+			<legend>Add a TXT record</legend>
 
 			<div class='control-group'>
-				<label class='control-label'>Name Server</label>
+				<label class='control-label'>Name</label>
 				<div class='controls'>
 					<input type='text' class='input-xlarge' name='name'>
 				</div>
 			</div>
 
 			<div class='control-group'>
-				<label class='control-label'>Subdomain</label>
+				<label class='control-label'>Value</label>
 				<div class='controls'>
-					<input type='text' class='input-xlarge' name='value' value='{{ domain.name }}'>
+					<input type='text' class='input-xxlarge' name='value'>
 				</div>
 			</div>
-	
+
 			<div class='control-group'>
 				<label class='control-label'>TTL</label>
 				<div class='controls'>
@@ -30,7 +30,7 @@
 
 			<div class='control-group'>
 				<div class='controls'>
-					<button type='submit' class='btn btn-primary' >Add an NS record &raquo;</button>
+					<button type='submit' class='btn btn-primary' >Add a TXT record &raquo;</button>
 					<a href='{% url dna-domain domain.name %}' class='btn btn-link' >Cancel</a>
 				</div>
 			</div>

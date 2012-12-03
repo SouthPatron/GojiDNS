@@ -275,7 +275,7 @@
 			</tr>
 			<tr>
 				<th>Service</th>
-				<th>Domain</th>
+				<th>Protocol</th>
 				<th>Priority</th>
 				<th>Weight</th>
 				<th>Port</th>
@@ -287,12 +287,17 @@
 		<tbody>
 			{% for rsc in domain.get_resource_srv %}
 				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td>{{ rsc.name }}</td>
+					<td>
+						{% ifequal rsc.protocol 1 %}TCP{%endifequal%}
+						{% ifequal rsc.protocol 2 %}UDP{%endifequal%}
+						{% ifequal rsc.protocol 3 %}XMPP{%endifequal%}
+						{% ifequal rsc.protocol 4 %}TLS{%endifequal%}
+					</td>
+					<td>{{ rsc.preference }}</td>
+					<td>{{ rsc.weight }}</td>
+					<td>{{ rsc.port }}</td>
+					<td>{{ rsc.value }}</td>
 					<td>{{ rsc.ttl|default_if_none:"Default" }}</td>
 
 					<td>

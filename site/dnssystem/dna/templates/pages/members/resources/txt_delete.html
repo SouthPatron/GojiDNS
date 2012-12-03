@@ -1,11 +1,11 @@
 {% extends 'pages/members/resources/base.html' %}
 
-{% block add_description %}Delete NS record{% endblock %}
+{% block add_description %}Delete TXT record{% endblock %}
 
 {% block form_content %}
 
 		<fieldset>
-			<legend>Delete NS record</legend>
+			<legend>Delete TXT record</legend>
 
 			<div class='control-group'>
 				<div class='controls'>
@@ -14,16 +14,16 @@
 			</div>
 
 			<div class='control-group'>
-				<label class='control-label'>Name Server</label>
+				<label class='control-label'>Name</label>
 				<div class='controls'>
 					<input type='text' class='input-xlarge uneditable-input' name='value' value='{{ resource.name }}' disabled='disabled'>
 				</div>
 			</div>
 
 			<div class='control-group'>
-				<label class='control-label'>Subdomain</label>
+				<label class='control-label'>Value</label>
 				<div class='controls'>
-					<input type='text' class='input-xlarge uneditable-input' name='value' value='{{ resource.value }}' disabled='disabled'>
+					<input type='text' class='input-xxlarge uneditable-input' name='value' value='{{ resource.value }}' disabled='disabled'>
 				</div>
 			</div>
 	

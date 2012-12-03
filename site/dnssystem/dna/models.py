@@ -20,6 +20,14 @@ DomainStatus = ChoicesEnum(
 		EDIT_MODE = ( 3, 'EDIT' ),
 	)
 
+Protocols = ChoicesEnum(
+		TCP = ( 1, 'tcp' ),
+		UDP = ( 2, 'udp' ),
+		XMPP = ( 3, 'xmpp' ),
+		TLS = ( 4, 'tls' ),
+	)
+
+
 
 class Profile( models.Model ):
 	class Meta:
@@ -61,6 +69,9 @@ class Domain( models.Model ):
 	def get_resource_cname( self ):
 		return self.resource_set.filter( resource_type = ResourceType.CNAME )
 
+	def get_resource_srv( self ):
+		return self.resource_set.filter( resource_type = ResourceType.SRV )
+
 
 class Resource( models.Model ):
 	class Meta:
@@ -73,6 +84,10 @@ class Resource( models.Model ):
 	value = models.CharField( null = True, max_length = 253, default = None )
 	preference = models.IntegerField( null = True, default = None )
 	ttl = models.IntegerField( null = True, default = None )
+
+	protocol = models.IntegerField( null = True, default = None, choices = Protocols.choices() )
+	port = models.IntegerField( null = True, default = None )
+	weight = models.IntegerField( null = True, default = None )
 
 	static = models.BooleanField( default = False )
 

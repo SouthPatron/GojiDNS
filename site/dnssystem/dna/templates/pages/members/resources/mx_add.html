@@ -17,7 +17,7 @@
 			<div class='control-group'>
 				<label class='control-label'>Preference</label>
 				<div class='controls'>
-					<input type='text' class='input-xlarge' name='preference'>
+					<input type='text' class='input-xlarge' name='preference' value='10'>
 				</div>
 			</div>
 
@@ -39,6 +39,7 @@
 			<div class='control-group'>
 				<div class='controls'>
 					<button type='submit' class='btn btn-primary' >Add an MX record &raquo;</button>
+					<a href='{% url dna-domain domain.name %}' class='btn btn-link' >Cancel</a>
 				</div>
 			</div>
 		</fieldset>
