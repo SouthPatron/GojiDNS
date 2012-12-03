@@ -8,45 +8,47 @@
 	border-collapse: collapse;
 	border-spacing: 5px;
 }
+
 .entryTable td, .entryTable th {
 	text-align: left;
 	margin: 0px;
 	padding: 2px;
 }
 
+.entryTable tbody td:last-child,
+.entryTable thead tr:not(:first-child) th:last-child,
 .entryTable tfoot td {
 	text-align: right;
 }
 
-.entryTable .heading {
+.entryTable thead tr:first-child {
 	background-color: #cecece;
-	padding: 0.4em 0.3em 0.4em 0.4em;
-	font-size: 14px;
 }
 
-.entryTable .subheading {
+.entryTable thead tr {
 	background-color: #eeeeee;
-}
-
-.entryTable .rowon {
-	border-bottom: 1px solid #e8e8e8;
-}
-
-.entryTable .rowoff {
-	border-bottom: 1px solid #e8e8e8;
-	background-color: #f4f4ff;
 }
 
 </style>
 
-	<h1>{{ domain.name }}</h1>
+<div class='row'>
+<div class='span12'>
+	<div class='gas_heading'>
+		<span class='l1'><a href='{% url dna-domain-list %}'>Your Zones</a></span>
+		<span class='l2'> &gt; <a href='{% url dna-domain domain.name %}'>{{ domain.name }}</a></span>
+	</div>
+</div> <!-- .span12 -->
+</div> <!-- .row -->
 
-	<table class='table entryTable'>
+
+<div class='row'>
+<div class='span12'>
+	<table class='table table-striped entryTable'>
 		<thead>
-			<tr class='heading'>
+			<tr>
 				<th colspan='7'>SOA Record</th>
 			</tr>
-			<tr class='subheading'>
+			<tr>
 				<th>Primary DNS</th>
 				<th>Email</th>
 				<th>Default TTL</th>
@@ -61,20 +63,24 @@
 				<td>{{ domain.primary }}</td>
 				<td>{{ domain.email }}</td>
 				<td>{{ domain.ttl }}</td>
-				<td>{{ domain.refresh }}</td>
-				<td>{{ domain.retry }}</td>
-				<td>{{ domain.expire }}</td>
-				<td><a href='{% url dna-domain-edit domain.name %}'>settings</a></td>
+				<td>{{ domain.refresh|default_if_none:"Default" }}</td>
+				<td>{{ domain.retry|default_if_none:"Default" }}</td>
+				<td>{{ domain.expire|default_if_none:"Default" }}</td>
+				<td><a href='{% url dna-domain-edit domain.name %}'>Edit</a></td>
 			</tr>
 		</tbody>
 	</table>
+</div> <!-- .span12 -->
+</div> <!-- .row -->
 
-	<table class='table entryTable'>
+<div class='row'>
+<div class='span12'>
+	<table class='table table-striped entryTable'>
 		<thead>
-			<tr class='heading'>
+			<tr>
 				<th colspan='4'>NS Records</th>
 			</tr>
-			<tr class='subheading'>
+			<tr>
 				<th>Name Server</th>
 				<th>Subdomain</th>
 				<th>TTL</th>
@@ -86,11 +92,15 @@
 				<tr>
 					<td>{{ rsc.name }}</td>
 					<td>{{ rsc.value }}</td>
-					<td>{{ rsc.ttl }}</td>
+					<td>{{ rsc.ttl|default_if_none:"Default" }}</td>
 					<td>
-						<a href='{% url dna-domain-resource-edit domain.name rsc.pk %}'>Edit</a>
-						|
-						<a href='{% url dna-domain-resource-delete domain.name rsc.pk %}'>Remove</a>
+						{% if rsc.static %}
+							<del>Edit</del> | <del>Remove</del>
+						{% else %}
+							<a href='{% url dna-domain-resource-edit domain.name rsc.pk %}'>Edit</a>
+							|
+							<a href='{% url dna-domain-resource-delete domain.name rsc.pk %}'>Remove</a>
+						{% endif %}
 					</td>
 				</tr>
 			{% endfor %}
@@ -101,13 +111,17 @@
 			</tr>
 		</tfoot>
 	</table>
+</div> <!-- .span12 -->
+</div> <!-- .row -->
 
-	<table class='table entryTable'>
+<div class='row'>
+<div class='span12'>
+	<table class='table table-striped entryTable'>
 		<thead>
-			<tr class='heading'>
+			<tr>
 				<th colspan='5'>MX Records</th>
 			</tr>
-			<tr class='subheading'>
+			<tr>
 				<th>Mail Server</th>
 				<th>Preference</th>
 				<th>Subdomain</th>
@@ -121,7 +135,7 @@
 					<td>{{ rsc.name }}</td>
 					<td>{{ rsc.preference }}</td>
 					<td>{{ rsc.value }}</td>
-					<td>{{ rsc.ttl }}</td>
+					<td>{{ rsc.ttl|default_if_none:"Default" }}</td>
 					<td>
 						<a href='{% url dna-domain-resource-edit domain.name rsc.pk %}'>Edit</a>
 						|
@@ -137,13 +151,17 @@
 			</tr>
 		</tfoot>
 	</table>
+</div> <!-- .span12 -->
+</div> <!-- .row -->
 
-	<table class='table entryTable'>
+<div class='row'>
+<div class='span12'>
+	<table class='table table-striped entryTable'>
 		<thead>
-			<tr class='heading'>
+			<tr>
 				<th colspan='4'>A/AAAA Records</th>
 			</tr>
-			<tr class='subheading'>
+			<tr>
 				<th>Hostname</th>
 				<th>IP Address</th>
 				<th>TTL</th>
@@ -155,7 +173,7 @@
 				<tr>
 					<td>{{ rsc.name }}</td>
 					<td>{{ rsc.value }}</td>
-					<td>{{ rsc.ttl }}</td>
+					<td>{{ rsc.ttl|default_if_none:"Default" }}</td>
 					<td>
 						<a href='{% url dna-domain-resource-edit domain.name rsc.pk %}'>Edit</a>
 						|
@@ -171,13 +189,17 @@
 			</tr>
 		</tfoot>
 	</table>
+</div> <!-- .span12 -->
+</div> <!-- .row -->
 
-	<table class='table entryTable'>
+<div class='row'>
+<div class='span12'>
+	<table class='table table-striped entryTable'>
 		<thead>
-			<tr class='heading'>
+			<tr>
 				<th colspan='4'>CNAME Records</th>
 			</tr>
-			<tr class='subheading'>
+			<tr>
 				<th>Hostname</th>
 				<th>Aliases to</th>
 				<th>TTL</th>
@@ -189,7 +211,7 @@
 				<tr>
 					<td>{{ rsc.name }}</td>
 					<td>{{ rsc.value }}</td>
-					<td>{{ rsc.ttl }}</td>
+					<td>{{ rsc.ttl|default_if_none:"Default" }}</td>
 					<td>
 						<a href='{% url dna-domain-resource-edit domain.name rsc.pk %}'>Edit</a>
 						|
@@ -204,13 +226,17 @@
 			</tr>
 		</tfoot>
 	</table>
+</div> <!-- .span12 -->
+</div> <!-- .row -->
 
-	<table class='table entryTable'>
+<div class='row'>
+<div class='span12'>
+	<table class='table table-striped entryTable'>
 		<thead>
-			<tr class='heading'>
+			<tr>
 				<th colspan='4'>TXT Records</th>
 			</tr>
-			<tr class='subheading'>
+			<tr>
 				<th>Name</th>
 				<th>Value</th>
 				<th>TTL</th>
@@ -222,7 +248,7 @@
 				<tr>
 					<td>{{ rsc.name }}</td>
 					<td>{{ rsc.value }}</td>
-					<td>{{ rsc.ttl }}</td>
+					<td>{{ rsc.ttl|default_if_none:"Default" }}</td>
 					<td>
 						<a href='{% url dna-domain-resource-edit domain.name rsc.pk %}'>Edit</a>
 						|
@@ -237,13 +263,17 @@
 			</tr>
 		</tfoot>
 	</table>
+</div> <!-- .span12 -->
+</div> <!-- .row -->
 
-	<table class='table entryTable'>
+<div class='row'>
+<div class='span12'>
+	<table class='table table-striped entryTable'>
 		<thead>
-			<tr class='heading'>
+			<tr>
 				<th colspan='8'>SRV Records</th>
 			</tr>
-			<tr class='subheading'>
+			<tr>
 				<th>Service</th>
 				<th>Domain</th>
 				<th>Priority</th>
@@ -263,7 +293,7 @@
 					<td></td>
 					<td></td>
 					<td></td>
-					<td></td>
+					<td>{{ rsc.ttl|default_if_none:"Default" }}</td>
 
 					<td>
 						<a href='{% url dna-domain-resource-edit domain.name rsc.pk %}'>Edit</a>
@@ -279,6 +309,8 @@
 			</tr>
 		</tfoot>
 	</table>
+</div> <!-- .span12 -->
+</div> <!-- .row -->
 
 
 {% endblock %}

@@ -1,41 +1,39 @@
-{% extends 'pages/members/base.html' %}
+{% extends 'pages/members/resources/base.html' %}
 
-{% block content %}
+{% block add_description %}Add an NS record{% endblock %}
 
-	<h1>{{ domain.name }}</h1>
+{% block form_content %}
 
-	<form method='POST'>
-	{% csrf_token %}
+		<fieldset>
+			<legend>Add an NS record</legend>
 
-		<table class='entryTable'>
-			<thead>
-				<tr class='heading'>
-					<th colspan='2'>Add a Nameserver</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>Nameserver</td>
-					<td><input name='name' type='text'></td>
-				</tr>
-				<tr>
-					<td>Subdomain</td>
-					<td><input name='value' type='text'></td>
-				</tr>
-				<tr>
-					<td>TTL</td>
-					<td>
-						{% include 'pages/members/support/ttl_select.html' with name='ttl' %}
-					</td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td>
-					<td><button type='submit'>Add a Nameserver &raquo;</button></td>
-				</tr>
-			</tbody>
-		</table>
+			<div class='control-group'>
+				<label class='control-label'>Name Server</label>
+				<div class='controls'>
+					<input type='text' class='input-xlarge' name='name'>
+				</div>
+			</div>
 
-	</form>
+			<div class='control-group'>
+				<label class='control-label'>Subdomain</label>
+				<div class='controls'>
+					<input type='text' class='input-xlarge' name='value' value='{{ domain.name }}'>
+				</div>
+			</div>
+	
+			<div class='control-group'>
+				<label class='control-label'>TTL</label>
+				<div class='controls'>
+					{% include 'pages/members/support/ttl_select.html' with addclass='input-xlarge' name='ttl' %}
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<div class='controls'>
+					<button type='submit' class='btn btn-primary' >Add an NS record &raquo;</button>
+				</div>
+			</div>
+		</fieldset>
 
 {% endblock %}
 

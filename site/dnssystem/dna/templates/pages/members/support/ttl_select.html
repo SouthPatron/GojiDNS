@@ -1,5 +1,8 @@
-<select name='{{ name }}'>
+<select name='{{ name }}' class='{{ addclass }}' {{ addattr }}>
+	{% ifequal nonull 1 %}
+	{% else %}
 	<option value='none' {% if not val %}SELECTED='selected'{% endif %}>Default</option>
+	{% endifequal %}
 
 	{% for opsie in ttl_options %}
 	<option value='{{ opsie.0 }}' {% ifequal val opsie.0 %}SELECTED='selected'{% endifequal %}>{{ opsie.0 }} {{ opsie.1 }}</option>

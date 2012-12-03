@@ -1,47 +1,53 @@
-{% extends 'pages/members/base.html' %}
+{% extends 'pages/members/resources/base.html' %}
 
-{% block content %}
+{% block add_description %}Delete MX record{% endblock %}
 
-	<h1>{{ domain.name }}</h1>
+{% block form_content %}
 
-	<form method='POST'>
-	{% csrf_token %}
+		<fieldset>
+			<legend>Delete MX record</legend>
 
-		<div>Are you sure you want to delete this?</a>
+			<div class='control-group'>
+				<div class='controls'>
+					<div>Are you sure you'd like to delete this record?</div>
+				</div>
+			</div>
 
-		<table class='entryTable'>
-			<thead>
-				<tr class='heading'>
-					<th colspan='2'>Add a Nameserver</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>Nameserver</td>
-					<td><input name='nameserver' type='text' value='{{ resource.name }}'></td>
-				</tr>
-				<tr>
-					<td>Subdomain</td>
-					<td><input name='subdomain' type='text' value='{{ resource.value }}'></td>
-				</tr>
-				<tr>
-					<td>TTL</td>
-					<td>
-						<select name='ttl'>
-							<option value='none'>Default</option>
-							<option value='7200'>7200</option>
-							<option value='86400'>86400</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td>
-					<td><button type='submit'>Yes, I am. I really am &raquo;</button></td>
-				</tr>
-			</tbody>
-		</table>
+			<div class='control-group'>
+				<label class='control-label'>Mail Server</label>
+				<div class='controls'>
+					<input type='text' class='input-xlarge' name='name' value='{{ resource.name }}' disabled='disabled' >
+				</div>
+			</div>
 
-	</form>
+			<div class='control-group'>
+				<label class='control-label'>Preference</label>
+				<div class='controls'>
+					<input type='text' class='input-xlarge' name='preference' value='{{ resource.preference }}' disabled='disabled' >
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label'>Subdomain</label>
+				<div class='controls'>
+					<input type='text' class='input-xlarge' name='value' value='{{ resource.value }}' disabled='disabled' >
+				</div>
+			</div>
+
+	
+			<div class='control-group'>
+				<label class='control-label'>TTL</label>
+				<div class='controls'>
+					{% include 'pages/members/support/ttl_select.html' with addclass='input-xlarge' addattr='disabled="disabled"' name='ttl' val=resource.ttl %}
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<div class='controls'>
+					<button type='submit' class='btn btn-danger' >Yes, I am sure &raquo;</button>
+				</div>
+			</div>
+		</fieldset>
 
 {% endblock %}
 

@@ -34,6 +34,14 @@ body {
 }
 
 
+/* --------------- BOOTSTRAP OVERRIDES ---------------- */
+
+form legend {
+	color: darkgreen;
+	text-align: right;
+}
+
+
 /* --------------- APP VIEW ---------------- */
 
 
@@ -46,7 +54,26 @@ body {
 .gas_center_text { text-align: center; }
 .gas_right_text { text-align: right; }
 
+.gas_heading {
+	margin: 30px 0px;
+}
 
+.gas_heading a {
+	text-decoration: none;
+	color: inherit;
+}
+
+.gas_heading .l1 {
+	font-size: 30px;
+}
+
+.gas_heading .l2 {
+	font-size: 24px;
+}
+
+.gas_heading .l3 {
+	font-size: 18px;
+}
 
 
 

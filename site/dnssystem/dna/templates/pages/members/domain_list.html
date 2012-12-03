@@ -2,7 +2,29 @@
 
 {% block content %}
 
-<table class='table table-striped'>
+<style>
+
+#vsd_domain_list tbody td:last-child,
+#vsd_domain_list thead th:last-child
+{
+	text-align: right;
+}
+
+
+</style>
+
+<div class='row'>
+	<div class='span12'>
+		<div class='gas_heading'>
+			<span class='l1'>Your Zones</span>
+		</div>
+	</div> <!-- .span12 -->
+</div> <!-- .row -->
+
+<div class='row'>
+<div class='span12'>
+
+<table id='vsd_domain_list' class='table table-striped'>
 	<thead>
 		<tr>
 			<th>Domain Zone</th>
@@ -39,12 +61,20 @@
 	</tbody>
 	<tfoot>
 		<tr>
-			<td colspan='5' class='gas_right_text'>
-				<a href='{% url dna-domain-clone %}'>Clone an existing zone</a> | <a href='{% url dna-domain-add %}'>Add a domain zone</a>
+			<td colspan='5'>
+				<div class='gas_right_text'>
+					<a href='{% url dna-domain-clone %}'>Clone an existing zone</a> | <a href='{% url dna-domain-add %}'>Add a new zone</a>
+				</div>
 			</td>
 		</tr>
 	</tfoot>
 </table>
+
+
+
+	</div> <!-- .span12 -->
+</div> <!-- .row -->
+
 
 {% endblock %}
 

@@ -29,6 +29,9 @@ class Profile( models.Model ):
 
 
 class Domain( models.Model ):
+	class Meta:
+		ordering = [ 'name', ]
+
 	name = models.CharField( max_length = 253, unique = True )
 
 	is_master = models.BooleanField( default = True )
@@ -37,7 +40,7 @@ class Domain( models.Model ):
 	status = models.IntegerField( choices = DomainStatus.choices(), default = DomainStatus.ACTIVE )
 
 	primary = models.CharField( max_length = 253 )
-	email = models.CharField( max_length = 253 )
+	email = models.EmailField( max_length = 254 )
 	ttl = models.IntegerField( default = 7200 )
 	refresh = models.IntegerField( null = True, default = None )
 	retry = models.IntegerField( null = True, default = None )
@@ -60,6 +63,9 @@ class Domain( models.Model ):
 
 
 class Resource( models.Model ):
+	class Meta:
+		ordering = [ '-static', 'preference', 'name', 'value', ]
+
 	domain = models.ForeignKey( Domain, on_delete = models.CASCADE )
 
 	resource_type = models.IntegerField( choices = ResourceType.choices() )
