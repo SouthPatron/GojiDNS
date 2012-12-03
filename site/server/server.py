@@ -1,19 +1,23 @@
-from twisted.names import dns, server, client, cache
+from twisted.names import dns, server, cache
 from twisted.application import service, internet
 
-from resolver import MapResolver
+from resolver import DbResolver
+
+import psycopg2
+import psycopg2.extras
+import sys
 
 
 PORT = 53000
+ 
 
-mapping = {
-	'douglas.green' : '127.0.0.1'
-}
-
+dbconn_string = "host='localhost' dbname='dnssystem' user='postgres' password=''"
+dbconn = psycopg2.connect( dbconn_string )
+ 
 
 application = service.Application( 'dns', uid = 1000, gid = 100 )
 
-dnsdb = MapResolver( mapping, servers = [('192.168.16.1', 53)] )
+dnsdb = DbResolver( dbconn )
 
 
 f = server.DNSServerFactory( caches=[cache.CacheResolver()], clients=[dnsdb] )

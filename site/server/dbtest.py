@@ -17,7 +17,7 @@ def main():
 	# psycopg2 creates a server-side cursor, which prevents all of the
 	# records from being downloaded at once from the server.
 	cursor = conn.cursor('cursor_unique_name', cursor_factory=psycopg2.extras.DictCursor)
-	cursor.execute('SELECT * FROM dna_domain')
+	cursor.execute("""SELECT * FROM dna_domain WHERE name = %(name)s""", { 'name' : 'doggles.co.za' } )
  
 	# Because cursor objects are iterable we can just call 'for - in' on
 	# the cursor object and the cursor will automatically advance itself
