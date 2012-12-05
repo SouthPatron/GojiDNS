@@ -1,0 +1,48 @@
+{% extends 'pages/members/resources/base.html' %}
+
+{% block add_description %}Add an MX record{% endblock %}
+
+{% block form_content %}
+
+		<fieldset>
+			<legend>Add an MX record</legend>
+
+			<div class='control-group'>
+				<label class='control-label'>Mail Server</label>
+				<div class='controls'>
+					<input type='text' class='input-xlarge' name='name'>
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label'>Preference</label>
+				<div class='controls'>
+					<input type='text' class='input-xlarge' name='preference' value='10'>
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label'>Subdomain</label>
+				<div class='controls'>
+					<input type='text' class='input-xlarge' name='value' value='{{ domain.name }}'>
+				</div>
+			</div>
+
+	
+			<div class='control-group'>
+				<label class='control-label'>TTL</label>
+				<div class='controls'>
+					{% include 'pages/members/support/ttl_select.html' with addclass='input-xlarge' name='ttl' %}
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<div class='controls'>
+					<button type='submit' class='btn btn-primary' >Add an MX record &raquo;</button>
+					<a href='{% url goji-domain domain.name %}' class='btn btn-link' >Cancel</a>
+				</div>
+			</div>
+		</fieldset>
+
+{% endblock %}
+

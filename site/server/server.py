@@ -11,7 +11,7 @@ import sys
 PORT = 53000
  
 
-dbconn_string = "host='localhost' dbname='dnssystem' user='postgres' password=''"
+dbconn_string = "host='localhost' dbname='gojidns' user='postgres' password=''"
 dbconn = psycopg2.connect( dbconn_string )
  
 

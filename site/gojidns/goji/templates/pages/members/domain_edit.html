@@ -1,0 +1,85 @@
+{% extends 'pages/members/base.html' %}
+
+{% block content %}
+
+<div class='row'>
+<div class='span12'>
+	<div class='gas_heading'>
+		<span class='l1'><a href='{% url goji-domain-list %}'>Your Zones</a></span>
+		<span class='l2'> &gt; <a href='{% url goji-domain domain.name %}'>{{ domain.name }}</a></span>
+		<span class='l3'> &gt; <a href='{% url goji-domain-edit domain.name %}'>Edit</a></span>
+	</div>
+</div> <!-- .span12 -->
+</div> <!-- .row -->
+
+
+<div class='row'>
+<div class='span12'>
+
+	<form class='form-horizontal' method='POST'>
+		{% csrf_token %}
+
+		<fieldset>
+			<legend>Domain Settings and Defaults</legend>
+
+			<div class='control-group'>
+				<label class='control-label'>SOA Email</label>
+				<div class='controls'>
+					<input type='text' class='input-xlarge' name='email' value='{{ domain.email }}'>
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label'>Domain Status</label>
+				<div class='controls'>
+					<select name='status' class='input-xlarge'>
+						<option value='1' {% ifequal domain.status 1 %}SELECTED='selected'{% endifequal %}>Active - Turn ON serving of this domain</option>
+						<option value='2' {% ifequal domain.status 2 %}SELECTED='selected'{% endifequal %}>Disabled - Turn OFF serving of this domain</option>
+						<option value='3' {% ifequal domain.status 3 %}SELECTED='selected'{% endifequal %}>Edit - Use this while modifying your DNS</option>
+					</select>
+				</div>
+			</div>
+	
+			<div class='control-group'>
+				<label class='control-label'>Default TTL</label>
+				<div class='controls'>
+					{% include 'pages/members/support/ttl_select.html' with addclass='input-xlarge' name='ttl' val=domain.ttl nonull=1 %}
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label'>Refresh Rate</label>
+				<div class='controls'>
+					{% include 'pages/members/support/ttl_select.html' with addclass='input-xlarge' name='refresh' val=domain.refresh %}
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label'>Retry Rate</label>
+				<div class='controls'>
+					{% include 'pages/members/support/ttl_select.html' with addclass='input-xlarge' name='retry' val=domain.retry %}
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label'>Expire Rate</label>
+				<div class='controls'>
+					{% include 'pages/members/support/ttl_select.html' with addclass='input-xlarge' name='expire' val=domain.expire %}
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<div class='controls'>
+					<button type='submit' class='btn btn-primary' >Save Changes</button>
+					<a href='{% url goji-domain domain.name %}' class='btn btn-link' >Cancel</a>
+				</div>
+			</div>
+		</fieldset>
+
+	</form>
+
+</div> <!-- .span12 -->
+</div> <!-- .row -->
+
+{% endblock %}
+

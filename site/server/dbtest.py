@@ -7,7 +7,7 @@ import psycopg2.extras
 import sys
  
 def main():
-	conn_string = "host='localhost' dbname='dnssystem' user='postgres' password=''"
+	conn_string = "host='localhost' dbname='gojidns' user='postgres' password=''"
 	# print the connection string we will use to connect
 	print "Connecting to database\n	->%s" % (conn_string)
  

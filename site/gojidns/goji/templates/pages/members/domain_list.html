@@ -1,0 +1,80 @@
+{% extends 'pages/members/base.html' %}
+
+{% block content %}
+
+<style>
+
+#vsd_domain_list tbody td:last-child,
+#vsd_domain_list thead th:last-child
+{
+	text-align: right;
+}
+
+
+</style>
+
+<div class='row'>
+	<div class='span12'>
+		<div class='gas_heading'>
+			<span class='l1'>Your Zones</span>
+		</div>
+	</div> <!-- .span12 -->
+</div> <!-- .row -->
+
+<div class='row'>
+<div class='span12'>
+
+<table id='vsd_domain_list' class='table table-striped'>
+	<thead>
+		<tr>
+			<th>Domain Zone</th>
+			<th>Type</th>
+			<th>Last Modified</th>
+			<th>Status</th>
+			<th>Options</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for domain in list.all %}
+		<tr>
+			<td><a href='{% url goji-domain domain.name %}'>{{ domain.name }}</a></td>
+			<td>{% if domain.is_master %}Master{% else %}Slave{% endif %}</td>
+			<td>{{ domain.last_modified|date:"d M Y, H:i" }}</td>
+			<td>
+				{% ifequal domain.status 1 %}
+				ACTIVE
+				{% else %}
+					{% ifequal domain.status 2 %}
+					DISABLED
+					{% else %}
+					EDIT
+					{% endifequal %}
+				{% endifequal %}
+			</td>
+			<td>
+				<a href='{% url goji-domain domain.name %}'>Edit</a>
+				|
+				<a href='{% url goji-domain-delete domain.name %}'>Remove</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan='5'>
+				<div class='gas_right_text'>
+					<a href='{% url goji-domain-clone %}'>Clone an existing zone</a> | <a href='{% url goji-domain-add %}'>Add a Master zone</a>
+				</div>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+
+
+
+	</div> <!-- .span12 -->
+</div> <!-- .row -->
+
+
+{% endblock %}
+
