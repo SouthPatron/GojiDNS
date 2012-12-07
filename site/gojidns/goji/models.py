@@ -1,9 +1,9 @@
-import datetime
-
 from django.db import models
 from django.contrib.auth.models import User
 
 from ravensuite.utils.enum import ChoicesEnum
+from ravensuite.enums.world import CountryList, TimezoneList
+from ravensuite.enums.people import Gender
 
 ResourceType = ChoicesEnum(
 		NS = ( 1, 'Nameserver' ),
@@ -28,6 +28,11 @@ Protocols = ChoicesEnum(
 	)
 
 
+class AuthenticationCode( models.Model ):
+	profile = models.ForeignKey( 'goji.Profile', on_delete = models.CASCADE )
+	created_at = models.DateTimeField( auto_now_add = True )
+	code = models.CharField( unique = True, max_length = 16 )
+
 
 class Profile( models.Model ):
 	class Meta:
@@ -35,10 +40,24 @@ class Profile( models.Model ):
 
 	user = models.OneToOneField( User, on_delete = models.CASCADE, related_name = 'goji_profile' )
 
+	dob = models.DateField( null = True, default = None )
+
+	gender = models.IntegerField( null = True, default = None, choices = Gender.choices() )
+
+	country = models.CharField( max_length = 2, null = True, default = None, choices = CountryList.choices() )
+	timezone = models.CharField( max_length = 64, default = 'UTC', choices = TimezoneList.choices() )
+
+	website = models.CharField( max_length = 255, null = True, default = None )
+	location = models.CharField( max_length = 255, null = True, default = None )
+	phone = models.CharField( max_length = 255, null = True, default = None )
+
+
 
 class Domain( models.Model ):
 	class Meta:
 		ordering = [ 'name', ]
+
+	profile = models.ForeignKey( Profile, on_delete = models.CASCADE )
 
 	name = models.CharField( max_length = 253, unique = True )
 
@@ -96,4 +115,23 @@ class Resource( models.Model ):
 		self.domain.save()
 		return rc
 
+
+
+
+
+
+# ------- Signals 
+
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
+
+
+@receiver( post_save, sender = User, dispatch_uid = '7b4c534a' )
+def user_post_save( sender, **kwargs ):
+	instance = kwargs[ 'instance' ]
+
+	try:
+		prof = Profile.objects.get( user = instance )
+	except Profile.DoesNotExist:
+		prof = Profile.objects.create( user = instance, )
 

@@ -4,13 +4,14 @@ from django.views.generic import TemplateView as TV, RedirectView as RV
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',
-
-	url( r'^$', RV.as_view(
-				url = '/members',
-				permanent = False
-			),
-			name = 'goji-index' ),
+urlpatterns = patterns('goji.views.public',
+	url( r'^$', 'index', name = 'goji-public-index' ),
+	url( r'^/login$', 'login', name = 'goji-public-login' ),
+	url( r'^/logout$', 'logout', name = 'goji-public-logout' ),
+	url( r'^/register$', 'register', name = 'goji-public-register' ),
+	url( r'^/authenticate$', 'authenticate', name = 'goji-public-authenticate' ),
+	url( r'^/resend_authentication$', 'resend_authentication', name = 'goji-public-resend-authentication' ),
+	url( r'^/reset_password$', 'reset_password', name = 'goji-public-reset-password' ),
 )
 
 urlpatterns += patterns('goji.views.members',
