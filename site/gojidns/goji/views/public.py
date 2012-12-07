@@ -13,7 +13,7 @@ from django.contrib import messages
 import ravensuite.enums.world as large_enums
 
 import goji.logic.emails as gojiEmails
-import goji.logic.registration as gojiRegistration
+import goji.logic.registration as gojiReg
 import goji.forms as gojiForms
 import goji.models as gojiModels
 
@@ -37,13 +37,13 @@ def register( request ):
 			firstname = form.cleaned_data[ 'firstname' ]
 			lastname = form.cleaned_data[ 'lastname' ]
 
-			luser = logic.RegisterNewUser( email, password, firstname, lastname  )
-			ac = logic.CreateUserAuthenticationCode( luser )
+			luser = gojiReg.RegisterNewUser( email, password, firstname, lastname  )
+			ac = gojiReg.CreateUserAuthenticationCode( luser )
 
 			gojiEmails.SendUserAuthenticationRequestEmail( luser, ac.code )
 
 			messages.success( request, _("You should receive an email in your inbox shortly. Your authentication code will be in there.") )
-			return redirect( reverse( 'goji-authenticate' ) )
+			return redirect( reverse( 'goji-public-authenticate' ) )
 		else:
 			messages.error( request, _("There were some errors in your information. Please look below to find all the reasons and fix them up.") )
 	else:
@@ -63,12 +63,12 @@ def authenticate( request ):
 			cd = form.cleaned_data
 
 			try:
-				user = logic.AuthenticateUser( code = cd['code'] )
+				user = gojiReg.AuthenticateUser( code = cd['code'] )
 
 				gojiEmails.SendUserRegistrationSuccessEmail( user )
 
 				messages.success( request, _("You have been authenticated. You can now log in! :)") )
-				return redirect( reverse( 'goji-login' ) )
+				return redirect( reverse( 'goji-public-login' ) )
 			except gojiModels.AuthenticationCode.DoesNotExist:
 				messages.error( request, _("No such authentication found. Please try again and check carefully. :-/") )
 
@@ -93,13 +93,13 @@ def resend_authentication( request ):
 		if email != '':
 			try:
 				luser = User.objects.get( email = request.POST[ 'email' ] )
-				ac = logic.CreateUserAuthenticationCode( luser )
+				ac = gojiReg.CreateUserAuthenticationCode( luser )
 				gojiEmails.SendUserAuthenticationRequestEmail( luser, ac.code )
 			except User.DoesNotExist:
 				pass
 
 			messages.success( request, _("An authentication email was sent to that address.") )
-			return redirect( reverse( 'goji-authenticate' ) )
+			return redirect( reverse( 'goji-public-authenticate' ) )
 		else:
 			messages.error( request, _("You have to enter your email address into the field.") )
 
@@ -117,13 +117,13 @@ def reset_password( request ):
 		if email != '':
 			try:
 				luser = User.objects.get( email = request.POST[ 'email' ] )
-				password = logic.ResetUserPassword( luser )
+				password = gojiReg.ResetUserPassword( luser )
 				gojiEmails.SendUserPasswordResetEmail( luser, password )
 			except User.DoesNotExist:
 				pass
 
 			messages.success( request, _("Your password was reset. Please wait for the reset email.") )
-			return redirect( reverse( 'goji-login' ) )
+			return redirect( reverse( 'goji-public-login' ) )
 		else:
 			messages.error( request, _("You have to enter your email address into the field.") )
 
@@ -147,7 +147,7 @@ def login( request ):
 				if luser is not None:
 					if luser.is_active:
 						auth.login( request, luser )
-						return redirect( '/workspace' )
+						return redirect( reverse( 'goji-domain-list' ) )
 					else:
 						messages.error( request, _("You are not yet authenticated.") )
 				else:

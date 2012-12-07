@@ -40,7 +40,7 @@ def CreateUserAuthenticationCode( luser ):
 
 	while failures < 20:
 		try:
-			ac = gojiModels.AuthenticationCode.objects.create( profile = luser.sp_profile, code = User.objects.make_random_password( length = 16 ) )
+			ac = gojiModels.AuthenticationCode.objects.create( profile = luser.goji_profile, code = User.objects.make_random_password( length = 16 ) )
 			return ac
 		except IntegrityError:
 			failures += 1

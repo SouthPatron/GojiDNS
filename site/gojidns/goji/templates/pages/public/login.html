@@ -1,0 +1,53 @@
+{% extends 'pages/public/base.html' %}
+
+
+{% block content %}
+
+<div class="row">
+
+	<div class="span6">
+
+		<div>
+			<h1>Login</h1>
+			<br/>
+		</div>
+
+		<div>
+
+			{% include 'pages/support/message_box.html' %}
+
+		<form class="form-inline" action="{% url goji-public-login %}" method="POST">
+			{% csrf_token %}
+
+			<div>
+				<input type="text" class="input-medium" name="email" id="email" placeholder="Email" />
+				<input type="password" class="input-medium" name="password" id="password" placeholder="Password" />
+				<button type="submit" class="btn btn-primary">Sign in</button>
+
+				<br/><br/>
+			</div>
+		</form>
+
+			<div>
+				<a href="{% url goji-public-reset-password %}">Forgot your password?</a>
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="span5 well">
+		<h3>Awesomeness</h3>
+		<p>Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.</p>
+		<p>Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.</p>
+		<br/>
+		<style> a.myclean,a.myclean:hover { text-decoration: none; } </style>
+		<p>	<a class="myclean" href='{% url goji-public-register %}'><span class="badge badge-success">Step 1</span> Register</a></p>
+		<p>	<a class="myclean"  href='{% url goji-public-authenticate %}'><span class="badge badge-success">Step 2</span> Authenticate your email address</a></p>
+		<p>	<a  class="myclean" href='{% url goji-public-login %}'><span class="badge badge-info">Step 3</span> Login</a> </p>
+	</div>
+
+</div>
+
+{% endblock %}
+

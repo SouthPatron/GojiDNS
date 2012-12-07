@@ -1,0 +1,8 @@
+{% if comp.errors %}
+<p class="help-block">
+	{% for error in comp.errors %}
+		{{ error }}
+	{% endfor %}
+</p>
+{% endif %}
+

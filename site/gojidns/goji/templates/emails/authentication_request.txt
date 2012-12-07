@@ -1,0 +1,11 @@
+
+
+Please follow the following link to confirm this email address and complete
+your registration.
+
+
+Your authentication code: {{ code }}
+
+The authentication site: http://gojidns.com{% url goji-public-authenticate %}
+
+

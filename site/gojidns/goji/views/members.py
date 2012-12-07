@@ -1,7 +1,10 @@
-from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext as _
 
+from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
+from django.db import IntegrityError
+from django.contrib import messages
 
 import goji.models as gojiModels
 
@@ -94,7 +97,7 @@ def _update_resource( request, rsc, save = True ):
 
 
 def domain_list( request ):
-	obj_list = gojiModels.Domain.objects.all()
+	obj_list = gojiModels.Domain.objects.filter( profile__user = request.user )
 	return render_to_response(
 				'pages/members/domain_list.html',
 				{
@@ -104,7 +107,7 @@ def domain_list( request ):
 			)
 
 def domain( request, domain ):
-	obj = get_object_or_404( gojiModels.Domain, name = domain )
+	obj = get_object_or_404( gojiModels.Domain, name = domain, profile__user = request.user )
 	return render_to_response(
 				'pages/members/domain.html',
 				{
@@ -116,7 +119,7 @@ def domain( request, domain ):
 
 def domain_edit( request, domain ):
 
-	dom = get_object_or_404( gojiModels.Domain, name = domain )
+	dom = get_object_or_404( gojiModels.Domain, name = domain, profile__user = request.user )
 
 	if request.method == 'POST' and request.POST is not None:
 
@@ -149,22 +152,28 @@ def domain_add( request ):
 		domain = request.POST.get( 'domain' )
 		email = request.POST.get( 'email' )
 
-		dom = gojiModels.Domain.objects.create(
-				name = domain,
-				primary = 'ns1.{}'.format( DOMAIN ),
-				email = email
-			)
+		try:
 
-		for xnum in range(1,6):
-			gojiModels.Resource.objects.create(
-				domain = dom,
-				resource_type = gojiModels.ResourceType.NS,
-				name = 'ns{}.{}'.format( xnum, DOMAIN ) ,
-				value = domain,
-				static = True,
-			)
+			dom = gojiModels.Domain.objects.create(
+					profile = request.user.goji_profile,
+					name = domain,
+					primary = 'ns1.{}'.format( DOMAIN ),
+					email = email
+				)
 
-		return redirect( reverse( 'goji-domain', kwargs = { 'domain' : domain } ) )
+			for xnum in range(1,6):
+				gojiModels.Resource.objects.create(
+					domain = dom,
+					resource_type = gojiModels.ResourceType.NS,
+					name = 'ns{}.{}'.format( xnum, DOMAIN ) ,
+					value = domain,
+					static = True,
+				)
+
+			return redirect( reverse( 'goji-domain', kwargs = { 'domain' : domain } ) )
+
+		except IntegrityError, ie:
+			messages.error( request, _("That domain name already exists in our system. You'll have to choose another.") )
 
 	return render_to_response(
 				'pages/members/domain_add.html',
@@ -180,7 +189,7 @@ def domain_clone( request ):
 		target = request.POST.get( 'target' )
 		replace = request.POST.get( 'replace', None )
 
-		sdom = get_object_or_404( gojiModels.Domain, name = source )
+		sdom = get_object_or_404( gojiModels.Domain, name = source, profile__user = request.user )
 
 		oldid = sdom.pk
 
@@ -204,7 +213,7 @@ def domain_clone( request ):
 		return redirect( reverse( 'goji-domain', kwargs = { 'domain' : target } ) )
 
 
-	obj_list = gojiModels.Domain.objects.all()
+	obj_list = gojiModels.Domain.objects.filter( profile__user = request.user )
 	return render_to_response(
 				'pages/members/domain_clone.html',
 				{
@@ -215,7 +224,7 @@ def domain_clone( request ):
 
 
 def domain_delete( request, domain ):
-	dom = get_object_or_404( gojiModels.Domain, name = domain )
+	dom = get_object_or_404( gojiModels.Domain, name = domain, profile__user = request.user )
 
 	if request.method == 'POST' and request.POST is not None:
 		dom.delete()
@@ -235,7 +244,7 @@ def domain_resource_add( request, domain ):
 	rtype = _get_resource_type( request.GET.get( 'type', 'ns' ) )
 	tname = _get_resource_template( 'add', rtype )
 
-	dom = get_object_or_404( gojiModels.Domain, name = domain )
+	dom = get_object_or_404( gojiModels.Domain, name = domain, profile__user = request.user )
 
 	if request.method == 'POST' and request.POST is not None:
 		rsc = gojiModels.Resource(
@@ -258,7 +267,7 @@ def domain_resource_add( request, domain ):
 
 def domain_resource_edit( request, domain, rid ):
 
-	rsc = get_object_or_404( gojiModels.Resource, pk = rid, domain__name = domain )
+	rsc = get_object_or_404( gojiModels.Resource, pk = rid, domain__name = domain, domain__profile__user = request.user )
 	tname = _get_resource_template( 'edit', rsc.resource_type )
 
 	if request.method == 'POST' and request.POST is not None:
@@ -278,7 +287,7 @@ def domain_resource_edit( request, domain, rid ):
 
 def domain_resource_delete( request, domain, rid ):
 
-	rsc = get_object_or_404( gojiModels.Resource, pk = rid, domain__name = domain )
+	rsc = get_object_or_404( gojiModels.Resource, pk = rid, domain__name = domain, domain__profile__user = request.user )
 
 	tname = _get_resource_template( 'delete', rsc.resource_type )
 

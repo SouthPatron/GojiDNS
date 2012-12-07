@@ -6,12 +6,33 @@ admin.autodiscover()
 
 urlpatterns = patterns('goji.views.public',
 	url( r'^$', 'index', name = 'goji-public-index' ),
-	url( r'^/login$', 'login', name = 'goji-public-login' ),
-	url( r'^/logout$', 'logout', name = 'goji-public-logout' ),
-	url( r'^/register$', 'register', name = 'goji-public-register' ),
-	url( r'^/authenticate$', 'authenticate', name = 'goji-public-authenticate' ),
-	url( r'^/resend_authentication$', 'resend_authentication', name = 'goji-public-resend-authentication' ),
-	url( r'^/reset_password$', 'reset_password', name = 'goji-public-reset-password' ),
+	url( r'^login$', 'login', name = 'goji-public-login' ),
+	url( r'^logout$', 'logout', name = 'goji-public-logout' ),
+	url( r'^register$', 'register', name = 'goji-public-register' ),
+	url( r'^authenticate$', 'authenticate', name = 'goji-public-authenticate' ),
+	url( r'^resend_authentication$', 'resend_authentication', name = 'goji-public-resend-authentication' ),
+	url( r'^reset_password$', 'reset_password', name = 'goji-public-reset-password' ),
+
+
+	url( r'^legal$',
+			TV.as_view( template_name = 'pages/public/general/legal.html' ),
+			name = 'goji-public-legal'
+		),
+
+	url( r'^features$',
+			TV.as_view( template_name = 'pages/public/general/features.html' ),
+			name = 'goji-public-features'
+		),
+
+	url( r'^about-us$',
+			TV.as_view( template_name = 'pages/public/general/about_us.html' ),
+			name = 'goji-public-about-us'
+		),
+
+	url( r'^contact-us$',
+			TV.as_view( template_name = 'pages/public/general/contact_us.html' ),
+			name = 'goji-public-contact-us'
+		),
 )
 
 urlpatterns += patterns('goji.views.members',

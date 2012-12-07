@@ -1,0 +1,100 @@
+{% extends 'pages/public/base.html' %}
+
+
+{% block content %}
+
+<style>
+fieldset.spaced {
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #e5e5e5;
+}
+</style>
+
+<div class="row">
+
+<div class="span6">
+
+	<div>
+		<h1>Registration</h1>
+		<br/>
+	</div>
+
+
+	<div>
+		{% include 'pages/support/message_box.html' %}
+
+		<form class="form-horizontal" action="" method="POST">
+		{% csrf_token %}
+
+		<fieldset class="spaced">
+			<div class="control-group {% if form.email.errors %}error{% endif %}">
+				<label class="control-label" for="email">Email Address</label>
+				<div class="controls">
+					<input type="text" class="input-xlarge" name="email" id="email" autocomplete="off" value="{%if form.email.value %}{{ form.email.value }}{% endif %}" />
+
+					{% include 'pages/support/form_field_error.html' with comp=form.email %}
+				</div>
+			</div>
+
+			<div class="control-group {% if form.firstname.errors %}error{% endif %}">
+				<label class="control-label" for="firstname">First name</label>
+				<div class="controls">
+					<input type="text" class="input-xlarge" name="firstname" id="firstname" autocomplete="off"  value="{%if form.email.value %}{{ form.firstname.value }}{%endif%}" />
+					{% include 'pages/support/form_field_error.html' with comp=form.firstname %}
+				</div>
+			</div>
+
+			<div class="control-group {% if form.lastname.errors %}error{% endif %}">
+				<label class="control-label" for="lastname">Last name</label>
+				<div class="controls">
+					<input type="text" class="input-xlarge" name="lastname" id="lastname" autocomplete="off" value="{%if form.email.value %}{{ form.lastname.value }}{%endif%}" />
+					{% include 'pages/support/form_field_error.html' with comp=form.lastname %}
+				</div>
+			</div>
+
+		</fieldset>
+
+		<fieldset>
+			<div class="control-group {% if form.password1.errors %}error{% endif %}">
+				<label class="control-label" for="password1">Password</label>
+				<div class="controls">
+					<input type="password" class="input-xlarge" name="password1" id="password1" autocomplete="off"  value="{%if form.password1.value %}{{ form.password1.value }}{%endif%}" />
+				</div>
+			</div>
+
+			<div class="control-group {% if form.password2.errors %}error{% endif %}">
+				<label class="control-label" for="password2">Password again</label>
+				<div class="controls">
+					<input type="password" class="input-xlarge" name="password2" id="password2" autocomplete="off"  value="{%if form.password2.value %}{{ form.password2.value }}{%endif%}" />
+					{% include 'pages/support/form_field_error.html' with comp=form.password2 %}
+				</div>
+			</div>
+
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary">Create your new account</button>
+			</div>
+
+
+		</fieldset>
+		</form>
+	</div>
+</div>
+
+	<div class="span5 well">
+		<h3>Awesomeness</h3>
+		<p>Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.</p>
+		<p>Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.</p>
+		<br/>
+		<style> a.myclean,a.myclean:hover { text-decoration: none; } </style>
+		<p>	<a class="myclean" href='{% url goji-public-register %}'><span class="badge badge-info">Step 1</span> Register</a></p>
+		<p>	<a class="myclean"  href='{% url goji-public-authenticate %}'><span class="badge">Step 2</span> Authenticate your email address</a></p>
+		<p>	<a  class="myclean" href='{% url goji-public-login %}'><span class="badge">Step 3</span> Login</a> </p>
+	</div>
+
+
+
+</div>
+
+{% endblock %}
+

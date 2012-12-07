@@ -1,0 +1,7 @@
+
+Your registration was successful.
+
+
+You can now go ahead and login: http://gojidns.com{% url goji-public-login %}
+
+
