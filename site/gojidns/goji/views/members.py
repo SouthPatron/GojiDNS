@@ -10,8 +10,15 @@ from django.template import RequestContext
 from django.db import IntegrityError
 from django.contrib import messages
 
+from django.utils.ipv6 import is_valid_ipv6_address
+
 import goji.models as gojiModels
 
+
+# ----------- Message Exception ----------------------------
+
+class MessageError( Exception ):
+	pass
 
 # ----------- Support Functions ----------------------------
 
@@ -34,12 +41,32 @@ ttl_select_options = [
 	[ 2419200, '(4 weeks)' ]
 ]
 
+def is_valid_hostname( domain ):
+	hostname_re = re.compile(
+			r'^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{,63}(?<!-)$',
+			re.IGNORECASE
+		)
+	return (hostname_re.search( domain ) is not None)
+
+
 def is_valid_domain_name( domain ):
 	domain_re = re.compile(
 			r'^(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?))$',
 			re.IGNORECASE
 		)
 	return (domain_re.search( domain ) is not None)
+
+def is_valid_email( domain ):
+	return (email_re.match( email ) is not None)
+
+
+def is_valid_ip4( address ):
+	ipv4_re = re.compile(r'^(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}$')
+	return (ipv4_re.search( address ) is not None)
+
+
+def is_valid_ip6( address ):
+	return (is_valid_ipv6_address( address ))
 
 
 
@@ -90,7 +117,63 @@ def parse_int( val, default = None ):
 	return default
 
 
+def _validate_resource( rsc ):
+	if rsc.resource_type == gojiModels.ResourceType.NS:
+		if is_valid_domain_name( rsc.name ) is False:
+			raise MessageError( _("The name server has to be a valid hostname") )
+		if is_valid_domain_name( rsc.value ) is False:
+			raise MessageError( _("The subdomain has to be a valid subdomain") )
+		
+		return
+
+
+	if rsc.resource_type == gojiModels.ResourceType.MX:
+		if is_valid_domain_name( rsc.name ) is False:
+			raise MessageError( _("The mail server has to be a valid hostname") )
+
+		if is_valid_domain_name( rsc.value ) is False:
+			raise MessageError( _("The subdomain has to be a valid subdomain") )
+
+		if rsc.preference is None or rsc.preference < 0 or rsc.preference > 65535:
+			raise MessageError( _("The preference field should be in the range of 0 to 65535 inclusive") )
+		
+		return
+
+
+	if rsc.resource_type == gojiModels.ResourceType.A:
+
+		if is_valid_domain_name( rsc.name ) is False:
+			if is_valid_hostname( rsc.name ) is False:
+				raise MessageError( _("The hostname has to be a valid hostname") )
+
+		if is_valid_ip4( rsc.value ) is False:
+			if is_valid_ip6( rsc.value ) is False:
+				raise MessageError( _("The IP address has to be a valid IPv4 or IPv6 address") )
+
+
+		return
+
+
+	if rsc.resource_type == gojiModels.ResourceType.CNAME:
+
+		if is_valid_domain_name( rsc.name ) is False:
+			if is_valid_hostname( rsc.name ) is False:
+				raise MessageError( _("The hostname has to be a valid hostname") )
+
+		if is_valid_domain_name( rsc.value ) is False:
+				raise MessageError( _("The alias has to be a valid domain name") )
+
+		return
+
+
+
+
+
+
 def _update_resource( request, rsc, save = True ):
+	if rsc.static is True:
+		raise MessageError( _("This entry can not be updated.") )
+
 	rsc.name = request.POST.get( 'name' )
 	rsc.value = request.POST.get( 'value' )
 	rsc.preference = parse_int( request.POST.get( 'preference', None ) )
@@ -99,6 +182,8 @@ def _update_resource( request, rsc, save = True ):
 	rsc.protocol = parse_int( request.POST.get( 'protocol', None ) )
 	rsc.port = parse_int( request.POST.get( 'port', None ) )
 	rsc.weight = parse_int( request.POST.get( 'weight', None ) )
+
+	_validate_resource( rsc )
 
 	if save is True:
 		rsc.save()
@@ -176,7 +261,7 @@ def domain_add( request ):
 			messages.error( request, _("That domain name doesn't look valid. Please try again.") )
 			createIt = False
 		else:
-			if email_re.match( email ) is None:
+			if is_valid_email( email ) is False:
 				messages.error( request, _("You need to enter a valid email address for the SOA. Please try again.") )
 				createIt = False
 
@@ -322,8 +407,12 @@ def domain_resource_add( request, domain ):
 				domain = dom,
 			)
 
-		_update_resource( request, rsc )
-		return redirect( reverse( 'goji-domain', kwargs = { 'domain' : domain } ) )
+		try:
+			_update_resource( request, rsc )
+			return redirect( reverse( 'goji-domain', kwargs = { 'domain' : domain } ) )
+		except MessageError, merr:
+			messages.error( request, merr.message )
+			pass
 
 	return render_to_response(
 				tname,
@@ -341,8 +430,13 @@ def domain_resource_edit( request, domain, rid ):
 	tname = _get_resource_template( 'edit', rsc.resource_type )
 
 	if request.method == 'POST' and request.POST is not None:
-		_update_resource( request, rsc )
-		return redirect( reverse( 'goji-domain', kwargs = { 'domain' : domain } ) )
+
+		try:
+			_update_resource( request, rsc )
+			return redirect( reverse( 'goji-domain', kwargs = { 'domain' : domain } ) )
+		except MessageError, merr:
+			messages.error( request, merr.message )
+			pass
 
 	return render_to_response(
 				tname,
