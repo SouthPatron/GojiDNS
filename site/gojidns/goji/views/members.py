@@ -166,6 +166,29 @@ def _validate_resource( rsc ):
 		return
 
 
+	if rsc.resource_type == gojiModels.ResourceType.TXT:
+		return
+
+
+	if rsc.resource_type == gojiModels.ResourceType.SRV:
+
+
+		if rsc.priority is None or rsc.priority < 0 or rsc.priority > 65535:
+			raise MessageError( _("The priority has to be between 0 and 65535 inclusive") )
+
+		if rsc.weight is None or rsc.weight < 0 or rsc.weight > 65535:
+			raise MessageError( _("The weight has to be between 0 and 65535 inclusive") )
+
+		if rsc.port is None or rsc.port < 0 or rsc.port > 65535:
+			raise MessageError( _("The port has to be between 0 and 65535 inclusive") )
+
+
+
+		return
+
+
+	raise MessageError( _("Unknown resource type") )
+
 
 
 
