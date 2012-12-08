@@ -14,6 +14,10 @@ urlpatterns = patterns('goji.views.public',
 	url( r'^reset_password$', 'reset_password', name = 'goji-public-reset-password' ),
 
 
+	url( r'^confirm_email/(?P<code>\S+)$', 'confirm_email', name = 'goji-public-confirm-email-code' ),
+	url( r'^confirm_email$', 'confirm_email', name = 'goji-public-confirm-email' ),
+
+
 	url( r'^legal$',
 			TV.as_view( template_name = 'pages/public/general/legal.html' ),
 			name = 'goji-public-legal'
@@ -50,6 +54,9 @@ urlpatterns += patterns('goji.views.members',
 	url( r'^members/domain_add$', 'domain_add', name = 'goji-domain-add' ),
 	url( r'^members/domain_clone$', 'domain_clone', name = 'goji-domain-clone' ),
 	url( r'^members/domain_delete/(?P<domain>\S+)$', 'domain_delete', name = 'goji-domain-delete' ),
+
+
+	url( r'^members/profile$', 'profile', name = 'goji-profile' ),
 
 )
 

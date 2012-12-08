@@ -1,0 +1,15 @@
+
+<p>You have requested that your email address be changed to this address.</p>
+
+<p>
+Please click on this link to confirm this new email address: <a href='http://gojidns.com{% url goji-public-confirm-email-code req.code %}'>http://gojidns.com{% url goji-public-confirm-email-code req.code %}</a>
+</p>
+
+
+<p>
+	Your confirmation code is: {{ req.code }}<br/>
+	You can enter it here: <a href='http://gojidns.com{% url goji-public-confirm-email %}'>http://gojidns.com{% url goji-public-confirm-email %}</a>
+	
+</p>
+
+

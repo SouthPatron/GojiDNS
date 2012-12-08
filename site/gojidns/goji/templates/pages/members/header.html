@@ -5,11 +5,11 @@
 
 			<ul class="nav">
 				<li class="divider-vertical"></li>
-				<li><a href='{% url goji-domain-list %}'>{{ request.user.email }}</a></li>
+				<li><a href='{% url goji-domain-list %}'>Your Zones</a></li>
 			</ul>
 
 			<ul class="nav pull-right">
-				<li><a href="{% url goji-domain-list %}">Your Zones</a></li>
+				<li><a href='{% url goji-profile %}'>{{ request.user.email }}</a></li>
 				<li><a href="{% url goji-public-logout %}">Logout</a></li>
 			</ul>
 

@@ -34,6 +34,14 @@ class AuthenticationCode( models.Model ):
 	code = models.CharField( unique = True, max_length = 16 )
 
 
+class EmailChangeRequest( models.Model ):
+	profile = models.ForeignKey( 'goji.Profile', on_delete = models.CASCADE )
+	created_at = models.DateTimeField( auto_now_add = True )
+	old_address = models.EmailField( max_length = 254 )
+	new_address = models.EmailField( max_length = 254 )
+	code = models.CharField( unique = True, max_length = 16 )
+
+
 class Profile( models.Model ):
 	class Meta:
 		pass

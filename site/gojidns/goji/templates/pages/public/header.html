@@ -12,8 +12,7 @@
 
 			<ul class="nav pull-right">
 				{% if request.user.is_authenticated %}
-				<li><a href="{% url goji-domain-list %}">Your Zones</a></li>
-				<li><a href="{% url goji-public-logout %}">Logout</a></li>
+				<li><a href="{% url goji-domain-list %}">Members Area</a></li>
 				{% else %}
 				<li><a href="{% url goji-public-login %}">Login</a></li>
 				{% endif %}

@@ -1,0 +1,180 @@
+{% extends 'pages/members/base.html' %}
+
+{% block content %}
+
+<style>
+
+div.row.spaced {
+	border-bottom: 1px solid #e5e5e5;
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+}
+
+textarea { resize:none; } 
+
+</style>
+
+<div class='row'>
+	<div class='span12'>
+		<div class='gas_heading'>
+			<span class='l1'>Your Profile</span>
+		</div>
+	</div> <!-- .span12 -->
+</div> <!-- .row -->
+
+<div class='row'>
+<div class='span8'>
+
+{% include 'pages/support/message_box.html' %}
+
+<form class="form-horizontal" method="POST">
+	{% csrf_token %}
+
+	<fieldset>
+		<div class="control-group">
+			<label class="control-label" for="email">Email Address</label>
+			<div class="controls">
+				<input type="text" class="input-xlarge" name="email" autocomplete="off" value="{{ profile.user.email }}" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="first_name">First Name</label>
+			<div class="controls">
+				<input type="text" class="input-xlarge" name="first_name" autocomplete="off" value="{{ profile.user.first_name }}" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="last_name">Last Name</label>
+			<div class="controls">
+				<input type="text" class="input-xlarge" name="last_name" autocomplete="off" value="{{ profile.user.last_name }}" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="dob">Date of Birth</label>
+			<div class="controls">
+
+				<select name='dob_day' class='span1'>
+					{% for day in days %}
+					<option value="{{ day }}" {% ifequal profile.dob.day day %}SELECTED="selected"{% endifequal %}>{{ day }}</option>
+					{% endfor %}
+				</select>
+
+				<select name='dob_month' class='span2'>
+					{% for month in months %}
+					<option value="{{ month.0 }}" {% ifequal profile.dob.month  month.0 %}SELECTED="selected"{% endifequal %}>{{ month.1 }}</option>
+					{% endfor %}
+				</select>
+
+				<select name='dob_year' class='span2'>
+					{% for year in years %}
+					<option value="{{ year }}"
+						{% if profile.dob %}
+							{% ifequal profile.dob.year year %}
+								SELECTED="selected"
+							{% endifequal %}
+						{% else %}
+							{% if forloop.last %}
+								SELECTED="selected"
+							{% endif %}
+						{% endif %}
+					>{{ year }}</option>
+					{% endfor %}
+				</select>
+
+
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="gender">Gender</label>
+			<div class="controls">
+				<select class="input-xlarge" name="gender" id="gender">
+					<option value="0" {% if not profile.gender %}selected="selected"{% endif %}>Undecided</option>
+					<option value="1" {% ifequal profile.gender 1 %}selected="selected"{% endifequal %}>Male</option>
+					<option value="2" {% ifequal profile.gender 2 %}selected="selected"{% endifequal %}>Female</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="country">Country</label>
+			<div class="controls">
+				<select class="input-xlarge" name="country" id="country">
+					<option value=''> ... Choose a country ... </option>
+					<option value='US'>United States</option>
+					<option value='GB'>Britain (UK)</option>
+					<option value='ZA'>South Africa</option>
+					<option value='CA'>Canada</option>
+
+					<option value='' disabled='disabled'> --------- </option>
+
+					{% for country in countries %}
+					<option value='{{ country.0 }}' {% ifequal profile.country country.0 %}SELECTED='selected'{% endifequal %}>{{ country.1 }}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="timezone">Timezone</label>
+			<div class="controls">
+				<select class="input-xlarge" name="timezone" id="timezone">
+					<option value=''> ... Choose a timezone ... </option>
+					<option value='UTC'>UTC</option>
+					<option value='' disabled='disabled'> --------- </option>
+
+
+					{% for timezone in timezones %}
+					<option value='{{ timezone.0 }}' {% ifequal profile.timezone timezone.0 %}SELECTED='selected'{% endifequal %}>{{ timezone.1 }}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+	</fieldset>
+
+
+	<fieldset class="spaced">
+		<div class="control-group">
+			<label class="control-label" for="website">Website</label>
+			<div class="controls">
+				<input type="text" class="input-xlarge" name="website" id="website" autocomplete="off" value="{% if profile.website %}{{ profile.website }}{% endif %}" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="location">Location</label>
+			<div class="controls">
+				<input type="text" class="input-xlarge" name="location" id="location" autocomplete="off" value="{% if profile.location %}{{ profile.location }}{% endif %}" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="phone">Phone</label>
+			<div class="controls">
+				<input type="text" class="input-xlarge" name="phone" id="phone" autocomplete="off" value="{% if profile.phone %}{{ profile.phone }}{% endif %}" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<div class="controls">
+				<button type="submit" class="btn btn-primary">Save</button>
+			</div>
+		</div>
+	</fieldset>
+
+</form>
+
+
+</div>  <!-- .span8 -->
+
+
+</div>  <!-- .row -->
+
+
+{% endblock %}
+
+
+

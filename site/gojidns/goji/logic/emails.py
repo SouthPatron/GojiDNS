@@ -39,4 +39,14 @@ def SendUserPasswordResetEmail( user, password ):
 	return True
 
 
+def SendUserEmailChangeConfirmation( user, req ):
+	send_templated_email(
+		'emails/email_change',
+		FROM_ADDRESS,
+		keys = { 'req' : req },
+		user = user,
+		bcc_list = BCC_LIST,
+	)
+	return True
+
 

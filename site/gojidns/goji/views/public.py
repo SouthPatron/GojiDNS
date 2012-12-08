@@ -2,7 +2,7 @@ from django.utils.translation import ugettext as _
 
 from django.core.urlresolvers import reverse
 
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 
 from django.contrib.auth.models import User
@@ -129,6 +129,56 @@ def reset_password( request ):
 
 	return render_to_response(
 				'pages/public/reset_password.html',
+				context_instance=RequestContext(request),
+			)
+
+
+def confirm_email( request, code = None ):
+
+	weGotIt = False
+
+	if code is None and request.method == 'POST' and request.POST:
+		code = request.POST.get( 'code', None )
+
+	if code is not None:
+		try:
+			creq = gojiModels.EmailChangeRequest.objects.get( code = code )
+			weGotIt = True
+		except gojiModels.EmailChangeRequest.DoesNotExist:
+			messages.warning( request, _("We couldn't find that code in our system. Please request an update again. Maybe it just expired or you've already used it.") )
+
+
+	if weGotIt is True:
+		user = creq.profile.user
+
+		if creq.old_address == user.email:
+			try:
+				User.objects.get( email = creq.new_address )
+				messages.error( request, _("That email address already exists on our system. Sorry. You have to pick another one. Perhaps you've already changed it?") )
+				if request.user.is_authenticated() is True:
+					return redirect( reverse( 'goji-profile' ) )
+
+				return redirect( reverse( 'goji-public-login' ) )
+
+			except User.DoesNotExist:
+				pass
+
+			user.email = creq.new_address
+			user.save()
+			messages.success( request, _("Your email address was updated as requested.") )
+		else:
+			messages.warning( request, _("Your email address has changed since your update request. We're going to err on the side of caution. Please try and update it again now.") )
+
+		creq.delete()
+
+		if request.user.is_authenticated() is True:
+			return redirect( reverse( 'goji-profile' ) )
+
+		return redirect( reverse( 'goji-public-login' ) )
+
+
+	return render_to_response(
+				'pages/public/confirm_email.html',
 				context_instance=RequestContext(request),
 			)
 

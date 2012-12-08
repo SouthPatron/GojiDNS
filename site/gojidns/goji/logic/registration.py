@@ -55,4 +55,22 @@ def AuthenticateUser( code ):
 	return ac.profile.user
 
 
+def CreateUserEmailChangeCode( luser, new_email ):
+	failures = 0
+
+	while failures < 20:
+		try:
+			ac = gojiModels.EmailChangeRequest.objects.create(
+					profile = luser.goji_profile,
+					code = User.objects.make_random_password( length = 16 ),
+					old_address = luser.email,
+					new_address = new_email,
+				)
+			return ac
+		except IntegrityError:
+			failures += 1
+			if failures > 16:
+				raise
+
+
 

@@ -1,4 +1,5 @@
 import re
+import datetime
 
 from django.utils.translation import ugettext as _
 
@@ -9,10 +10,16 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.db import IntegrityError
 from django.contrib import messages
+from django.contrib.auth.models import User
 
 from django.utils.ipv6 import is_valid_ipv6_address
 
+from ravensuite.enums.world import CountryList, TimezoneList
+from ravensuite.enums.datetime import MonthList
+
 import goji.models as gojiModels
+import goji.logic.emails as gojiEmails
+import goji.logic.registration as gojiReg
 
 
 # ----------- Message Exception ----------------------------
@@ -490,5 +497,78 @@ def domain_resource_delete( request, domain, rid ):
 				},
 				context_instance=RequestContext(request)
 			)
+
+
+
+
+def profile( request ):
+
+	prof = request.user.goji_profile
+
+	if request.method == 'POST' and request.POST is not None:
+		prof.user.first_name = request.POST.get( 'first_name', prof.user.first_name )
+		prof.user.last_name = request.POST.get( 'last_name', prof.user.last_name )
+		prof.user.save()
+
+		new_email = request.POST.get( 'email', prof.user.email )
+		if new_email != prof.user.email:
+			try:
+				User.objects.get( email = new_email )
+				messages.error( request, _("That email address already exists on our system. Sorry. You have to pick another one. Perhaps you've already changed it?") )
+			except User.DoesNotExist:
+				req = gojiReg.CreateUserEmailChangeCode( prof.user, new_email )
+				gojiEmails.SendUserEmailChangeConfirmation( request.user, req )
+
+
+		dob_day = parse_int( request.POST.get( 'dob_day', None ) )
+		dob_month = parse_int( request.POST.get( 'dob_month', None ) )
+		dob_year = parse_int( request.POST.get( 'dob_year', None ) )
+
+		if dob_day is not None and dob_month is not None and dob_year is not None:
+			prof.dob = datetime.date( day = dob_day, month = dob_month, year = dob_year )
+
+
+		gender = parse_int( request.POST.get( 'gender', None ) )
+		if gender is not None:
+			if gender == 0:
+				gender = None
+
+		prof.gender = gender
+
+		country = request.POST.get( 'country', None )
+		if country is not None and country == '':
+			country = None
+		prof.country = country
+
+		timezone = request.POST.get( 'timezone', None )
+		if timezone is not None and timezone == '':
+			timezone = None
+		prof.timezone = timezone or 'UTC'
+
+
+		prof.website = request.POST.get( 'website', None )
+		prof.location = request.POST.get( 'location', None )
+		prof.phone = request.POST.get( 'phone', None )
+
+
+		prof.save()
+		return redirect( reverse( 'goji-profile' ) )
+
+	start_year = 1900
+	end_year = datetime.date.today().year + 1
+
+	return render_to_response(
+				'pages/members/profile.html',
+				{
+					'profile' : prof,
+					'countries' : CountryList.choices(),
+					'timezones' : TimezoneList.choices(),
+					'days' : range(1,32),
+					'months' : MonthList.choices(),
+					'years' : range( start_year, end_year ),
+				},
+				context_instance=RequestContext(request)
+			)
+
 
 
