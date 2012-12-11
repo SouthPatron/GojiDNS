@@ -1,5 +1,6 @@
 /static
 /site/gojidns/gojidns/settings_local.py
 /site/venv
+/site/gojidns/gojidns/settings_local.py
 *.pyc
 *.swp
