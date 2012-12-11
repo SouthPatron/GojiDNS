@@ -1,7 +1,7 @@
 # Django settings for project.
 
-DEBUG = True
-TEMPLATE_DEBUG = True
+DEBUG = False
+TEMPLATE_DEBUG = False
 
 # --- These settings should be overriden in settings_local.py, especially
 # --- the databases.
