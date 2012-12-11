@@ -63,7 +63,7 @@ def is_valid_domain_name( domain ):
 		)
 	return (domain_re.search( domain ) is not None)
 
-def is_valid_email( domain ):
+def is_valid_email( email ):
 	return (email_re.match( email ) is not None)
 
 
