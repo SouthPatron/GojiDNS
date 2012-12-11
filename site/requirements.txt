@@ -2,4 +2,4 @@ django
 pycrypto==2.6
 docutils==0.8.1
 psycopg2==2.4.5
--e git+file:///home/support/projects/smk/packages/python/django-ravensuite.git#egg=django-ravensuite
+-e git+file:///home/support/projects/smk/packages/python/django-ravensuite#egg=django-ravensuite
