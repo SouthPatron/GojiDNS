@@ -48,7 +48,7 @@ def generate_name( path_root, name ):
 	full_loc = os.path.join( path_root, location )
 	full_name = os.path.join( full_loc, name )
 
-	return ( full_loc, full_name )
+	return ( full_loc, full_name, os.path.join( location, name ) )
 
 def email_to_rname( email ):
 	username, domain = email.split('@', 1)
@@ -57,7 +57,6 @@ def email_to_rname( email ):
 
 
 def dump_domain( conn, f, row ):
-
 	timestamp = datetime.datetime.now().strftime( '%y%j%H%M' )
 	
 	f.write( '; {} [{}]\n'.format( row['name'], row[ 'id' ] ) )
@@ -158,9 +157,7 @@ def dump_domain( conn, f, row ):
 					rsc_value )
 				)
 
-
 			pass
-
 
 	resources.close()
 
@@ -173,6 +170,18 @@ def delete_domain( full_name, row ):
 		os.rmdir( os.path.dirname( os.path.dirname( full_name ) ) )
 	except OSError:
 		pass
+
+def rndc_addzone( row, full_name ):
+	name = row[ 'name' ]
+	print "rndc addzone {} '{{ type master; file \"{}\"; }};'".format( name, full_name )
+
+def rndc_delzone( row ):
+	name = row[ 'name' ]
+	print "rndc delzone {}".format( name )
+
+def rndc_reload( row ):
+	name = row[ 'name' ]
+	print "rndc reload {}".format( name )
 
  
 def main():
@@ -195,7 +204,7 @@ def main():
 		name = row[ 'name' ]
 		status = int( row['status'] )
 
-		full_loc, full_name = generate_name( PATH_ROOT, name )
+		full_loc, full_name, basename = generate_name( PATH_ROOT, name )
 
 		# 1 - Active, 2 - Disabled, 3 - Edit, 99 - Deleted, 
 
@@ -206,8 +215,18 @@ def main():
 			f = open( full_name, 'w' )
 			dump_domain( conn, f, row )
 			f.close()
+
+			rndc_addzone( row, basename )
+			rndc_reload( row )
+
 		elif status == 2 or status == 99:
 			delete_domain( full_name, row )
+
+			rndc_delzone( row )
+
+		elif status == 3:
+			# Do nothing 'cos it's being editted
+			pass
 
 
  	cursor.close()
