@@ -165,6 +165,15 @@ def dump_domain( conn, f, row ):
 	resources.close()
 
 
+
+def delete_domain( full_name, row ):
+	try:
+		os.remove( full_name )
+		os.rmdir( os.path.dirname( full_name ) )
+		os.rmdir( os.path.dirname( os.path.dirname( full_name ) ) )
+	except OSError:
+		pass
+
  
 def main():
 	conn_string = "host='{}' dbname='{}' user='{}' password='{}'".format(
@@ -184,17 +193,21 @@ def main():
  
 	for row in cursor:
 		name = row[ 'name' ]
+		status = int( row['status'] )
 
 		full_loc, full_name = generate_name( PATH_ROOT, name )
 
-		if os.path.exists( full_loc ) is False:
-			os.makedirs( full_loc )
+		# 1 - Active, 2 - Disabled, 3 - Edit, 99 - Deleted, 
 
-		f = open( full_name, 'w' )
+		if status == 1:
+			if os.path.exists( full_loc ) is False:
+				os.makedirs( full_loc )
 
-		dump_domain( conn, f, row )
-
-		f.close()
+			f = open( full_name, 'w' )
+			dump_domain( conn, f, row )
+			f.close()
+		elif status == 2 or status == 99:
+			delete_domain( full_name, row )
 
 
  	cursor.close()
