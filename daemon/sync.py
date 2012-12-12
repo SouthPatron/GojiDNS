@@ -4,6 +4,7 @@ import sys, os, os.path
 import uuid
 import re
 import datetime
+import subprocess
 
 import psycopg2
 import psycopg2.extras
@@ -20,14 +21,14 @@ def is_valid_ip6( address ):
 
 
 
-
-
 DB_HOST = "192.168.131.128"
 DB_NAME = "gojidns"
 DB_USER = "gojidns_www"
 DB_PASSWORD = "dog elephant shoe"
 
 PATH_ROOT = "/var/bind/gojidns"
+
+RNDC_BIN = "/usr/sbin/rndc"
 
 DB_HOST = "localhost"
 DB_NAME = "gojidns"
@@ -173,15 +174,29 @@ def delete_domain( full_name, row ):
 
 def rndc_addzone( row, full_name ):
 	name = row[ 'name' ]
-	print "rndc addzone {} '{{ type master; file \"{}\"; }};'".format( name, full_name )
+	subprocess.call( [
+			RNDC_BIN,
+			"addzone",
+			name,
+			"'{{ type master; file \"{}\"; }};'".format( full_name ),
+		])
+
 
 def rndc_delzone( row ):
 	name = row[ 'name' ]
-	print "rndc delzone {}".format( name )
+	subprocess.call( [
+			RNDC_BIN,
+			"delzone",
+			name,
+		])
 
 def rndc_reload( row ):
 	name = row[ 'name' ]
-	print "rndc reload {}".format( name )
+	subprocess.call( [
+			RNDC_BIN,
+			"reload",
+			name,
+		])
 
  
 def main():
