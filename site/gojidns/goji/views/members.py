@@ -128,9 +128,11 @@ def _validate_resource( rsc ):
 	if rsc.resource_type == gojiModels.ResourceType.NS:
 		if is_valid_domain_name( rsc.name ) is False:
 			raise MessageError( _("The name server has to be a valid hostname") )
-		if is_valid_domain_name( rsc.value ) is False:
-			raise MessageError( _("The subdomain has to be a valid subdomain") )
-		
+		if is_valid_hostname( rsc.value ) is False:
+			if is_valid_domain_name( rsc.value ) is False:
+				raise MessageError( _("The subdomain has to be a valid subdomain") )
+
+		# TODO: This subdomain can not conflict with a CNAME
 		return
 
 
@@ -138,12 +140,14 @@ def _validate_resource( rsc ):
 		if is_valid_domain_name( rsc.name ) is False:
 			raise MessageError( _("The mail server has to be a valid hostname") )
 
-		if is_valid_domain_name( rsc.value ) is False:
-			raise MessageError( _("The subdomain has to be a valid subdomain") )
+		if is_valid_hostname( rsc.value ) is False:
+			if is_valid_domain_name( rsc.value ) is False:
+				raise MessageError( _("The subdomain has to be a valid subdomain") )
 
 		if rsc.preference is None or rsc.preference < 0 or rsc.preference > 65535:
 			raise MessageError( _("The preference field should be in the range of 0 to 65535 inclusive") )
 		
+		# TODO: This subdomain can not conflict with a CNAME
 		return
 
 
@@ -170,6 +174,7 @@ def _validate_resource( rsc ):
 		if is_valid_domain_name( rsc.value ) is False:
 				raise MessageError( _("The alias has to be a valid domain name") )
 
+		# TODO: This subdomain can not conflict with a CNAME
 		return
 
 
@@ -180,7 +185,7 @@ def _validate_resource( rsc ):
 	if rsc.resource_type == gojiModels.ResourceType.SRV:
 
 
-		if rsc.priority is None or rsc.priority < 0 or rsc.priority > 65535:
+		if rsc.preference is None or rsc.preference < 0 or rsc.preference > 65535:
 			raise MessageError( _("The priority has to be between 0 and 65535 inclusive") )
 
 		if rsc.weight is None or rsc.weight < 0 or rsc.weight > 65535:
@@ -188,8 +193,6 @@ def _validate_resource( rsc ):
 
 		if rsc.port is None or rsc.port < 0 or rsc.port > 65535:
 			raise MessageError( _("The port has to be between 0 and 65535 inclusive") )
-
-
 
 		return
 
@@ -305,12 +308,12 @@ def domain_add( request ):
 						email = email
 					)
 
-				for xnum in range(1,6):
+				for xnum in range(1,3):
 					gojiModels.Resource.objects.create(
 						domain = dom,
 						resource_type = gojiModels.ResourceType.NS,
 						name = 'ns{}.{}'.format( xnum, DOMAIN ) ,
-						value = domain,
+						value = '',
 						static = True,
 					)
 
