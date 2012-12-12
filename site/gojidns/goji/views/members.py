@@ -1,6 +1,8 @@
 import re
 import datetime
 
+from django.http import Http404
+
 from django.utils.translation import ugettext as _
 
 from django.core.urlresolvers import reverse
@@ -229,7 +231,7 @@ def _update_resource( request, rsc, save = True ):
 
 
 def domain_list( request ):
-	obj_list = gojiModels.Domain.objects.filter( profile__user = request.user )
+	obj_list = gojiModels.Domain.objects.filter( profile__user = request.user ).exclude( status = gojiModels.DomainStatus.DELETED )
 	return render_to_response(
 				'pages/members/domain_list.html',
 				{
@@ -238,8 +240,14 @@ def domain_list( request ):
 				context_instance=RequestContext(request)
 			)
 
+
 def domain( request, domain ):
-	obj = get_object_or_404( gojiModels.Domain, name = domain, profile__user = request.user )
+	try:
+		obj = gojiModels.Domain.objects.exclude( status = gojiModels.DomainStatus.DELETED ).get( name = domain, profile__user = request.user )
+	except gojiModels.Domain.DoesNotExist:
+		messages.error( request, _("That domain does exist. Unable to view it.") )
+		return redirect( reverse( 'goji-domain-list' ) )
+
 	return render_to_response(
 				'pages/members/domain.html',
 				{
@@ -251,7 +259,11 @@ def domain( request, domain ):
 
 def domain_edit( request, domain ):
 
-	dom = get_object_or_404( gojiModels.Domain, name = domain, profile__user = request.user )
+	try:
+		dom = gojiModels.Domain.objects.exclude( status = gojiModels.DomainStatus.DELETED ).get( name = domain, profile__user = request.user )
+	except gojiModels.Domain.DoesNotExist:
+		messages.error( request, _("That domain does exist. Unable to view it.") )
+		return redirect( reverse( 'goji-domain-list' ) )
 
 	if request.method == 'POST' and request.POST is not None:
 
@@ -301,6 +313,13 @@ def domain_add( request ):
 	
 		if createIt is True:
 			try:
+				try:
+					dom = gojiModels.Domain.objects.get( name = domain )
+					if dom.status == gojiModels.DomainStatus.DELETED:
+						dom.delete()
+				except gojiModels.Domain.DoesNotExist:
+					pass
+
 				dom = gojiModels.Domain.objects.create(
 						profile = request.user.goji_profile,
 						name = domain,
@@ -355,7 +374,7 @@ def domain_clone( request ):
 
 		if createIt is True:
 			try:
-				sdom = gojiModels.Domain.objects.get( name = source, profile__user = request.user )
+				sdom = gojiModels.Domain.objects.exclude( status = gojiModels.DomainStatus.DELETED ).get( name = source, profile__user = request.user )
 
 			except gojiModels.Domain.DoesNotExist:
 				messages.error( request, _("The source domain doesn't exist. Please try again.") )
@@ -364,8 +383,13 @@ def domain_clone( request ):
 		if createIt is True:
 			try:
 				ddom = gojiModels.Domain.objects.get( name = target )
-				messages.error( request, _("The target domain already exists on our system. Please try again.") )
-				createIt = False
+
+				if ddom.status == gojiModels.DomainStatus.DELETED:
+					ddom.delete()
+				else:
+					messages.error( request, _("The target domain already exists on our system. Please try again.") )
+					createIt = False
+
 			except gojiModels.Domain.DoesNotExist:
 				pass
 
@@ -393,7 +417,8 @@ def domain_clone( request ):
 			return redirect( reverse( 'goji-domain', kwargs = { 'domain' : target } ) )
 
 
-	obj_list = gojiModels.Domain.objects.filter( profile__user = request.user )
+	obj_list = gojiModels.Domain.objects.filter( profile__user = request.user ).exclude( status = gojiModels.DomainStatus.DELETED )
+
 	return render_to_response(
 				'pages/members/domain_clone.html',
 				{
@@ -408,14 +433,16 @@ def domain_clone( request ):
 
 def domain_delete( request, domain ):
 	try:
-		dom = gojiModels.Domain.objects.get( name = domain, profile__user = request.user )
+		dom = gojiModels.Domain.objects.exclude( status = gojiModels.DomainStatus.DELETED ).get( name = domain, profile__user = request.user )
+
 	except gojiModels.Domain.DoesNotExist:
-		messages.error( request, _("That domain does not appear to exist. Nothing deleted.") )
+		messages.error( request, _("That domain does not appear to exist.") )
 		return redirect( reverse( 'goji-domain-list' ) )
 
 
 	if request.method == 'POST' and request.POST is not None:
-		dom.delete()
+		dom.status = gojiModels.DomainStatus.DELETED
+		dom.save()
 		return redirect( reverse( 'goji-domain-list' ) )
 
 	return render_to_response(
