@@ -3,8 +3,8 @@ from ravensuite.utils.email import send_templated_email
 import goji.models as gojiModels
 
 
-BCC_LIST = [ '"Archive" <archive@gojidns.net>', ]
-FROM_ADDRESS = '"GojiDNS" <support@gojidns.net>'
+BCC_LIST = [ '"Archive" <archive@gojidns.com>', ]
+FROM_ADDRESS = '"GojiDNS" <support@gojidns.com>'
 
 
 def SendUserAuthenticationRequestEmail( user, code ):
