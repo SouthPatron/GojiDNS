@@ -13,6 +13,7 @@ from django.template import RequestContext
 from django.db import IntegrityError
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 from django.utils.ipv6 import is_valid_ipv6_address
 
@@ -230,6 +231,7 @@ def _update_resource( request, rsc, save = True ):
 
 
 
+@login_required
 def domain_list( request ):
 	obj_list = gojiModels.Domain.objects.filter( profile__user = request.user ).exclude( status = gojiModels.DomainStatus.DELETED )
 	return render_to_response(
@@ -241,6 +243,7 @@ def domain_list( request ):
 			)
 
 
+@login_required
 def domain( request, domain ):
 	try:
 		obj = gojiModels.Domain.objects.exclude( status = gojiModels.DomainStatus.DELETED ).get( name = domain, profile__user = request.user )
@@ -257,6 +260,7 @@ def domain( request, domain ):
 			)
 
 
+@login_required
 def domain_edit( request, domain ):
 
 	try:
@@ -290,6 +294,7 @@ def domain_edit( request, domain ):
 
 
 
+@login_required
 def domain_add( request ):
 
 	domain = ''
@@ -350,6 +355,7 @@ def domain_add( request ):
 				context_instance=RequestContext(request)
 			)
 
+@login_required
 def domain_clone( request ):
 
 	source = ''
@@ -431,6 +437,7 @@ def domain_clone( request ):
 			)
 
 
+@login_required
 def domain_delete( request, domain ):
 	try:
 		dom = gojiModels.Domain.objects.exclude( status = gojiModels.DomainStatus.DELETED ).get( name = domain, profile__user = request.user )
@@ -454,6 +461,7 @@ def domain_delete( request, domain ):
 			)
 
 
+@login_required
 def domain_resource_add( request, domain ):
 
 	rtype = _get_resource_type( request.GET.get( 'type', 'ns' ) )
@@ -484,6 +492,7 @@ def domain_resource_add( request, domain ):
 			)
 
 
+@login_required
 def domain_resource_edit( request, domain, rid ):
 
 	rsc = get_object_or_404( gojiModels.Resource, pk = rid, domain__name = domain, domain__profile__user = request.user )
@@ -509,6 +518,7 @@ def domain_resource_edit( request, domain, rid ):
 			)
 
 
+@login_required
 def domain_resource_delete( request, domain, rid ):
 
 	rsc = get_object_or_404( gojiModels.Resource, pk = rid, domain__name = domain, domain__profile__user = request.user )
@@ -531,6 +541,7 @@ def domain_resource_delete( request, domain, rid ):
 
 
 
+@login_required
 def profile( request ):
 
 	prof = request.user.goji_profile
