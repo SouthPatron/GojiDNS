@@ -18,7 +18,7 @@ def is_valid_ip4( address ):
 def is_valid_ip6( address ):
 	return (is_valid_ipv6_address( address ))
 
-
+DEVNULL = open( os.devnull, 'w' )
 
 
 DB_HOST = "192.168.131.128"
@@ -179,9 +179,9 @@ def rndc_addzone( row, full_name ):
 			name,
 			"{{ type master; file \"gojidns/{}\"; }};".format( full_name ),
 		],
-			stdin = subprocess.DEVNULL,
-			stdout = subprocess.DEVNULL,
-			stderr = subprocess.DEVNULL
+			stdin = DEVNULL,
+			stdout = DEVNULL,
+			stderr = DEVNULL
 		)
 
 
@@ -192,9 +192,9 @@ def rndc_delzone( row ):
 			"delzone",
 			name,
 		],
-			stdin = subprocess.DEVNULL,
-			stdout = subprocess.DEVNULL,
-			stderr = subprocess.DEVNULL
+			stdin = DEVNULL,
+			stdout = DEVNULL,
+			stderr = DEVNULL
 		)
 
 def rndc_reload( row ):
@@ -204,9 +204,9 @@ def rndc_reload( row ):
 			"reload",
 			name,
 		],
-			stdin = subprocess.DEVNULL,
-			stdout = subprocess.DEVNULL,
-			stderr = subprocess.DEVNULL
+			stdin = DEVNULL,
+			stdout = DEVNULL,
+			stderr = DEVNULL
 		)
 
  
@@ -260,5 +260,8 @@ def main():
 
 if __name__ == "__main__":
 	main()
+
+
+DEVNULL.close()
 
 
