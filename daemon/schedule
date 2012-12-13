@@ -1,0 +1,4 @@
+SHELL=/bin/bash
+
+*/10 * * * * /home/goji/goforit.sh
+
