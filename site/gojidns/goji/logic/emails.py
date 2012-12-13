@@ -4,7 +4,7 @@ import goji.models as gojiModels
 
 
 BCC_LIST = [ '"Archive" <archive@gojidns.net>', ]
-FROM_ADDRESS = '"South Patron" <support@gojidns.net>'
+FROM_ADDRESS = '"GojiDNS" <support@gojidns.net>'
 
 
 def SendUserAuthenticationRequestEmail( user, code ):
