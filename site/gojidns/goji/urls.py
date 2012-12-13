@@ -6,16 +6,16 @@ admin.autodiscover()
 
 urlpatterns = patterns('goji.views.public',
 	url( r'^$', 'index', name = 'goji-public-index' ),
-	url( r'^login$', 'login', name = 'goji-public-login' ),
-	url( r'^logout$', 'logout', name = 'goji-public-logout' ),
-	url( r'^register$', 'register', name = 'goji-public-register' ),
-	url( r'^authenticate$', 'authenticate', name = 'goji-public-authenticate' ),
-	url( r'^resend_authentication$', 'resend_authentication', name = 'goji-public-resend-authentication' ),
-	url( r'^reset_password$', 'reset_password', name = 'goji-public-reset-password' ),
+	url( r'^v/login$', 'login', name = 'goji-public-login' ),
+	url( r'^v/logout$', 'logout', name = 'goji-public-logout' ),
+	url( r'^v/register$', 'register', name = 'goji-public-register' ),
+	url( r'^v/authenticate$', 'authenticate', name = 'goji-public-authenticate' ),
+	url( r'^v/resend_authentication$', 'resend_authentication', name = 'goji-public-resend-authentication' ),
+	url( r'^v/reset_password$', 'reset_password', name = 'goji-public-reset-password' ),
 
 
-	url( r'^confirm_email/(?P<code>\S+)$', 'confirm_email', name = 'goji-public-confirm-email-code' ),
-	url( r'^confirm_email$', 'confirm_email', name = 'goji-public-confirm-email' ),
+	url( r'^v/confirm_email/(?P<code>\S+)$', 'confirm_email', name = 'goji-public-confirm-email-code' ),
+	url( r'^v/confirm_email$', 'confirm_email', name = 'goji-public-confirm-email' ),
 
 
 	url( r'^legal$',
