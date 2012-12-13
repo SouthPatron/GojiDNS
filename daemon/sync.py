@@ -177,8 +177,12 @@ def rndc_addzone( row, full_name ):
 			RNDC_BIN,
 			"addzone",
 			name,
-			"'{{ type master; file \"{}\"; }};'".format( full_name ),
-		])
+			"{{ type master; file \"gojidns/{}\"; }};".format( full_name ),
+		],
+			stdin = subprocess.DEVNULL,
+			stdout = subprocess.DEVNULL,
+			stderr = subprocess.DEVNULL
+		)
 
 
 def rndc_delzone( row ):
@@ -187,7 +191,11 @@ def rndc_delzone( row ):
 			RNDC_BIN,
 			"delzone",
 			name,
-		])
+		],
+			stdin = subprocess.DEVNULL,
+			stdout = subprocess.DEVNULL,
+			stderr = subprocess.DEVNULL
+		)
 
 def rndc_reload( row ):
 	name = row[ 'name' ]
@@ -195,7 +203,11 @@ def rndc_reload( row ):
 			RNDC_BIN,
 			"reload",
 			name,
-		])
+		],
+			stdin = subprocess.DEVNULL,
+			stdout = subprocess.DEVNULL,
+			stderr = subprocess.DEVNULL
+		)
 
  
 def main():
@@ -212,7 +224,7 @@ def main():
 	cursor_name = "{}".format( cursor_name_uuid.int )
 
 	cursor = conn.cursor( cursor_name, cursor_factory=psycopg2.extras.DictCursor)
-	cursor.execute("""SELECT * FROM goji_domain WHERE last_modified >= DATE_SUB(Now(), 15 MINUTE )""" )
+	cursor.execute("""SELECT * FROM goji_domain WHERE last_modified >= (NOW() - INTERVAL '15 minutes')""" )
  
 	for row in cursor:
 		name = row[ 'name' ]
