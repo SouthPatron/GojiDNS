@@ -30,12 +30,11 @@ PATH_ROOT = "/var/bind/gojidns"
 
 RNDC_BIN = "/usr/sbin/rndc"
 
-DB_HOST = "localhost"
-DB_NAME = "gojidns"
-DB_USER = "postgres"
-DB_PASSWORD = ""
-
-PATH_ROOT = "/home/durand/bind/gojidns"
+#DB_HOST = "localhost"
+#DB_NAME = "gojidns"
+#DB_USER = "postgres"
+#DB_PASSWORD = ""
+#PATH_ROOT = "/home/durand/bind/gojidns"
 
 
 def generate_name( path_root, name ):
