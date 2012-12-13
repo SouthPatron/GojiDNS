@@ -91,7 +91,13 @@
 			{% for rsc in domain.get_resource_ns %}
 				<tr>
 					<td>{{ rsc.name }}</td>
-					<td>{{ rsc.value }}</td>
+					<td>
+						{% if rsc.static %}
+							{{ domain.name }}
+						{% else %}
+							{{ rsc.value }}.{{ domain.name }}
+						{% endif %}
+					</td>
 					<td>{{ rsc.ttl|default_if_none:"Default" }}</td>
 					<td>
 						{% if rsc.static %}

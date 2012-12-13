@@ -18,6 +18,7 @@ DomainStatus = ChoicesEnum(
 		ACTIVE = ( 1, 'ACTIVE' ),
 		DISABLED = ( 2, 'DISABLED' ),
 		EDIT_MODE = ( 3, 'EDIT' ),
+		DELETED = ( 99, 'DELETED' ),
 	)
 
 Protocols = ChoicesEnum(
@@ -122,7 +123,6 @@ class Resource( models.Model ):
 		rc = super( Resource, self ).save( *args, **kwargs )
 		self.domain.save()
 		return rc
-
 
 
 
