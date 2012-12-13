@@ -7,9 +7,9 @@ TEMPLATE_DEBUG=False
 TIME_ZONE = 'UTC'
 USE_TZ = True
 
-LOGIN_URL='/login'
-LOGIN_REDIRECT_URL='/home'
-LOGOUT_URL='/logout'
+LOGIN_URL='/v/login'
+LOGIN_REDIRECT_URL='/members'
+LOGOUT_URL='/v/logout'
 
 USE_I18N = True
 USE_L10N = True
