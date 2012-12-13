@@ -28,11 +28,6 @@ urlpatterns = patterns('goji.views.public',
 			name = 'goji-public-features'
 		),
 
-	url( r'^about-us$',
-			TV.as_view( template_name = 'pages/public/general/about_us.html' ),
-			name = 'goji-public-about-us'
-		),
-
 	url( r'^contact-us$',
 			TV.as_view( template_name = 'pages/public/general/contact_us.html' ),
 			name = 'goji-public-contact-us'
