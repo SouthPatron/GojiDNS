@@ -53,6 +53,11 @@ urlpatterns += patterns('goji.views.members',
 
 	url( r'^members/profile$', 'profile', name = 'goji-profile' ),
 
+
+	url( r'^members/network_status$', 'network_status', name = 'goji-network-status' ),
+
+
+
 )
 
 urlpatterns += patterns('',

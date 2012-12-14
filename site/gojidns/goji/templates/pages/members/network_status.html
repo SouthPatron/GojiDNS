@@ -1,0 +1,44 @@
+{% extends 'pages/members/base.html' %}
+
+{% block content %}
+
+<div class='row'>
+	<div class='span12'>
+		<div class='gas_heading'>
+			<span class='l1'>Network Status</span>
+		</div>
+	</div> <!-- .span12 -->
+</div> <!-- .row -->
+
+<div class='row'>
+<div class='span8'>
+
+{% include 'pages/support/message_box.html' %}
+
+<table class='table table-striped'>
+	<thead>
+		<tr>
+			<th>FQDN</th>
+			<th>Last Seen</th>
+			<th>Last Sync</th>
+			<th>Status</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for ns in list %}
+			<tr>
+				<td>{{ ns.hostname }}</td>
+				<td>{{ ns.heartbeat }}</td>
+				<td>{{ ns.last_run }}</td>
+				<td>{% if ns.is_okay %}OK{% else %}NOT OK{% endif %}</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+</div>  <!-- .span8 -->
+</div>  <!-- .row -->
+
+{% endblock %}
+
+

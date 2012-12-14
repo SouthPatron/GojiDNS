@@ -78,9 +78,9 @@ INSTALLED_APPS = (
 	'django.contrib.admin',
 	'django.contrib.admindocs',
 
-	'goji',
-
 	'ravensuite',
+	'south',
+	'goji',
 
 )
 

@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -27,6 +29,18 @@ Protocols = ChoicesEnum(
 		XMPP = ( 3, 'xmpp' ),
 		TLS = ( 4, 'tls' ),
 	)
+
+ServerStatus = ChoicesEnum(
+		OK = ( 0, 'OK' ),
+
+		SQL = ( 10, 'Database error' ),
+		IP4 = ( 20, 'IP4 Error' ),
+		IP6 = ( 30, 'IP6 Error' ),
+		BIND = ( 40, 'Bind Error' ),
+
+		NEVERMET = ( 99, 'Not yet met' ),
+	)
+
 
 
 class AuthenticationCode( models.Model ):
@@ -125,6 +139,20 @@ class Resource( models.Model ):
 		return rc
 
 
+class NameserverStatus( models.Model ):
+	hostname = models.CharField( max_length = 253, unique = True )
+	first_seen = models.DateTimeField( auto_now_add = True )
+	heartbeat = models.DateTimeField( auto_now_add = True )
+	status = models.IntegerField( default = ServerStatus.NEVERMET, choices = ServerStatus.choices() )
+	last_okay = models.DateTimeField( auto_now_add = True )
+
+	def is_okay( self ):
+		return ( self.status == ServerStatus.OK )
+
+	def save( self ):
+		if status == ServerStatus.OK:
+			self.last_okay = datetime.datetime.now()
+		return super( NameserverStatus, self ).save()
 
 
 

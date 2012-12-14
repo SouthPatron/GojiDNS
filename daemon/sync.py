@@ -5,11 +5,29 @@ import uuid
 import re
 import datetime
 import subprocess
+import socket
 
 import psycopg2
 import psycopg2.extras
 
 from django.utils.ipv6 import is_valid_ipv6_address
+
+
+# ---------------------------------- GLOBAL VARIABLES --------
+
+DB_HOST = "192.168.131.128"
+DB_NAME = "gojidns"
+DB_USER = "gojidns_www"
+DB_PASSWORD = "dog elephant shoe"
+PATH_ROOT = "/var/bind/gojidns"
+RNDC_BIN = "/usr/sbin/rndc"
+
+# ---------------------------------- DETECTED ----------------
+
+FQDN = socket.getfqdn( socket.gethostname() )
+
+# ---------------------------------- SUPPORT FUNCTIONS -------
+
 
 def is_valid_ip4( address ):
 	ipv4_re = re.compile(r'^(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}$')
@@ -20,21 +38,6 @@ def is_valid_ip6( address ):
 
 DEVNULL = open( os.devnull, 'w' )
 
-
-DB_HOST = "192.168.131.128"
-DB_NAME = "gojidns"
-DB_USER = "gojidns_www"
-DB_PASSWORD = "dog elephant shoe"
-
-PATH_ROOT = "/var/bind/gojidns"
-
-RNDC_BIN = "/usr/sbin/rndc"
-
-#DB_HOST = "localhost"
-#DB_NAME = "gojidns"
-#DB_USER = "postgres"
-#DB_PASSWORD = ""
-#PATH_ROOT = "/home/durand/bind/gojidns"
 
 
 def generate_name( path_root, name ):
@@ -209,17 +212,40 @@ def rndc_reload( row ):
 			stderr = DEVNULL
 		)
 
- 
-def main():
-	conn_string = "host='{}' dbname='{}' user='{}' password='{}'".format(
-			DB_HOST,
-			DB_NAME,
-			DB_USER,
-			DB_PASSWORD
+
+def heartbeat( conn, hostname, status ):
+	cursor = conn.cursor( cursor_factory = psycopg2.extras.DictCursor )
+	cursor.execute( """SELECT * FROM goji_nameserverstatus WHERE hostname = %(hostname)s""", { 'hostname' : hostname } )
+
+	hasIt = (cursor.rowcount > 0)
+	cursor.close()
+
+	if hasIt is False:
+		cursor = conn.cursor( cursor_factory = psycopg2.extras.DictCursor )
+		cursor.execute( """REPLACE INTO goji_nameserverstatus( hostname, first_seen, heartbeat, status, last_okay ) VALUES( %(hostname)s, NOW(), NOW(), 99, NOW() )  """,
+			{ "hostname" : hostname, }
 		)
+		cursor.close()
 
-	conn = psycopg2.connect(conn_string)
 
+	last_okay = ""
+
+	if status == 0:
+		last_okay = ", last_okay = NOW()"
+
+	cursor = conn.cursor( cursor_factory = psycopg2.extras.DictCursor )
+	cursor.execute( """UPDATE goji_nameserverstatus SET heartbeat = NOW(), status = %(status)s{} WHERE hostname = %(hostname)s""".format( last_okay ),
+		{
+			'status' : status,
+			'hostname' : hostname,
+		}
+	)
+
+	cursor.close()
+
+
+
+def process_changes( conn ):
 	cursor_name_uuid = uuid.uuid1()
 	cursor_name = "{}".format( cursor_name_uuid.int )
 
@@ -256,6 +282,22 @@ def main():
 
 
  	cursor.close()
+
+
+
+ 
+def main():
+	conn_string = "host='{}' dbname='{}' user='{}' password='{}'".format(
+			DB_HOST,
+			DB_NAME,
+			DB_USER,
+			DB_PASSWORD
+		)
+
+	conn = psycopg2.connect(conn_string)
+
+	process_changes( conn )
+	heartbeat( conn, FQDN, 0 )
 
 
 if __name__ == "__main__":
