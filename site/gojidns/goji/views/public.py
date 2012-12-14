@@ -27,6 +27,8 @@ def index( request ):
 				context_instance=RequestContext(request)
 			)
 
+
+
 def register( request ):
 	if request.method == 'POST' and request.POST:
 		form = gojiForms.UserForm( request.POST )

@@ -612,4 +612,15 @@ def profile( request ):
 			)
 
 
+@login_required
+def network_status( request ):
+	obj_list = gojiModels.NameserverStatus.objects.all()
+	return render_to_response(
+				'pages/members/network_status.html',
+				{
+					'list' : obj_list,
+				},
+				context_instance=RequestContext(request)
+			)
+
 
