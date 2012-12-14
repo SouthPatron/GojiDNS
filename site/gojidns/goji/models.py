@@ -150,7 +150,7 @@ class NameserverStatus( models.Model ):
 		return ( self.status == ServerStatus.OK )
 
 	def save( self ):
-		if status == ServerStatus.OK:
+		if self.status == ServerStatus.OK:
 			self.last_okay = datetime.datetime.now()
 		return super( NameserverStatus, self ).save()
 
