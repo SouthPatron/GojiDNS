@@ -214,20 +214,6 @@ def rndc_reload( row ):
 
 
 def heartbeat( conn, hostname, status ):
-	cursor = conn.cursor( cursor_factory = psycopg2.extras.DictCursor )
-	cursor.execute( """SELECT * FROM goji_nameserverstatus WHERE hostname = %(hostname)s""", { 'hostname' : hostname } )
-
-	hasIt = (cursor.rowcount > 0)
-	cursor.close()
-
-	if hasIt is False:
-		cursor = conn.cursor( cursor_factory = psycopg2.extras.DictCursor )
-		cursor.execute( """REPLACE INTO goji_nameserverstatus( hostname, first_seen, heartbeat, status, last_okay ) VALUES( %(hostname)s, NOW(), NOW(), 99, NOW() )  """,
-			{ "hostname" : hostname, }
-		)
-		cursor.close()
-
-
 	last_okay = ""
 
 	if status == 0:
