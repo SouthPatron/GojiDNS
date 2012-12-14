@@ -75,6 +75,10 @@ class Profile( models.Model ):
 	phone = models.CharField( max_length = 255, null = True, default = None )
 
 
+	def __unicode__( self ):
+		return u'{}'.format( self.user.email )
+
+
 
 class Domain( models.Model ):
 	class Meta:
@@ -95,6 +99,9 @@ class Domain( models.Model ):
 	refresh = models.IntegerField( null = True, default = None )
 	retry = models.IntegerField( null = True, default = None )
 	expire = models.IntegerField( null = True, default = None )
+
+	def __unicode__( self ):
+		return self.name
 
 	def get_resource_ns( self ):
 		return self.resource_set.filter( resource_type = ResourceType.NS )
@@ -133,6 +140,9 @@ class Resource( models.Model ):
 
 	static = models.BooleanField( default = False )
 
+	def __unicode__( self ):
+		return u'{} {} {} {}'.format( ResourceType.get( self.resource_type )[1], self.name, self.value, self.ttl )
+
 	def save( self, *args, **kwargs ):
 		rc = super( Resource, self ).save( *args, **kwargs )
 		self.domain.save()
@@ -140,6 +150,9 @@ class Resource( models.Model ):
 
 
 class NameserverStatus( models.Model ):
+	class Meta:
+		ordering = [ 'hostname', ]
+
 	hostname = models.CharField( max_length = 253, unique = True )
 	first_seen = models.DateTimeField( auto_now_add = True )
 	heartbeat = models.DateTimeField( auto_now_add = True )
