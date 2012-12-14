@@ -11,9 +11,11 @@
 </div> <!-- .row -->
 
 <div class='row'>
-<div class='span8'>
+<div class='span12'>
 
 {% include 'pages/support/message_box.html' %}
+
+<h4>Atlanta, US</h4>
 
 <table class='table table-striped'>
 	<thead>
@@ -26,11 +28,29 @@
 	</thead>
 	<tbody>
 		{% for ns in list %}
-			<tr>
+			<tr style='
+					{% if not ns.is_okay %}
+						color: #da4f49;
+						font-weight: bold;
+					{% endif %}
+				'>
 				<td>{{ ns.hostname }}</td>
-				<td>{{ ns.heartbeat }}</td>
-				<td>{{ ns.last_run }}</td>
-				<td>{% if ns.is_okay %}OK{% else %}NOT OK{% endif %}</td>
+				<td>{{ ns.heartbeat|date:"Y-m-d" }} {{ ns.heartbeat|time:"H:i" }}</td>
+				<td>{{ ns.last_okay|date:"Y-m-d" }} {{ ns.last_okay|time:"H:i" }}</td>
+				<td style='
+						font-weight: bold;
+					{% if ns.is_okay %}
+						color: #5bb75b;
+					{% else %}
+						color: #da4f49;
+					{% endif %}
+
+				'
+				>{% if ns.is_okay %}
+					OK
+				{% else %}
+					NOT OK
+				{% endif %}</td>
 			</tr>
 		{% endfor %}
 	</tbody>

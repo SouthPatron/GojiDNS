@@ -283,7 +283,11 @@ def main():
 	conn = psycopg2.connect(conn_string)
 
 	process_changes( conn )
+
 	heartbeat( conn, FQDN, 0 )
+
+	conn.commit()
+	conn.close()
 
 
 if __name__ == "__main__":
