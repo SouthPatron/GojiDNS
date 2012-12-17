@@ -3,15 +3,36 @@
 
 {% block content %}
 
-<div class="row" style='
-'>
+<div class="row">
 	<div class="hero-unit">
-		<h1>GojiDNS <small>Free DNS for the masses.</small></h1>
+		<h1>GojiDNS <small>Free DNS hosting.</small></h1>
 		<div style=' margin-top: 30px' >
-			<a href="{% url goji-public-register %}"><button class="btn btn-success btn-large">Register now. It's free!</button></a>
+			<a href="{% url goji-public-register %}"><button class="btn btn-success btn-large">Create an account. It's free.</button></a>
 		</div>
 	</div>
 </div>
+
+<div class="row">
+	<div class="span6">
+
+		<h4>Features</h4>
+		<ul>
+			<li>Unlimited domain and subdomain hosting</li>
+			<li>Record types: SOA, NS, A, AAAA, CNAME, MX, TXT, SRV</li>
+			<li>Simple web interface for users to update/change DNS records</li>
+			<li>IPv6 support</li>
+		</ul>
+
+	</div>
+
+	<div class="span6">
+		&nbsp;
+
+	</div>
+
+</div>
+
+
 
 {% endblock %}
 

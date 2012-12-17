@@ -18,6 +18,13 @@ urlpatterns = patterns('goji.views.public',
 	url( r'^v/confirm_email$', 'confirm_email', name = 'goji-public-confirm-email' ),
 
 
+	url( r'^faq$',
+			TV.as_view( template_name = 'pages/public/general/faq.html' ),
+			name = 'goji-public-faq'
+		),
+
+
+
 	url( r'^legal$',
 			TV.as_view( template_name = 'pages/public/general/legal.html' ),
 			name = 'goji-public-legal'
@@ -28,10 +35,7 @@ urlpatterns = patterns('goji.views.public',
 			name = 'goji-public-features'
 		),
 
-	url( r'^contact-us$',
-			TV.as_view( template_name = 'pages/public/general/contact_us.html' ),
-			name = 'goji-public-contact-us'
-		),
+	url( r'^contact-us$', 'contact_us', name = 'goji-public-contact-us' ),
 )
 
 urlpatterns += patterns('goji.views.members',
@@ -55,6 +59,8 @@ urlpatterns += patterns('goji.views.members',
 
 
 	url( r'^members/network_status$', 'network_status', name = 'goji-network-status' ),
+
+	url( r'^members/change_password$', 'change_password', name = 'goji-change-password' ),
 
 
 

@@ -5,16 +5,16 @@
 
 			<ul class="nav">
 				<li class="divider-vertical"></li>
-				<li><a href='{% url goji-public-features %}'>Features</a></li>
-				<li><a href='{% url goji-public-register %}'>Register</a></li>
+				<li><a href="{% url goji-public-faq %}">FAQ</a></li>
 			</ul>
-
 
 			<ul class="nav pull-right">
 				{% if request.user.is_authenticated %}
 				<li><a href="{% url goji-domain-list %}">Members Area</a></li>
+				<li><a href="{% url goji-public-logout %}">Logout</a></li>
 				{% else %}
 				<li><a href="{% url goji-public-login %}">Login</a></li>
+				<li><a href='{% url goji-public-register %}'>Register</a></li>
 				{% endif %}
 			</ul>
 		</div>
