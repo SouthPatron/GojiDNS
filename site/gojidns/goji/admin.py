@@ -8,4 +8,5 @@ admin.site.register( EmailChangeRequest )
 admin.site.register( Domain )
 admin.site.register( Resource )
 admin.site.register( NameserverStatus )
+admin.site.register( Faq )
 

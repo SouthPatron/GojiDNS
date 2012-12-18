@@ -1,0 +1,58 @@
+{% extends 'pages/members/base.html' %}
+
+
+{% block content %}
+
+<div class='row'>
+	<div class='span12'>
+		<h1>Contact Us</h1>
+	</div>
+</div>
+
+<div class='row'>
+
+	<div class='span6'>
+
+		<form class="form-horizontal" action="" method="POST">
+		{% csrf_token %}
+
+
+			<div class="control-group">
+				<label class="control-label" for="lastname">Subject</label>
+				<div class="controls">
+					<input type="text" class='input-xlarge' name="subject" autocomplete="off"  value="{{ subject }}"/>
+				</div>
+			</div>
+
+
+
+			<div class="control-group">
+				<label class="control-label" for="lastname">Comment</label>
+				<div class="controls">
+					<textarea name="comment" class='input-xlarge' autocomplete="off" rows="15" >{{ comment }}</textarea>
+					<br /><br />
+
+					<label><input type='checkbox' name='ccself' {% if ccself %}checked='checked'{% endif %} /> Send a copy to yourself at the same time.</label>
+				</div>
+			</div>
+
+
+
+			<div class="control-group">
+				<div class="controls">
+					<button type="submit" class="btn btn-primary">Send the email &raquo;</button>
+				</div>
+			</div>
+
+		</form>
+	</div> <!-- .span6 -->
+
+	<div class='span6'>
+		{% include 'pages/support/message_box.html' %}
+		&nbsp;
+	</div>
+
+</div>
+
+{% endblock %}
+

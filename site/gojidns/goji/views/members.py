@@ -615,16 +615,34 @@ def profile( request ):
 @login_required
 def change_password( request ):
 
-
 	if request.method == 'POST' and request.POST is not None:
-		old_password = request.POST.get( 'current', None )
+		old_password = request.POST.get( 'old_password', None )
 		new_password1 = request.POST.get( 'new_password1', None )
 		new_password2 = request.POST.get( 'new_password2', None )
 
-		messages.error( request, _("Those passwords do not match.") )
 
+		if old_password is None or new_password1 is None or new_password2 is None:
+			messages.error( request, _("Please fill in all the fields.") )
+
+
+		if new_password1 != new_password2:
+			messages.error( request, 'The new passwords do not match. Please try again.' )
+			return redirect( reverse( 'goji-change-password' ) )
+
+
+		if len(new_password1) < 6:
+			messages.error( request, 'The new password is too short. It has to be at least 6 characters long.' )
+			return redirect( reverse( 'goji-change-password' ) )
+
+
+		if request.user.check_password( old_password ) is False:
+			messages.error( request, 'The old password was not correct. Please try again.' )
+			return redirect( reverse( 'goji-change-password' ) )
+
+
+		request.user.set_password( new_password1 )
+		messages.success( request, 'Your password was changed successfully' )
 		return redirect( reverse( 'goji-change-password' ) )
-
 
 	return render_to_response(
 				'pages/members/change_password.html',
@@ -644,6 +662,48 @@ def network_status( request ):
 					'list' : obj_list,
 				},
 				context_instance=RequestContext(request)
+			)
+
+@login_required
+def contact_us( request ):
+
+	vals = {}
+
+	if request.method == 'POST' and request.POST:
+		ccself = request.POST.get( 'ccself', False )
+		if ccself is not False:
+			ccself = True
+
+		vals = {
+			'subject' : request.POST.get( 'subject', None ),
+			'comment' : request.POST.get( 'comment', None ),
+			'ccself' : ccself,
+		}
+
+		isBad = False
+
+		if vals['subject'] is None or len( vals['subject'] ) < 1:
+			isBad = True
+		elif vals['comment'] is None or len( vals['comment'] ) < 1:
+			isBad = True
+
+		if isBad is False:
+			gojiEmails.SendContactUsEmail(
+					request.user,
+					vals[ 'subject' ],
+					vals[ 'comment' ],
+					vals[ 'ccself' ],
+				)
+
+			messages.success( request, 'Your message was sent successfully. We\'re on our way.' )
+			return redirect( reverse( 'goji-contact-us' ) )
+		
+		messages.error( request, 'You have to fill in all the fields.' )
+
+	return render_to_response(
+				'pages/members/contact_us.html',
+				vals,
+				context_instance=RequestContext(request),
 			)
 
 

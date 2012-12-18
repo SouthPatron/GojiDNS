@@ -169,6 +169,20 @@ class NameserverStatus( models.Model ):
 
 
 
+class Faq( models.Model ):
+	class Meta:
+		ordering = [ 'position', 'question'  ]
+
+	position = models.IntegerField( default = 0 )
+	question = models.CharField( max_length = 253 )
+	answer = models.TextField()
+
+	def __unicode__( self ):
+		return self.question
+
+
+
+
 # ------- Signals 
 
 from django.db.models.signals import pre_save, post_save

@@ -219,17 +219,18 @@ def login( request ):
 
 def logout( request ):
 	auth.logout( request )
-	return redirect( '/' )
+	return redirect( reverse( 'goji-public-index' ) )
 
 
 
-def contact_us( request ):
-	if request.method == 'POST' and request.POST:
-		return redirect( reverse( 'goji-public-contact-us' ) )
-
+def faq( request ):
+	obj_list = gojiModels.Faq.objects.all()
 	return render_to_response(
-				'pages/public/general/contact_us.html',
-				context_instance=RequestContext(request),
+				'pages/public/general/faq.html',
+				{
+					'list' : obj_list,
+				},
+				context_instance=RequestContext(request)
 			)
 
 
