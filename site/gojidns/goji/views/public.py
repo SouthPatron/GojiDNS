@@ -1,3 +1,5 @@
+import urllib
+
 from django.utils.translation import ugettext as _
 
 from django.core.urlresolvers import reverse
@@ -199,6 +201,14 @@ def login( request ):
 				if luser is not None:
 					if luser.is_active:
 						auth.login( request, luser )
+
+						if request.GET and request.GET.get( 'next', None ) is not None:
+							next_url = request.GET.get( 'next' )
+
+							print 'HELLOOOOOOOO....... {}'.format( next_url )
+							if len( next_url ) > 0:
+								return redirect( next_url )
+
 						return redirect( reverse( 'goji-domain-list' ) )
 					else:
 						messages.error( request, _("You are not yet authenticated.") )
@@ -213,6 +223,9 @@ def login( request ):
 
 	return render_to_response(
 				'pages/public/login.html',
+				{
+					'query' : urllib.urlencode( request.GET ),
+				},
 				context_instance=RequestContext(request),
 			)
 

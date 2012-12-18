@@ -16,7 +16,7 @@
 
 			{% include 'pages/support/message_box.html' %}
 
-		<form class="form-inline" action="{% url goji-public-login %}" method="POST">
+		<form class="form-inline" action="{% url goji-public-login %}?{{ query }}" method="POST">
 			{% csrf_token %}
 
 			<div>
