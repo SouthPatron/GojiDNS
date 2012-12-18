@@ -41,13 +41,19 @@ def register( request ):
 			firstname = form.cleaned_data[ 'firstname' ]
 			lastname = form.cleaned_data[ 'lastname' ]
 
-			luser = gojiReg.RegisterNewUser( email, password, firstname, lastname  )
-			ac = gojiReg.CreateUserAuthenticationCode( luser )
+			agreement = request.POST.get( 'agreement', None )
 
-			gojiEmails.SendUserAuthenticationRequestEmail( luser, ac.code )
+			if agreement is None:
+				messages.error( request, _("You need to accept the terms and conditions to use this service.") )
+			else:
+				luser = gojiReg.RegisterNewUser( email, password, firstname, lastname  )
+				ac = gojiReg.CreateUserAuthenticationCode( luser )
 
-			messages.success( request, _("You should receive an email in your inbox shortly. Your authentication code will be in there.") )
-			return redirect( reverse( 'goji-public-authenticate' ) )
+				gojiEmails.SendUserAuthenticationRequestEmail( luser, ac.code )
+
+				messages.success( request, _("You should receive an email in your inbox shortly. Your authentication code will be in there.") )
+				return redirect( reverse( 'goji-public-authenticate' ) )
+
 		else:
 			messages.error( request, _("There were some errors in your information. Please look below to find all the reasons and fix them up.") )
 	else:
