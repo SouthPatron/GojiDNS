@@ -1,0 +1,12 @@
+A support request was received from the website. The details of
+which follow below:
+
+First name: {{ req.user.first_name }}
+Last name: {{ req.user.last_name }}
+
+Email address: {{ req.user.email }}
+
+Subject: {{ subject }}
+
+{{ comment }}
+

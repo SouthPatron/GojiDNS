@@ -1,3 +1,5 @@
+import urllib
+
 from django.utils.translation import ugettext as _
 
 from django.core.urlresolvers import reverse
@@ -39,13 +41,19 @@ def register( request ):
 			firstname = form.cleaned_data[ 'firstname' ]
 			lastname = form.cleaned_data[ 'lastname' ]
 
-			luser = gojiReg.RegisterNewUser( email, password, firstname, lastname  )
-			ac = gojiReg.CreateUserAuthenticationCode( luser )
+			agreement = request.POST.get( 'agreement', None )
 
-			gojiEmails.SendUserAuthenticationRequestEmail( luser, ac.code )
+			if agreement is None:
+				messages.error( request, _("You need to accept the terms and conditions to use this service.") )
+			else:
+				luser = gojiReg.RegisterNewUser( email, password, firstname, lastname  )
+				ac = gojiReg.CreateUserAuthenticationCode( luser )
 
-			messages.success( request, _("You should receive an email in your inbox shortly. Your authentication code will be in there.") )
-			return redirect( reverse( 'goji-public-authenticate' ) )
+				gojiEmails.SendUserAuthenticationRequestEmail( luser, ac.code )
+
+				messages.success( request, _("You should receive an email in your inbox shortly. Your authentication code will be in there.") )
+				return redirect( reverse( 'goji-public-authenticate' ) )
+
 		else:
 			messages.error( request, _("There were some errors in your information. Please look below to find all the reasons and fix them up.") )
 	else:
@@ -199,6 +207,14 @@ def login( request ):
 				if luser is not None:
 					if luser.is_active:
 						auth.login( request, luser )
+
+						if request.GET and request.GET.get( 'next', None ) is not None:
+							next_url = request.GET.get( 'next' )
+
+							print 'HELLOOOOOOOO....... {}'.format( next_url )
+							if len( next_url ) > 0:
+								return redirect( next_url )
+
 						return redirect( reverse( 'goji-domain-list' ) )
 					else:
 						messages.error( request, _("You are not yet authenticated.") )
@@ -213,12 +229,27 @@ def login( request ):
 
 	return render_to_response(
 				'pages/public/login.html',
+				{
+					'query' : urllib.urlencode( request.GET ),
+				},
 				context_instance=RequestContext(request),
 			)
 
 
 def logout( request ):
 	auth.logout( request )
-	return redirect( '/' )
+	return redirect( reverse( 'goji-public-index' ) )
+
+
+
+def faq( request ):
+	obj_list = gojiModels.Faq.objects.all()
+	return render_to_response(
+				'pages/public/general/faq.html',
+				{
+					'list' : obj_list,
+				},
+				context_instance=RequestContext(request)
+			)
 
 

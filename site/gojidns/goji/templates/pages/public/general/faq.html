@@ -1,0 +1,30 @@
+{% extends 'pages/public/base.html' %}
+
+
+{% block content %}
+
+<div class="row">
+	<div class="span12">
+		<div class='alert alert-info' style='margin-bottom: 20px;'>
+			<h4 style='margin-bottom: 20px;'>Frequently Asked Questions</h4>
+			<ol>
+				{% for faq in list %}
+				<li><a href='#{{ faq.pk }}'>{{ faq.question }}</a></li>
+				{% endfor %}
+			</ol>
+		</div>
+
+		<hr />
+
+		{% for faq in list %}
+		<div class='alert alert-success' style='margin-bottom: 20px;'>
+			<h4 style='margin-bottom: 20px;'><a name='{{ faq.pk }}'>{{ forloop.counter }}. {{ faq.question }}</a></h4>
+			<div style='margin-left: 25px;'>{{ faq.answer }}</div>
+		</div>
+		{% endfor %}
+
+	</div>
+</div>
+
+{% endblock %}
+

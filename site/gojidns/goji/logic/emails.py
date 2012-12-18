@@ -1,4 +1,4 @@
-from ravensuite.utils.email import send_templated_email
+from ravensuite.utils.email import send_templated_email, build_address
 
 import goji.models as gojiModels
 
@@ -43,10 +43,35 @@ def SendUserEmailChangeConfirmation( user, req ):
 	send_templated_email(
 		'emails/email_change',
 		FROM_ADDRESS,
-		keys = { 'req' : req },
+		keys = { 'req' : req, },
 		user = user,
 		bcc_list = BCC_LIST,
 	)
 	return True
+
+
+
+def SendContactUsEmail( user, req, subject, comment, ccself ):
+
+	to_list = [ FROM_ADDRESS, ]
+	cc_list = []
+
+	if ccself is True: 
+		cc_list = [ build_address( user ), ]
+
+	send_templated_email(
+		'emails/contact_form',
+		FROM_ADDRESS,
+		keys = {
+			'subject' : subject,
+			'comment' : comment,
+			'req' : req,
+		},
+		to_list = to_list,
+		cc_list = cc_list,
+		bcc_list = BCC_LIST,
+	)
+	return True
+
 
 
