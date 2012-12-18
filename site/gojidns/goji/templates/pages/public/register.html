@@ -71,6 +71,18 @@ fieldset.spaced {
 				</div>
 			</div>
 
+			<div class="control-group">
+				<div class="controls">
+					<label>
+						<input type="checkbox" name="agreement" />
+						Check here if you agree to the <a href='{% url goji-public-legal %}'>terms and conditions</a> of
+						this service?
+					</label>
+				</div>
+			</div>
+
+
+
 			<div class="form-actions">
 				<button type="submit" class="btn btn-primary">Create your new account</button>
 			</div>
@@ -81,13 +93,15 @@ fieldset.spaced {
 	</div>
 </div>
 
-	<div class="span5 well">
-		<h3>Registration Process</h3>
-		<br/>
-		<style> a.myclean,a.myclean:hover { text-decoration: none; } </style>
-		<p>	<a class="myclean" href='{% url goji-public-register %}'><span class="badge badge-info">Step 1</span> Register</a></p>
-		<p>	<a class="myclean"  href='{% url goji-public-authenticate %}'><span class="badge">Step 2</span> Authenticate your email address</a></p>
-		<p>	<a  class="myclean" href='{% url goji-public-login %}'><span class="badge">Step 3</span> Login</a> </p>
+	<div class="span5">
+		<div class='well'>
+			<h3>Registration Process</h3>
+			<br/>
+			<style> a.myclean,a.myclean:hover { text-decoration: none; } </style>
+			<p>	<a class="myclean" href='{% url goji-public-register %}'><span class="badge badge-info">Step 1</span> Register</a></p>
+			<p>	<a class="myclean"  href='{% url goji-public-authenticate %}'><span class="badge">Step 2</span> Authenticate your email address</a></p>
+			<p>	<a  class="myclean" href='{% url goji-public-login %}'><span class="badge">Step 3</span> Login</a> </p>
+		</div>
 	</div>
 
 
