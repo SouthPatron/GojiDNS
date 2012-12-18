@@ -10,8 +10,19 @@
 			</ul>
 
 			<ul class="nav pull-right">
-				<li><a href='{% url goji-profile %}'>{{ request.user.email }}</a></li>
-				<li><a href="{% url goji-public-logout %}">Logout</a></li>
+				<li class='dropdown'>
+					<a href='#'
+						class='dropdown-toggle'
+						data-toggle="dropdown">
+						{{ request.user.email }}
+						<b class="caret"></b>
+					</a>
+					<ul class='dropdown-menu'>
+						<li><a href='{% url goji-profile %}'>Your Profile</a></li>
+						<li><a href='{% url goji-change-password %}'>Change your Password</a></li>
+						<li><a href="{% url goji-public-logout %}">Logout</a></li>
+					</ul>
+				</li>
 			</ul>
 
 		</div>

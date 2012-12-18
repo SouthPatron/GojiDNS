@@ -613,6 +613,29 @@ def profile( request ):
 
 
 @login_required
+def change_password( request ):
+
+
+	if request.method == 'POST' and request.POST is not None:
+		old_password = request.POST.get( 'current', None )
+		new_password1 = request.POST.get( 'new_password1', None )
+		new_password2 = request.POST.get( 'new_password2', None )
+
+		messages.error( request, _("Those passwords do not match.") )
+
+		return redirect( reverse( 'goji-change-password' ) )
+
+
+	return render_to_response(
+				'pages/members/change_password.html',
+				{
+				},
+				context_instance=RequestContext(request)
+			)
+
+
+
+@login_required
 def network_status( request ):
 	obj_list = gojiModels.NameserverStatus.objects.all()
 	return render_to_response(

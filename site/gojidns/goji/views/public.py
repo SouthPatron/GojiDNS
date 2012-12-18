@@ -222,3 +222,14 @@ def logout( request ):
 	return redirect( '/' )
 
 
+
+def contact_us( request ):
+	if request.method == 'POST' and request.POST:
+		return redirect( reverse( 'goji-public-contact-us' ) )
+
+	return render_to_response(
+				'pages/public/general/contact_us.html',
+				context_instance=RequestContext(request),
+			)
+
+
