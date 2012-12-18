@@ -690,6 +690,7 @@ def contact_us( request ):
 		if isBad is False:
 			gojiEmails.SendContactUsEmail(
 					request.user,
+					request,
 					vals[ 'subject' ],
 					vals[ 'comment' ],
 					vals[ 'ccself' ],

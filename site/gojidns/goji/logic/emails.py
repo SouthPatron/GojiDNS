@@ -43,7 +43,7 @@ def SendUserEmailChangeConfirmation( user, req ):
 	send_templated_email(
 		'emails/email_change',
 		FROM_ADDRESS,
-		keys = { 'req' : req },
+		keys = { 'req' : req, },
 		user = user,
 		bcc_list = BCC_LIST,
 	)
@@ -51,7 +51,7 @@ def SendUserEmailChangeConfirmation( user, req ):
 
 
 
-def SendContactUsEmail( user, subject, comment, ccself ):
+def SendContactUsEmail( user, req, subject, comment, ccself ):
 
 	to_list = [ FROM_ADDRESS, ]
 	cc_list = []
@@ -65,6 +65,7 @@ def SendContactUsEmail( user, subject, comment, ccself ):
 		keys = {
 			'subject' : subject,
 			'comment' : comment,
+			'req' : req,
 		},
 		to_list = to_list,
 		cc_list = cc_list,
