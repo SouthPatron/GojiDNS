@@ -39,7 +39,7 @@
 	<tbody>
 		{% for domain in list.all %}
 		<tr>
-			<td><a href='{% url goji-domain domain.name %}'>{{ domain.name }}</a></td>
+			<td><a href='{% url 'goji-domain' domain.name %}'>{{ domain.name }}</a></td>
 			<td>{% if domain.is_master %}Master{% else %}Slave{% endif %}</td>
 			<td>{{ domain.last_modified|date:"d M Y, H:i" }}</td>
 			<td>
@@ -54,9 +54,9 @@
 				{% endifequal %}
 			</td>
 			<td>
-				<a href='{% url goji-domain domain.name %}'>Edit</a>
+				<a href='{% url 'goji-domain' domain.name %}'>Edit</a>
 				|
-				<a href='{% url goji-domain-delete domain.name %}'>Remove</a>
+				<a href='{% url 'goji-domain-delete' domain.name %}'>Remove</a>
 			</td>
 		</tr>
 		{% endfor %}
@@ -65,7 +65,7 @@
 		<tr>
 			<td colspan='5'>
 				<div class='gas_right_text'>
-					<a href='{% url goji-domain-clone %}'>Clone an existing zone</a> | <a href='{% url goji-domain-add %}'>Add a Master zone</a>
+					<a href='{% url 'goji-domain-clone' %}'>Clone an existing zone</a> | <a href='{% url 'goji-domain-add' %}'>Add a Master zone</a>
 				</div>
 			</td>
 		</tr>

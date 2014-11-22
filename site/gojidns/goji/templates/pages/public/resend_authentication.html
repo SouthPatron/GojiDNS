@@ -17,7 +17,7 @@
 
 			{% include 'pages/support/message_box.html' %}
 
-			<form class="form-inline" action="{% url goji-public-resend-authentication %}" method="POST">
+			<form class="form-inline" action="{% url 'goji-public-resend-authentication' %}" method="POST">
 				{% csrf_token %}
 
 				<div>
@@ -34,9 +34,9 @@
 			<h3>Registration Process</h3>
 			<br/>
 			<style> a.myclean,a.myclean:hover { text-decoration: none; } </style>
-			<p>	<a class="myclean" href='{% url goji-public-register %}'><span class="badge badge-success">Step 1</span> Register</a></p>
-			<p>	<a class="myclean"  href='{% url goji-public-authenticate %}'><span class="badge badge-info">Step 2</span> Authenticate your email address</a></p>
-			<p>	<a  class="myclean" href='{% url goji-public-login %}'><span class="badge">Step 3</span> Login</a> </p>
+			<p>	<a class="myclean" href='{% url 'goji-public-register' %}'><span class="badge badge-success">Step 1</span> Register</a></p>
+			<p>	<a class="myclean"  href='{% url 'goji-public-authenticate' %}'><span class="badge badge-info">Step 2</span> Authenticate your email address</a></p>
+			<p>	<a  class="myclean" href='{% url 'goji-public-login' %}'><span class="badge">Step 3</span> Login</a> </p>
 		</div>
 	</div>
 

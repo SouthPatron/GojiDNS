@@ -33,7 +33,6 @@ DATABASES = {
 
 # ------------------ Email information
 
-SEND_BROKEN_LINK_EMAILS = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ADMINS = (

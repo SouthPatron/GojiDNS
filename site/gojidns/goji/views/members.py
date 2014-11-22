@@ -6,7 +6,8 @@ from django.http import Http404
 from django.utils.translation import ugettext as _
 
 from django.core.urlresolvers import reverse
-from django.core.validators import email_re
+from django.core.validators import EmailValidator
+from django.core.exceptions import ValidationError
 
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
@@ -67,7 +68,12 @@ def is_valid_domain_name( domain ):
 	return (domain_re.search( domain ) is not None)
 
 def is_valid_email( email ):
-	return (email_re.match( email ) is not None)
+	v = EmailValidator()
+	try:
+		v( email )
+	except ValidationError, ve:
+		return False
+	return True
 
 
 def is_valid_ip4( address ):
