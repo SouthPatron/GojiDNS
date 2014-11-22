@@ -36,7 +36,7 @@ DATABASES = {
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ADMINS = (
-	( 'Support', 'support@smksoftware.com' ),
+	( 'Support', 'support@southpatron.com' ),
 )
 
 MANAGERS = ADMINS
