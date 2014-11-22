@@ -1,12 +1,12 @@
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container">
-			<a class="brand" href="{% url goji-domain-list %}">GojiDNS</a>
+			<a class="brand" href="{% url 'goji-domain-list' %}">GojiDNS</a>
 
 			<ul class="nav">
 				<li class="divider-vertical"></li>
-				<li><a href='{% url goji-domain-list %}'>Your Zones</a></li>
-				<li><a href='{% url goji-network-status %}'>Network Status</a></li>
+				<li><a href='{% url 'goji-domain-list' %}'>Your Zones</a></li>
+				<li><a href='{% url 'goji-network-status' %}'>Network Status</a></li>
 			</ul>
 
 			<ul class="nav pull-right">
@@ -18,10 +18,10 @@
 						<b class="caret"></b>
 					</a>
 					<ul class='dropdown-menu'>
-						<li><a href='{% url goji-profile %}'>Your Profile</a></li>
-						<li><a href='{% url goji-change-password %}'>Change your Password</a></li>
-						<li><a href='{% url goji-contact-us %}'>Contact Us</a></li>
-						<li><a href="{% url goji-public-logout %}">Logout</a></li>
+						<li><a href='{% url 'goji-profile' %}'>Your Profile</a></li>
+						<li><a href='{% url 'goji-change-password' %}'>Change your Password</a></li>
+						<li><a href='{% url 'goji-contact-us' %}'>Contact Us</a></li>
+						<li><a href="{% url 'goji-public-logout' %}">Logout</a></li>
 					</ul>
 				</li>
 			</ul>

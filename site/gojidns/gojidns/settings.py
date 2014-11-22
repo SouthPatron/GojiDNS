@@ -57,15 +57,17 @@ MIDDLEWARE_CLASSES = (
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
-	'django.middleware.transaction.TransactionMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
+	'django.middleware.common.BrokenLinkEmailsMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 ROOT_URLCONF = 'goji.urls'
 
 WSGI_APPLICATION = 'gojidns.wsgi.application'
+ATOMIC_REQUESTS = True
 
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 INSTALLED_APPS = (
 	'django.contrib.auth',
@@ -79,7 +81,6 @@ INSTALLED_APPS = (
 	'django.contrib.admindocs',
 
 	'ravensuite',
-	'south',
 	'goji',
 
 )

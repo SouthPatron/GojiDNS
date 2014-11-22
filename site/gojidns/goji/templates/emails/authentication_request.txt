@@ -6,6 +6,6 @@ your registration.
 
 Your authentication code: {{ code }}
 
-The authentication site: http://gojidns.com{% url goji-public-authenticate %}
+The authentication site: http://gojidns.com{% url 'goji-public-authenticate' %}
 
 

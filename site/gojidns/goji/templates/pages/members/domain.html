@@ -34,8 +34,8 @@
 <div class='row'>
 <div class='span12'>
 	<div class='gas_heading'>
-		<span class='l1'><a href='{% url goji-domain-list %}'>Your Zones</a></span>
-		<span class='l2'> &gt; <a href='{% url goji-domain domain.name %}'>{{ domain.name }}</a></span>
+		<span class='l1'><a href='{% url 'goji-domain-list' %}'>Your Zones</a></span>
+		<span class='l2'> &gt; <a href='{% url 'goji-domain' domain.name %}'>{{ domain.name }}</a></span>
 	</div>
 </div> <!-- .span12 -->
 </div> <!-- .row -->
@@ -66,7 +66,7 @@
 				<td>{{ domain.refresh|default_if_none:"Default" }}</td>
 				<td>{{ domain.retry|default_if_none:"Default" }}</td>
 				<td>{{ domain.expire|default_if_none:"Default" }}</td>
-				<td><a href='{% url goji-domain-edit domain.name %}'>Edit</a></td>
+				<td><a href='{% url 'goji-domain-edit' domain.name %}'>Edit</a></td>
 			</tr>
 		</tbody>
 	</table>
@@ -103,9 +103,9 @@
 						{% if rsc.static %}
 							<del>Edit</del> | <del>Remove</del>
 						{% else %}
-							<a href='{% url goji-domain-resource-edit domain.name rsc.pk %}'>Edit</a>
+							<a href='{% url 'goji-domain-resource-edit' domain.name rsc.pk %}'>Edit</a>
 							|
-							<a href='{% url goji-domain-resource-delete domain.name rsc.pk %}'>Remove</a>
+							<a href='{% url 'goji-domain-resource-delete' domain.name rsc.pk %}'>Remove</a>
 						{% endif %}
 					</td>
 				</tr>
@@ -113,7 +113,7 @@
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan='4'><a href='{% url goji-domain-resource-add domain.name %}?type=ns'>Add a new NS record</a></td>
+				<td colspan='4'><a href='{% url 'goji-domain-resource-add' domain.name %}?type=ns'>Add a new NS record</a></td>
 			</tr>
 		</tfoot>
 	</table>
@@ -143,9 +143,9 @@
 					<td>{{ rsc.value }}</td>
 					<td>{{ rsc.ttl|default_if_none:"Default" }}</td>
 					<td>
-						<a href='{% url goji-domain-resource-edit domain.name rsc.pk %}'>Edit</a>
+						<a href='{% url 'goji-domain-resource-edit' domain.name rsc.pk %}'>Edit</a>
 						|
-						<a href='{% url goji-domain-resource-delete domain.name rsc.pk %}'>Remove</a>
+						<a href='{% url 'goji-domain-resource-delete' domain.name rsc.pk %}'>Remove</a>
 					</td>
 
 				</tr>
@@ -153,7 +153,7 @@
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan='5'><a href='{% url goji-domain-resource-add domain.name %}?type=mx'>Add a new MX record</a></td>
+				<td colspan='5'><a href='{% url 'goji-domain-resource-add' domain.name %}?type=mx'>Add a new MX record</a></td>
 			</tr>
 		</tfoot>
 	</table>
@@ -181,9 +181,9 @@
 					<td>{{ rsc.value }}</td>
 					<td>{{ rsc.ttl|default_if_none:"Default" }}</td>
 					<td>
-						<a href='{% url goji-domain-resource-edit domain.name rsc.pk %}'>Edit</a>
+						<a href='{% url 'goji-domain-resource-edit' domain.name rsc.pk %}'>Edit</a>
 						|
-						<a href='{% url goji-domain-resource-delete domain.name rsc.pk %}'>Remove</a>
+						<a href='{% url 'goji-domain-resource-delete' domain.name rsc.pk %}'>Remove</a>
 					</td>
 
 				</tr>
@@ -191,7 +191,7 @@
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan='4'><a href='{% url goji-domain-resource-add domain.name %}?type=a'>Add a new A/AAAA record</a></td>
+				<td colspan='4'><a href='{% url 'goji-domain-resource-add' domain.name %}?type=a'>Add a new A/AAAA record</a></td>
 			</tr>
 		</tfoot>
 	</table>
@@ -219,16 +219,16 @@
 					<td>{{ rsc.value }}</td>
 					<td>{{ rsc.ttl|default_if_none:"Default" }}</td>
 					<td>
-						<a href='{% url goji-domain-resource-edit domain.name rsc.pk %}'>Edit</a>
+						<a href='{% url 'goji-domain-resource-edit' domain.name rsc.pk %}'>Edit</a>
 						|
-						<a href='{% url goji-domain-resource-delete domain.name rsc.pk %}'>Remove</a>
+						<a href='{% url 'goji-domain-resource-delete' domain.name rsc.pk %}'>Remove</a>
 					</td>
 				</tr>
 			{% endfor %}
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan='4'><a href='{% url goji-domain-resource-add domain.name %}?type=cname'>Add a new CNAME record</a></td>
+				<td colspan='4'><a href='{% url 'goji-domain-resource-add' domain.name %}?type=cname'>Add a new CNAME record</a></td>
 			</tr>
 		</tfoot>
 	</table>
@@ -256,16 +256,16 @@
 					<td>{{ rsc.value }}</td>
 					<td>{{ rsc.ttl|default_if_none:"Default" }}</td>
 					<td>
-						<a href='{% url goji-domain-resource-edit domain.name rsc.pk %}'>Edit</a>
+						<a href='{% url 'goji-domain-resource-edit' domain.name rsc.pk %}'>Edit</a>
 						|
-						<a href='{% url goji-domain-resource-delete domain.name rsc.pk %}'>Remove</a>
+						<a href='{% url 'goji-domain-resource-delete' domain.name rsc.pk %}'>Remove</a>
 					</td>
 				</tr>
 			{% endfor %}
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan='4'><a href='{% url goji-domain-resource-add domain.name %}?type=txt'>Add a new TXT record</a></td>
+				<td colspan='4'><a href='{% url 'goji-domain-resource-add' domain.name %}?type=txt'>Add a new TXT record</a></td>
 			</tr>
 		</tfoot>
 	</table>
@@ -307,16 +307,16 @@
 					<td>{{ rsc.ttl|default_if_none:"Default" }}</td>
 
 					<td>
-						<a href='{% url goji-domain-resource-edit domain.name rsc.pk %}'>Edit</a>
+						<a href='{% url 'goji-domain-resource-edit' domain.name rsc.pk %}'>Edit</a>
 						|
-						<a href='{% url goji-domain-resource-delete domain.name rsc.pk %}'>Remove</a>
+						<a href='{% url 'goji-domain-resource-delete' domain.name rsc.pk %}'>Remove</a>
 					</td>
 				</tr>
 			{% endfor %}
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan='8'><a href='{% url goji-domain-resource-add domain.name %}?type=srv'>Add a new SRV record</a></td>
+				<td colspan='8'><a href='{% url 'goji-domain-resource-add' domain.name %}?type=srv'>Add a new SRV record</a></td>
 			</tr>
 		</tfoot>
 	</table>

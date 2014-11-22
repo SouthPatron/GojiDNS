@@ -4,21 +4,21 @@
 			<div class='span2'>
 				<ul>
 					<li>About</li>
-					<li><a href='{% url goji-contact-us %}'>Contact Us</a></li>
-					<li><a href='{% url goji-public-legal %}'>Legal</a></li>
+					<li><a href='{% url 'goji-contact-us' %}'>Contact Us</a></li>
+					<li><a href='{% url 'goji-public-legal' %}'>Legal</a></li>
 					<li>&nbsp;</li>
 				</ul>
 			</div>
 			<div class='span2'>
 				<ul>
 					<li>Sign Up</li>
-					<li><a href='{% url goji-public-register %}'>Free Signup</a></li>
-					<li><a href='{% url goji-public-login %}'>Login</a></li>
+					<li><a href='{% url 'goji-public-register' %}'>Free Signup</a></li>
+					<li><a href='{% url 'goji-public-login' %}'>Login</a></li>
 					<li>&nbsp;</li>
 				</ul>
 			</div>
 			<div class='offset3 span5' style='font-size: 10pt;'>
-				<a href='{% url goji-public-index %}'>GojiDNS</a> is a service offered by <a href='http://www.smksoftware.com/'>SMK Software CC.</a><br/>
+				<a href='{% url 'goji-public-index' %}'>GojiDNS</a> is a service offered by <a href='http://www.smksoftware.com/'>SMK Software CC.</a><br/>
 				Copyright &copy; {% now "Y" %} <a href='http://www.smksoftware.com/'>SMK Software CC.</a><br/>
 				All Rights Reserved.<br/>
 			</div>

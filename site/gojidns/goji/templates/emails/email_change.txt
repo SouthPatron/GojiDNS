@@ -2,7 +2,7 @@ You have requested that your email address be changed to this address.
 
 Your confirmation code is: {{ req.code }}<br/>
 
-Please go to this link to confirm this new email address: http://gojidns.com{% url goji-public-confirm-email %}
+Please go to this link to confirm this new email address: http://gojidns.com{% url 'goji-public-confirm-email' %}
 
 
 
