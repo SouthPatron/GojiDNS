@@ -33,7 +33,7 @@ class MessageError( Exception ):
 
 # ----------- Support Functions ----------------------------
 
-DOMAIN = 'gojidns.net'
+DOMAIN = 'gojidns.com'
 
 ttl_select_options = [ 
 	[ 300, '(5 minutes)' ],
