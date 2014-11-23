@@ -20,6 +20,7 @@ LANGUAGES = (
 	('en', ugettext('English')),
 )
 
+ALLOWED_HOSTS=( "www.gojidns.com", )
 
 MEDIA_ROOT = ''
 MEDIA_URL = ''
@@ -114,7 +115,7 @@ LOGGING = {
 # Load site specific configurations
 
 try:
-	from settings_site import *
+	from gojidns.settings_site import *
 except ImportError as e:
 	pass
 

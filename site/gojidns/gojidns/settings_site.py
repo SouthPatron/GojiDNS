@@ -46,7 +46,7 @@ MANAGERS = ADMINS
 # --- Here comes the local stuff.
 
 try:
-	from settings_local import *
+	from gojidns.settings_local import *
 except ImportError as e:
 	pass
 
