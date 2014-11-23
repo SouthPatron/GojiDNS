@@ -22,7 +22,7 @@ def RegisterNewUser( email, password, firstname, lastname ):
 
 			return luser
 
-		except IntegrityError, ie:
+		except IntegrityError as ie:
 			failures += 1
 			if failures > 16:
 				raise	# Significant error

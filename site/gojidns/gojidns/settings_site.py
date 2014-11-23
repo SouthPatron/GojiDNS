@@ -47,7 +47,7 @@ MANAGERS = ADMINS
 
 try:
 	from settings_local import *
-except ImportError, e:
+except ImportError as e:
 	pass
 
 
