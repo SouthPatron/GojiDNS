@@ -211,7 +211,6 @@ def login( request ):
 						if request.GET and request.GET.get( 'next', None ) is not None:
 							next_url = request.GET.get( 'next' )
 
-							print 'HELLOOOOOOOO....... {}'.format( next_url )
 							if len( next_url ) > 0:
 								return redirect( next_url )
 
@@ -230,7 +229,7 @@ def login( request ):
 	return render_to_response(
 				'pages/public/login.html',
 				{
-					'query' : urllib.urlencode( request.GET ),
+					'query' : urllib.parse.urlencode( request.GET ),
 				},
 				context_instance=RequestContext(request),
 			)
