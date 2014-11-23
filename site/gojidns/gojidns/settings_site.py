@@ -36,7 +36,7 @@ DATABASES = {
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ADMINS = (
-	( 'Support', 'support@smksoftware.com' ),
+	( 'Support', 'support@southpatron.com' ),
 )
 
 MANAGERS = ADMINS
@@ -47,7 +47,7 @@ MANAGERS = ADMINS
 
 try:
 	from settings_local import *
-except ImportError, e:
+except ImportError as e:
 	pass
 
 

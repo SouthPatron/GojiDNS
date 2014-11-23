@@ -115,7 +115,7 @@ LOGGING = {
 
 try:
 	from settings_site import *
-except ImportError, e:
+except ImportError as e:
 	pass
 
 

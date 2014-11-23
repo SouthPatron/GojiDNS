@@ -71,7 +71,7 @@ def is_valid_email( email ):
 	v = EmailValidator()
 	try:
 		v( email )
-	except ValidationError, ve:
+	except ValidationError as ve:
 		return False
 	return True
 
@@ -349,7 +349,7 @@ def domain_add( request ):
 
 				return redirect( reverse( 'goji-domain', kwargs = { 'domain' : domain } ) )
 
-			except IntegrityError, ie:
+			except IntegrityError as ie:
 				messages.error( request, _("That domain name already exists in our system. You'll have to choose another.") )
 
 	return render_to_response(
@@ -484,7 +484,7 @@ def domain_resource_add( request, domain ):
 		try:
 			_update_resource( request, rsc )
 			return redirect( reverse( 'goji-domain', kwargs = { 'domain' : domain } ) )
-		except MessageError, merr:
+		except MessageError as merr:
 			messages.error( request, merr.message )
 			pass
 
@@ -509,7 +509,7 @@ def domain_resource_edit( request, domain, rid ):
 		try:
 			_update_resource( request, rsc )
 			return redirect( reverse( 'goji-domain', kwargs = { 'domain' : domain } ) )
-		except MessageError, merr:
+		except MessageError as merr:
 			messages.error( request, merr.message )
 			pass
 
