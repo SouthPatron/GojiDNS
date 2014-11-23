@@ -2,4 +2,4 @@ django
 pycrypto
 docutils
 psycopg2
--e git+ssh://gitrepos@git.southpatron.com:10000/~/products/django-ravensuite.git#egg=django-ravensuite
+-e git+https://github.com/SouthPatron/django-ravensuite.git#egg=django-ravensuite
