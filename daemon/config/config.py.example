@@ -1,0 +1,16 @@
+#!/usr/bin/env python
+
+class Config:
+
+	DB_HOST = ""
+	DB_NAME = ""
+	DB_USER = ""
+	DB_PASSWORD = ""
+	PATH_ROOT = ""
+	RNDC_BIN = ""
+
+	
+	def __init__( self ):
+		pass
+
+

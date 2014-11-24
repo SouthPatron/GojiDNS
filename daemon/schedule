@@ -1,4 +1,5 @@
+MAILTO=support@gojidns.com
 SHELL=/bin/bash
 
-*/10 * * * * /home/goji/goforit.sh
+*/10 * * * * /home/gojidns/goforit.sh
 

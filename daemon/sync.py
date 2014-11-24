@@ -12,15 +12,12 @@ import psycopg2.extras
 
 from django.utils.ipv6 import is_valid_ipv6_address
 
+from config.config import Config
+
 
 # ---------------------------------- GLOBAL VARIABLES --------
 
-DB_HOST = "192.168.131.128"
-DB_NAME = "gojidns"
-DB_USER = "gojidns_www"
-DB_PASSWORD = "dog elephant shoe"
-PATH_ROOT = "/var/bind/gojidns"
-RNDC_BIN = "/usr/sbin/rndc"
+config = Config()
 
 # ---------------------------------- DETECTED ----------------
 
@@ -177,7 +174,7 @@ def delete_domain( full_name, row ):
 def rndc_addzone( row, full_name ):
 	name = row[ 'name' ]
 	subprocess.call( [
-			RNDC_BIN,
+			config.RNDC_BIN,
 			"addzone",
 			name,
 			"{{ type master; file \"gojidns/{}\"; }};".format( full_name ),
@@ -191,7 +188,7 @@ def rndc_addzone( row, full_name ):
 def rndc_delzone( row ):
 	name = row[ 'name' ]
 	subprocess.call( [
-			RNDC_BIN,
+			config.RNDC_BIN,
 			"delzone",
 			name,
 		],
@@ -203,7 +200,7 @@ def rndc_delzone( row ):
 def rndc_reload( row ):
 	name = row[ 'name' ]
 	subprocess.call( [
-			RNDC_BIN,
+			config.RNDC_BIN,
 			"reload",
 			name,
 		],
@@ -242,7 +239,7 @@ def process_changes( conn ):
 		name = row[ 'name' ]
 		status = int( row['status'] )
 
-		full_loc, full_name, basename = generate_name( PATH_ROOT, name )
+		full_loc, full_name, basename = generate_name( config.PATH_ROOT, name )
 
 		# 1 - Active, 2 - Disabled, 3 - Edit, 99 - Deleted, 
 
@@ -267,17 +264,17 @@ def process_changes( conn ):
 			pass
 
 
- 	cursor.close()
+	cursor.close()
 
 
 
  
 def main():
 	conn_string = "host='{}' dbname='{}' user='{}' password='{}'".format(
-			DB_HOST,
-			DB_NAME,
-			DB_USER,
-			DB_PASSWORD
+			config.DBHOST,
+			config.DBNAME,
+			config.DBUSER,
+			config.DBPASSWORD
 		)
 
 	conn = psycopg2.connect(conn_string)

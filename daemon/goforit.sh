@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /home/goji
+cd /home/gojidns
 
 source venv/bin/activate
 
