@@ -14,10 +14,9 @@
 
 # You should have received a copy of the GNU General Public License
 # along with GojiDNS.  If not, see <http://www.gnu.org/licenses/>.
-# from django.conf.urls import patterns, include, url
-#
 
 
+from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView as TV, RedirectView as RV
 
 from django.contrib import admin
