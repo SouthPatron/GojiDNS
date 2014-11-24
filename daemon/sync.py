@@ -271,10 +271,10 @@ def process_changes( conn ):
  
 def main():
 	conn_string = "host='{}' dbname='{}' user='{}' password='{}'".format(
-			config.DBHOST,
-			config.DBNAME,
-			config.DBUSER,
-			config.DBPASSWORD
+			config.DB_HOST,
+			config.DB_NAME,
+			config.DB_USER,
+			config.DB_PASSWORD
 		)
 
 	conn = psycopg2.connect(conn_string)
