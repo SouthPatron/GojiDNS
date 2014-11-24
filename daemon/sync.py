@@ -1,5 +1,27 @@
 #!/usr/bin/env python
 
+# GojiDNS - Developed by South Patron CC - http://www.southpatron.com/
+#
+# This file is part of GojiDNS.
+#
+# GojiDNS is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# GojiDNS is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with GojiDNS.  If not, see <http://www.gnu.org/licenses/>.
+# from django.conf.urls import patterns, include, url
+#
+
+
+
+
 import sys, os, os.path
 import uuid
 import re
@@ -271,10 +293,10 @@ def process_changes( conn ):
  
 def main():
 	conn_string = "host='{}' dbname='{}' user='{}' password='{}'".format(
-			config.DBHOST,
-			config.DBNAME,
-			config.DBUSER,
-			config.DBPASSWORD
+			config.DB_HOST,
+			config.DB_NAME,
+			config.DB_USER,
+			config.DB_PASSWORD
 		)
 
 	conn = psycopg2.connect(conn_string)
